@@ -31,13 +31,13 @@ const summaryText = lang === "en" ? aiSummaryEn || aiSummary : aiSummary || aiSu
 	}}
 >
 	<article class="grow break-words" data-pagefind-body>
-		<div id="blog-hero" class="mb-14">
+		<div id="blog-hero" class="mb-5">
 			<Masthead content={post} lang={lang} readingTime={readingTime} />
 		</div>
 		{
 			summaryText && (
 				<ai-summary data-ai-summary>
-					<div class="paper-panel mb-10 p-5 sm:p-6">
+					<div class="paper-panel mb-8 p-4 sm:mb-10 sm:p-6">
 						<div class="mb-3 flex items-center gap-2">
 							<svg
 								aria-hidden="true"
@@ -61,10 +61,10 @@ const summaryText = lang === "en" ? aiSummaryEn || aiSummary : aiSummary || aiSu
 				</ai-summary>
 			)
 		}
-		<div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start">
+		<div class="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start">
 			{!!headings.length && <TOC headings={headings} lang={lang} />}
 			<div
-				class="prose prose-sm prose-img:rounded-[3px] prose-img:border prose-img:border-muted/10 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-5 prose-headings:before:text-accent/70 prose-headings:hover:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none lg:max-w-[43rem]"
+				class="prose prose-sm prose-img:rounded-[3px] prose-img:border prose-img:border-muted/10 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-5 prose-headings:before:text-accent/70 prose-headings:hover:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none text-base lg:max-w-[43rem]"
 			>
 				<slot />
 			</div>

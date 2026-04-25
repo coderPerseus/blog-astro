@@ -10,9 +10,9 @@ const {
 } = Astro.props;
 ---
 
-<li class={`${depth > 2 ? "ms-2" : ""}`}>
+<li class={`min-w-0 ${depth > 2 ? "ms-2" : ""}`}>
 	<a
-		class={`line-clamp-2 text-muted hover:text-link transition-colors ${depth <= 2 ? "mt-3 font-semibold" : "mt-2 text-xs"}`}
+		class={`line-clamp-2 break-words text-muted hover:text-link transition-colors ${depth <= 2 ? "mt-3 font-semibold" : "mt-2 text-xs"}`}
 		href={`#${slug}`}><span aria-hidden="true" class="text-accent/70 me-1">#</span>{text}</a
 	>
 	{

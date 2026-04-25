@@ -14,16 +14,27 @@ const { headings, lang = "zh" } = Astro.props;
 const toc = generateToc(headings);
 ---
 
-<details open class="paper-panel p-5 lg:sticky lg:top-8 lg:order-2">
+<details
+	open
+	class="paper-panel min-w-0 max-w-full p-4 sm:p-5 lg:sticky lg:top-8 lg:order-2"
+	id="post-toc"
+>
 	<summary class="hover:marker:text-accent text-accent-2 cursor-pointer text-base font-semibold">
 		{t("toc.title", lang)}
 		<span class="text-muted ms-2 text-xs font-normal">
 			{lang === "zh" ? "Table of Contents" : "目录"}
 		</span>
 	</summary>
-	<nav class="ms-1 lg:w-full">
+	<nav class="ms-1 min-w-0 lg:w-full">
 		<ol class="mt-4">
 			{toc.map((heading) => <TOCHeading heading={heading} />)}
 		</ol>
 	</nav>
 </details>
+
+<script>
+	const toc = document.getElementById("post-toc") as HTMLDetailsElement | null;
+	if (toc && window.matchMedia("(max-width: 1023px)").matches) {
+		toc.open = false;
+	}
+</script>

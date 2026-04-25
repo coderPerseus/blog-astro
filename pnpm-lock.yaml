@@ -47,12 +47,12 @@ importers:
       cssnano:
         specifier: ^7.1.3
         version: 7.1.3(postcss@8.5.8)
-      font-smiley-sans:
-        specifier: ^1.0.0
-        version: 1.0.0
       hastscript:
         specifier: ^9.0.0
         version: 9.0.1
+      lxgw-wenkai-screen-webfont:
+        specifier: ^1.7.0
+        version: 1.7.0
       mdast-util-directive:
         specifier: ^3.0.0
         version: 3.1.0
@@ -1662,9 +1662,6 @@ packages:
       debug:
         optional: true
 
-  font-smiley-sans@1.0.0:
-    resolution: {integrity: sha512-B0oRSyhlnFaIiFRF46GUpG8rlGgn9dbDxDTgbAYgMJ2FdqYe28wqQhZD6DVI5wiX7aa1ei7ReV5cX5iLaWKiuw==}
-
   fontace@0.4.1:
     resolution: {integrity: sha512-lDMvbAzSnHmbYMTEld5qdtvNH2/pWpICOqpean9IgC7vUbUJc3k+k5Dokp85CegamqQpFbXf0rAVkbzpyTA8aw==}
 
@@ -1991,6 +1988,9 @@ packages:
   lru-cache@11.2.7:
     resolution: {integrity: sha512-aY/R+aEsRelme17KGQa/1ZSIpLpNYYrhcrepKTZgE+W3WM16YMCaPwOHLHsmopZHELU0Ojin1lPVxKR0MihncA==}
     engines: {node: 20 || >=22}
+
+  lxgw-wenkai-screen-webfont@1.7.0:
+    resolution: {integrity: sha512-xvfF4V26Mb335xKg3uxljz+V2nq4F5ek0ku9pmyKgT0Dzo/d2rHi7WpnqgvM9mlXAcAKOrxrcDmUZiIs/ZQ9bQ==}
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
@@ -4890,8 +4890,6 @@ snapshots:
 
   follow-redirects@1.15.9: {}
 
-  font-smiley-sans@1.0.0: {}
-
   fontace@0.4.1:
     dependencies:
       fontkitten: 1.0.3
@@ -5289,6 +5287,8 @@ snapshots:
   longest-streak@3.1.0: {}
 
   lru-cache@11.2.7: {}
+
+  lxgw-wenkai-screen-webfont@1.7.0: {}
 
   magic-string@0.30.21:
     dependencies:

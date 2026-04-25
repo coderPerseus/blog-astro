@@ -81,14 +81,19 @@ const mobileNavLabel = lang === "zh" ? "移动导航" : "Mobile navigation";
 				<button
 					aria-expanded="false"
 					aria-haspopup="menu"
-					class="ms-1 inline-flex h-9 w-9 items-center justify-center rounded-md text-muted hover:bg-surface hover:text-accent-2"
+					class="group ms-1 inline-flex h-9 w-9 items-center justify-center rounded-md text-muted hover:bg-surface hover:text-accent-2"
 					id="toggle-navigation-menu"
 					type="button"
 				>
-					<span class="sr-only">{lang === "zh" ? "打开菜单" : "Open menu"}</span>
+					<span class="sr-only group-aria-expanded:hidden">
+						{lang === "zh" ? "打开菜单" : "Open menu"}
+					</span>
+					<span class="sr-only hidden group-aria-expanded:inline">
+						{lang === "zh" ? "关闭菜单" : "Close menu"}
+					</span>
 					<svg
 						aria-hidden="true"
-						class="h-5 w-5"
+						class="block h-5 w-5 group-aria-expanded:hidden"
 						fill="none"
 						stroke="currentColor"
 						stroke-width="1.5"
@@ -97,6 +102,20 @@ const mobileNavLabel = lang === "zh" ? "移动导航" : "Mobile navigation";
 					>
 						<path
 							d="M3.75 9h16.5m-16.5 6.75h16.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"></path>
+					</svg>
+					<svg
+						aria-hidden="true"
+						class="hidden h-5 w-5 group-aria-expanded:block"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+						viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M6 18 18 6M6 6l12 12"
 							stroke-linecap="round"
 							stroke-linejoin="round"></path>
 					</svg>

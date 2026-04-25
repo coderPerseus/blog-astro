@@ -32,7 +32,6 @@ const translations: Record<string, Record<Lang, string>> = {
 	"posts.no_posts": { zh: "暂无文章", en: "No posts yet" },
 	"posts.count_suffix": { zh: "篇", en: "posts" },
 	"posts.sort_hint": { zh: "按时间倒序", en: "Newest first" },
-	"posts.filter_hint": { zh: "点击筛选", en: "Filter by tag" },
 	"posts.all": { zh: "全部", en: "All" },
 	"posts.end": { zh: "已经到底了 ✦", en: "You are all caught up ✦" },
 	"posts.empty": { zh: "没有匹配的文章", en: "No matching posts" },
@@ -71,8 +70,8 @@ const translations: Record<string, Record<Lang, string>> = {
 		en: "I'm Lucky Snail, a full-stack developer (favoring front-end). Specialized in Web technologies, server-side technologies and AI Agent, currently in Shanghai.",
 	},
 	"home.bio_2": {
-		zh: "技术栈：React/Vue、JavaScript/TypeScript、Next.js、Node.js、Fastify、Nest.js、PostgreSQL、React Native、Electron、Taro、Python等，目前在学习 AI Agent 开发。这里记录我的所见，所闻，所思",
-		en: "Technology stack: React/Vue, JavaScript/TypeScript, Next.js, Node.js, Fastify, Nest.js, PostgreSQL, React Native, Electron, Taro, Python, etc. Currently learning AI Agent development. Here's a record of what I've seen, heard, and thought about",
+		zh: "技术栈：React/Vue、JavaScript/TypeScript、Next.js、Node.js、Fastify、Nest.js、PostgreSQL、React Native、Electron、Taro、Python等，目前在开发自己的 AI Agent 。这里记录我的所见，所闻，所思",
+		en: "Technology stack: React/Vue, JavaScript/TypeScript, Next.js, Node.js, Fastify, Nest.js, PostgreSQL, React Native, Electron, Taro, Python, etc. Currently developing its own AI Agent. Here's a record of what I've seen, heard, and thought about",
 	},
 	"home.bio_3": {
 		zh: "座右铭：提高认知，强化执行，在竞争中做到极致",
@@ -80,7 +79,7 @@ const translations: Record<string, Record<Lang, string>> = {
 	},
 	"home.projects": { zh: "项目", en: "Projects" },
 	"home.latest_posts": { zh: "最新文章", en: "Latest Posts" },
-	"home.all_posts": { zh: "All posts →", en: "All posts →" },
+	"home.all_posts": { zh: "所有帖子 →", en: "All posts →" },
 	"social.find_me": { zh: "找到我", en: "Find me" },
 	"404.title": { zh: "404 | 页面未找到", en: "404 | Page Not Found" },
 	"404.message": {
@@ -150,7 +149,6 @@ export function getMenuLinks(lang: Lang): { path: string; title: string }[] {
 	return [
 		{ path: withLang("/", lang), title: t("nav.home", lang) },
 		{ path: withLang("/posts/", lang), title: t("nav.posts", lang) },
-		{ path: "/rss.xml", title: t("nav.rss", lang) },
 	];
 }
 

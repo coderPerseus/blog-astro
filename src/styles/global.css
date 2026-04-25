@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "@fontsource-variable/dm-sans";
-@import "font-smiley-sans/style.css";
+@import "lxgw-wenkai-screen-webfont/lxgwwenkaigbscreen.css";
 @source not "../pages/og-image";
 @config "../../tailwind.config.ts";
 
@@ -56,7 +56,7 @@
 @theme {
 	--font-sans: var(--font-en);
 	--font-en: "DM Sans Variable", "DM Sans", sans-serif;
-	--font-zh: "smiley-sans", sans-serif;
+	--font-zh: "LXGW WenKai Screen", "DM Sans Variable", "DM Sans", sans-serif;
 	--color-global-bg: #ffffff;
 	--color-global-text: #18181b;
 	--color-muted: #71717a;
@@ -72,7 +72,6 @@
 	html {
 		color-scheme: light dark;
 		accent-color: var(--color-accent);
-		scrollbar-gutter: stable;
 		font-family: var(--font-sans);
 		font-size: 17px;
 
@@ -115,6 +114,12 @@
 			--color-accent var(--color-mode-transition-duration) var(--color-mode-transition-easing),
 			--color-accent-2 var(--color-mode-transition-duration) var(--color-mode-transition-easing),
 			--color-quote var(--color-mode-transition-duration) var(--color-mode-transition-easing);
+	}
+
+	@media (min-width: 1024px) {
+		html {
+			scrollbar-gutter: stable;
+		}
 	}
 
 	:target {

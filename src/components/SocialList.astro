@@ -8,7 +8,7 @@ interface Props {
 
 const { lang = "zh" } = Astro.props;
 
-/** 
+/**
 	Uses https://www.astroicon.dev/getting-started/
 	Find icons via guide: https://www.astroicon.dev/guides/customization/#open-source-icon-sets
 	Only installed pack is: @iconify-json/mdi
@@ -25,9 +25,14 @@ const socialLinks: {
 		name: "mdi:github",
 	},
 	{
-		friendlyName: "Blog Repo",
-		link: "https://github.com/coderPerseus/blog",
-		name: "mdi:source-repository",
+		friendlyName: "小红书",
+		link: "https://www.xiaohongshu.com/user/profile/5e2d938d000000000100ac82",
+		name: "xiaohongshu",
+	},
+	{
+		friendlyName: "哔哩哔哩",
+		link: "https://space.bilibili.com/1695997565",
+		name: "bilibili",
 	},
 ];
 ---
@@ -39,7 +44,7 @@ const socialLinks: {
 			socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
 				<li class="flex">
 					<a
-						class="text-muted hover:text-accent inline-grid size-9 place-items-center rounded-md transition-colors hover:bg-surface"
+						class="text-muted hover:text-accent hover:bg-surface inline-grid size-9 place-items-center rounded-md transition-colors"
 						href={link}
 						rel={`noreferrer ${isWebmention ? "me authn" : ""}`}
 						target="_blank"

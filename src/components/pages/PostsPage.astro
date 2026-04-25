@@ -44,10 +44,10 @@ const INITIAL_BATCH = 20;
 ---
 
 <PageLayout lang={lang} meta={meta}>
-	<header class="mb-10 flex items-center justify-between gap-4">
+	<header class="mb-6 flex items-center justify-between gap-4 sm:mb-10">
 		<div>
-			<h1 class="title text-3xl">{t("posts.title", lang)}</h1>
-			<p class="text-muted mt-2 text-sm">
+			<h1 class="title text-2xl sm:text-3xl">{t("posts.title", lang)}</h1>
+			<p class="text-muted mt-1.5 text-sm sm:mt-2">
 				{
 					lang === "zh"
 						? `共 ${allPostsByDate.length} 篇 · ${t("posts.sort_hint", lang)}`
@@ -65,8 +65,11 @@ const INITIAL_BATCH = 20;
 		</a>
 	</header>
 
-	<div class="posts-shell grid gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-start">
-		<section aria-label={t("posts.title", lang)}>
+	<div class="posts-shell grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-start lg:gap-10">
+		<section
+			aria-label={t("posts.title", lang)}
+			class="order-2 min-w-0 lg:order-none lg:col-start-1 lg:row-start-1"
+		>
 			<div class="space-y-8" id="posts-list" role="list">
 				{
 					timelineGroups.map((group) => (
@@ -76,15 +79,13 @@ const INITIAL_BATCH = 20;
 							data-year={group.year}
 							role="listitem"
 						>
-							<header class="timeline-year-heading timeline-row">
-								<div class="timeline-date-col">
-									<h2 class="text-accent-2 text-3xl font-bold tracking-normal tabular-nums">
-										{group.year}
-										<span class="text-muted pt-2 text-sm">
-											{yearCountLabel(group.posts.length)}
-										</span>
-									</h2>
-								</div>
+							<header class="timeline-year-heading flex items-baseline gap-2.5">
+								<h2 class="text-accent-2 text-2xl font-bold tracking-normal tabular-nums sm:text-3xl">
+									{group.year}
+								</h2>
+								<span class="text-muted text-xs sm:text-sm">
+									{yearCountLabel(group.posts.length)}
+								</span>
 							</header>
 
 							<ul class="timeline-posts" role="list">
@@ -109,19 +110,12 @@ const INITIAL_BATCH = 20;
 											<span aria-hidden="true" class="timeline-node" />
 											<div class="min-w-0">
 												<a
-													class="hover:text-accent decoration-muted/40 hover:decoration-accent inline underline decoration-transparent underline-offset-4 transition-colors"
+													class="hover:text-accent hover:decoration-accent inline break-words text-base underline decoration-transparent underline-offset-4 transition-colors"
 													href={withLang(`/posts/${post.id}/`, lang)}
 												>
 													{post.data.draft && <span class="text-red-500">(Draft) </span>}
 													{post.data.title}
 												</a>
-												{post.data.tags.length > 0 && (
-													<div class="mt-1.5 flex flex-wrap gap-1.5">
-														{post.data.tags.map((tag) => (
-															<span class="text-muted text-xs">#{tag}</span>
-														))}
-													</div>
-												)}
 											</div>
 										</li>
 									);
@@ -140,24 +134,34 @@ const INITIAL_BATCH = 20;
 			<div aria-hidden="true" id="scroll-sentinel" class="h-px"></div>
 		</section>
 
-		<aside class="posts-tags lg:sticky lg:top-24" aria-label={t("posts.tags", lang)}>
-			<div class="mb-3 flex items-baseline justify-between gap-3">
+		<aside
+			class="posts-tags order-1 min-w-0 lg:sticky lg:top-24 lg:order-none lg:col-start-2 lg:row-start-1"
+			aria-label={t("posts.tags", lang)}
+		>
+			<div class="mb-2 flex items-baseline justify-between gap-3 sm:mb-3">
 				<h2 class="eyebrow">{t("posts.tags", lang)}</h2>
-				<span class="text-muted text-xs">{t("posts.filter_hint", lang)}</span>
 			</div>
-			<ul class="flex flex-wrap gap-2 lg:gap-2.5" id="tag-filters" role="list">
-				<li>
-					<button class="tag-chip is-active" data-tag="" type="button">
+			<ul
+				class="tag-filters flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:gap-2.5 lg:overflow-visible lg:pb-0"
+				id="tag-filters"
+				role="list"
+			>
+				<li class="shrink-0 lg:shrink">
+					<a class="tag-chip is-active" data-tag="" href={withLang("/posts/", lang)}>
 						{t("posts.all", lang)}
 						<span class="text-muted">{allPostsByDate.length}</span>
-					</button>
+					</a>
 				</li>
 				{
 					tagsWithCount.map(([tag, count]) => (
-						<li>
-							<button class="tag-chip" data-tag={tag} type="button">
+						<li class="shrink-0 lg:shrink">
+							<a
+								class="tag-chip"
+								data-tag={tag}
+								href={`${withLang("/posts/", lang)}?tag=${encodeURIComponent(tag)}`}
+							>
 								#{tag} <span class="text-muted">{count}</span>
-							</button>
+							</a>
 						</li>
 					))
 				}
@@ -171,16 +175,29 @@ const INITIAL_BATCH = 20;
 		display: inline-flex;
 		align-items: center;
 		gap: 0.4rem;
-		padding: 0.3rem 0.75rem;
+		padding: 0.4rem 0.8rem;
 		border-radius: 9999px;
 		background: var(--color-surface);
 		color: var(--color-global-text);
 		font-size: 0.75rem;
 		line-height: 1;
+		white-space: nowrap;
 		cursor: pointer;
 		transition:
 			background 150ms,
 			color 150ms;
+	}
+	@media (min-width: 1024px) {
+		.tag-chip {
+			padding: 0.3rem 0.75rem;
+		}
+	}
+	.tag-filters {
+		scrollbar-width: none;
+		-webkit-overflow-scrolling: touch;
+	}
+	.tag-filters::-webkit-scrollbar {
+		display: none;
 	}
 	.tag-chip:hover {
 		background: color-mix(in oklch, var(--color-accent) 12%, var(--color-surface));
@@ -198,13 +215,9 @@ const INITIAL_BATCH = 20;
 	}
 	.timeline-row {
 		display: grid;
-		grid-template-columns: 4.75rem 1.35rem minmax(0, 1fr);
-		column-gap: 0.75rem;
+		grid-template-columns: 3.5rem 1.1rem minmax(0, 1fr);
+		column-gap: 0.55rem;
 		align-items: start;
-	}
-	.timeline-date-col {
-		min-width: 0;
-		width: 100px;
 	}
 	.timeline-posts {
 		display: grid;
@@ -215,11 +228,16 @@ const INITIAL_BATCH = 20;
 	}
 	.timeline-year-heading {
 		position: sticky;
-		top: 4rem;
+		top: 3.5rem;
 		z-index: 10;
 		margin-bottom: 0.45rem;
 		padding-block: 0.35rem 0.55rem;
 		background: var(--color-global-bg);
+	}
+	@media (min-width: 640px) {
+		.timeline-year-heading {
+			top: 4rem;
+		}
 	}
 	.timeline-node {
 		position: relative;
@@ -300,17 +318,42 @@ const INITIAL_BATCH = 20;
 			emptyEl?.classList.toggle("hidden", matched.length > 0);
 		}
 
+		function syncActiveChip() {
+			filtersEl!.querySelectorAll<HTMLElement>(".tag-chip").forEach((el) => {
+				el.classList.toggle("is-active", (el.dataset.tag || "") === currentTag);
+			});
+		}
+
+		function readTagFromUrl() {
+			return new URL(window.location.href).searchParams.get("tag") || "";
+		}
+
+		function setTag(tag: string, push: boolean) {
+			currentTag = tag;
+			visibleCount = INITIAL;
+			if (push) {
+				const url = new URL(window.location.href);
+				if (tag) url.searchParams.set("tag", tag);
+				else url.searchParams.delete("tag");
+				history.pushState({ tag }, "", url.pathname + url.search + url.hash);
+			}
+			syncActiveChip();
+			applyFilter();
+		}
+
 		filtersEl.addEventListener("click", (e) => {
 			const target = e.target as HTMLElement;
-			const btn = target.closest<HTMLButtonElement>("button.tag-chip");
-			if (!btn) return;
-			currentTag = btn.dataset.tag || "";
-			visibleCount = INITIAL;
-			filtersEl
-				.querySelectorAll(".tag-chip")
-				.forEach((el) => el.classList.toggle("is-active", el === btn));
-			applyFilter();
+			const link = target.closest<HTMLAnchorElement>("a.tag-chip");
+			if (!link) return;
+			const me = e as MouseEvent;
+			if (me.metaKey || me.ctrlKey || me.shiftKey || me.altKey || me.button === 1) return;
+			e.preventDefault();
+			setTag(link.dataset.tag || "", true);
 			window.scrollTo({ top: 0, behavior: "smooth" });
+		});
+
+		window.addEventListener("popstate", () => {
+			setTag(readTagFromUrl(), false);
 		});
 
 		const io = new IntersectionObserver(
@@ -323,6 +366,8 @@ const INITIAL_BATCH = 20;
 		);
 		io.observe(sentinel);
 
+		currentTag = readTagFromUrl();
+		syncActiveChip();
 		applyFilter();
 	}
 </script>

@@ -60,34 +60,32 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 		</span>
 	)
 }
-<div class="space-y-3">
-	<p class="eyebrow">{t("masthead.article", lang)}</p>
-	<h1 class="title max-w-3xl text-3xl leading-tight sm:text-4xl">
+<div class="space-y-2.5 sm:space-y-3">
+	<h1 class="title max-w-3xl text-2xl leading-tight sm:text-4xl">
 		{data.title}
 	</h1>
 </div>
-<div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
-	<p class="text-accent-2 font-semibold">
-		<FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} lang={lang} /> /{" "}
-		{readingTimeText}
-	</p>
+<div class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm sm:mt-5">
 	{
 		data.updatedDate && (
-			<span class="border-muted/15 bg-global-bg/70 text-muted border px-2.5 py-1">
-				{t("masthead.updated", lang)}
+			<p class="text-muted">
 				<FormattedDate
 					class="ms-1"
 					date={data.updatedDate}
 					dateTimeOptions={dateTimeOptions}
 					lang={lang}
 				/>
-			</span>
+			</p>
 		)
 	}
+	<span> / </span>
+	<span class="text-muted text-sm">
+		{readingTimeText}
+	</span>
 </div>
-{
+<!-- {
 	!!data.tags?.length && (
-		<div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs">
+		<div class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs sm:mt-5">
 			{data.tags.map((tag) => (
 				<span class="text-muted" data-pagefind-filter={`tag:${tag}`}>
 					#{tag}
@@ -95,4 +93,4 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 			))}
 		</div>
 	)
-}
+} -->
