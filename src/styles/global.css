@@ -1,0 +1,188 @@
+@import "tailwindcss";
+@source not "../pages/og-image";
+@config "../../tailwind.config.ts";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Minimal palette: purple accent + neutral grayscale */
+@property --color-global-bg {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #ffffff;
+}
+@property --color-global-text {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #18181b;
+}
+@property --color-muted {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #71717a;
+}
+@property --color-border {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #e4e4e7;
+}
+@property --color-surface {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #fafafa;
+}
+@property --color-link {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #7c3aed;
+}
+@property --color-accent {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #7c3aed;
+}
+@property --color-accent-2 {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #09090b;
+}
+@property --color-quote {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #52525b;
+}
+
+@theme {
+	--color-global-bg: #ffffff;
+	--color-global-text: #18181b;
+	--color-muted: #71717a;
+	--color-border: #e4e4e7;
+	--color-surface: #fafafa;
+	--color-link: #7c3aed;
+	--color-accent: #7c3aed;
+	--color-accent-2: #09090b;
+	--color-quote: #52525b;
+}
+
+@layer base {
+	html {
+		color-scheme: light dark;
+		accent-color: var(--color-accent);
+		scrollbar-gutter: stable;
+
+		&[data-theme="light"] {
+			color-scheme: light;
+		}
+
+		&[data-theme="dark"] {
+			color-scheme: dark;
+			--color-global-bg: #0a0a0a;
+			--color-global-text: #fafafa;
+			--color-muted: #a1a1aa;
+			--color-border: #27272a;
+			--color-surface: #131316;
+			--color-link: #a78bfa;
+			--color-accent: #a78bfa;
+			--color-accent-2: #ffffff;
+			--color-quote: #d4d4d8;
+		}
+
+		--color-mode-transition-duration: 200ms;
+		--color-mode-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+		transition:
+			--color-global-bg var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-global-text var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-muted var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-border var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-surface var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-link var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-accent var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-accent-2 var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-quote var(--color-mode-transition-duration) var(--color-mode-transition-easing);
+	}
+
+	:target {
+		scroll-margin-block: 5ex;
+	}
+
+	@view-transition {
+		navigation: auto;
+	}
+
+	:where([data-astro-image]) {
+		object-fit: var(--fit);
+		object-position: var(--pos);
+	}
+	[data-astro-image="full-width"] {
+		width: 100%;
+	}
+	[data-astro-image="constrained"] {
+		max-width: 100%;
+	}
+
+	body {
+		background: var(--color-global-bg);
+	}
+
+	::selection {
+		background: color-mix(in oklch, var(--color-accent) 25%, transparent);
+		color: var(--color-accent-2);
+	}
+}
+
+@layer components {
+	@import "./components/admonition.css";
+	@import "./components/github-card.css";
+
+	.cactus-link {
+		@apply decoration-muted/40 hover:decoration-accent underline underline-offset-4 hover:decoration-2;
+	}
+
+	.title {
+		@apply text-accent-2 text-2xl font-semibold tracking-tight;
+	}
+
+	.paper-panel {
+		@apply border-border bg-surface rounded-lg border;
+	}
+
+	.eyebrow {
+		@apply text-muted text-xs font-medium tracking-[0.18em] uppercase;
+	}
+
+	.chip {
+		@apply text-muted border-border inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium;
+	}
+}
+
+@utility prose {
+	--tw-prose-body: var(--color-global-text);
+	--tw-prose-bold: var(--color-global-text);
+	--tw-prose-bullets: var(--color-muted);
+	--tw-prose-code: var(--color-global-text);
+	--tw-prose-headings: var(--color-accent-2);
+	--tw-prose-hr: var(--color-border);
+	--tw-prose-links: var(--color-accent);
+	--tw-prose-quotes: var(--color-quote);
+	--tw-prose-th-borders: var(--color-border);
+	--tw-prose-td-borders: var(--color-border);
+	max-width: none;
+	line-height: 1.8;
+}
+
+@layer base {
+	::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	::-webkit-scrollbar-thumb {
+		background: var(--color-border);
+		border-radius: 4px;
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: var(--color-muted);
+	}
+}

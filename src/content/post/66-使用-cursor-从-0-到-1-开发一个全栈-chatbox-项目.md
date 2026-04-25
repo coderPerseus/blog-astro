@@ -1,0 +1,428 @@
+---
+title: "使用 Cursor 从 0 到 1 开发一个全栈 chatbox 项目"
+publishDate: "2025-05-23T01:44:45Z"
+updatedDate: "2025-05-23T01:44:45Z"
+tags: ["AI","全栈开发"]
+description: "大家好，我是 luckySnail，你肯定用过 AI 聊天工具。例如： Gemini，ChatGPT，claude AI 等产品，我们通过它们的 web 网站或者手机应用提出问题，得到答案。在之前如果你想要构建一个这样的 AI 聊天应用程序，是需要大量时间才能开发出来，但是接下来，我将使用 cursor + verce"
+---
+
+大家好，我是 luckySnail，你肯定用过 AI 聊天工具。例如： Gemini，ChatGPT，claude AI 等产品，我们通过它们的 web 网站或者手机应用提出问题，得到答案。在之前如果你想要构建一个这样的 AI 聊天应用程序，是需要大量时间才能开发出来，但是接下来，我将使用 cursor + vercel 的 Next.js 和 ai-sdk 快速搭建属于你自己的 AI chat 工具，通过这篇文章你可以看到 AI 强大的辅助编程能力和 vercel 家超赞的工具！同时也能了解如何使用 AI 从 0 到 1 构建一个 web 应用，先看一下最终的产品：
+![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/jike/20250523093123151.png)
+
+
+如果你想直接看源码： https://github.com/coderPerseus/easyChat
+我还使用 deepwiki 生成了对应的项目文档： https://deepwiki.com/coderPerseus/easyChat
+## 环境准备
+
+在正式开发前，你的设备需要有如下环境：
+- Node >= 18.18，pnpm 作为依赖管理工具
+- postgreSQL ，可以是本地或者在线
+- Curosr ，用作 AI 辅助编程
+- chrome 游览器，其他游览器也可
+
+你需要具备的知识：
+- 前端基础
+- 数据库基础
+- 计算机网络基础
+- 熟悉 React 开发
+当然，你还需要有良好的软件开发素养，否则你会发现写的代码不好维护，或者不易理解
+## 项目初始化
+
+在真正开发项目之前，让我们先进行需求分析 和 技术选型
+
+### 需求分析
+
+- 聊天页面开发（基础能力）
+	- 包含提示的输入框和发送 / 停止按钮
+	- 实现一个聊天区域来显示对话记录，一个列表展示会话历史
+	- 开发 /agent API 来处理请求
+	- 确保每个对话的数据都被持久存储
+	- 通过流式传输返回所有结果
+- 高级能力
+	- 增强聊天组件，支持 markdown 渲染、自动滚动、图片上传等
+	- 实现函数调用，例如检索当前时间
+### 技术选型
+
+根据需求，我选择了我喜欢的并且也是主流的技术：
+- [Next.js](https://nextjs.org/) 作为全栈开发基础框架
+- [hono.js](https://hono.dev/) 作为后端框架，优化在 Next.js 中后端开发体验
+- [PostgreSQL](https://www.postgresql.org/) 作为数据库存储对话记录
+- [DrizzleORM](https://orm.drizzle.team/) 作为 ORM ，更为便捷和高效的方式与数据库进行交互
+- [shadcn/ui](https://ui.shadcn.com/) 作为 UI 组件库，[tailwindcss](https://tailwindcss.com/) 作为 css 框架
+- [Vercel AI SDK](https://ai-sdk.dev/) 快速开发 AI 相关的服务，如果你也在开发 AI 相关的服务，强烈推荐使用它，能帮你减少 80% 的工作
+- [Biome](https://biomejs.dev/) 进行代码格式化和检测（代替 ESLint + Prettier），需要你安装 Biome 插件哦
+- [zod](https://zod.dev/) ： TypeScript 优先的数据验证库
+
+对了，我们使用 Github 进行版本控制，维护代码。使用 vercel 进行项目部署上线。
+
+### 初始化
+
+下面进行初始化项目，初始化项目完成后，我们应该就可以进行业务开发
+
+1）根据 [Next.js 官方文档](https://nextjs.org/docs/app/getting-started/installation)我们创建一个 Next.js 项目：
+
+```bash
+npx create-next-app@latest
+```
+![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/jike/20250521082158879.png)
+2）下面，根据[官方文档](https://ui.shadcn.com/docs/installation/next)集成 shadcn/ui：
+```bash
+pnpm dlx shadcn@latest init
+pnpm dlx shadcn@latest add button
+```
+
+![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/jike/20250521083511476.png)
+然后尝试使用 Button 按钮，发现集成成功！
+
+>注意这里有一个小细节就是我在入口的 layout 组件为 body 标签添加了 suppressHydrationWarning ，作用是：抑制 React 在客户端和服务器端渲染不匹配时产生的警告信息，这在处理动态内容（如日期、时间等）时特别有用，因为这些内容在服务器端和客户端可能会有差异。
+
+![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/jike/20250521083725764.png)
+3）下面集成 Biome，保证相关代码风格一致
+```bash
+pnpm i @biomejs/biome -D
+```
+然后在 package.json 添加对应的脚本：
+```json
+{
+	"scripts": {
+		"lint": "next lint",
+		"format": "biome format --write .",
+		"lint:biome": "biome check --apply.",
+	}
+}
+```
+下面设置编辑器的 Format Document With ，选择 Configure Default Formatter 设置为 Biome。现在你的项目就又了格式化能力，你还可以在 git 提交的链路上进行预先 format 和 lint 等操作，保证提交的代码是格式化的。
+4）下面继续集成 hono.js，我参考了文章思路： https://kuizuo.cn/blog/nextjs-with-hono/ 。首先根据官方文档进行安装
+```bash
+pnpm i hono
+# 让 hono 接管所有接口服务
+mkdir -p "src/app/api/[[...route]]" && touch "src/app/api/[[...route]]/route.ts"
+```
+下面，开发 route.ts 内容，让 hono 来接管接口服务
+```ts
+// src/app/api/[[...route]]/route.ts
+import api from "@/server/api";
+import { handle } from "hono/vercel";
+const handler = handle(api);
+export {
+  handler as GET,
+  handler as POST,
+  handler as PUT,
+  handler as DELETE,
+  handler as PATCH,
+};
+```
+因为 Next.js 会自动扫描 app 下的文件夹进行热更新，所以我们可以将服务端代码放在根目录的 server 文件夹下（其实你可以使用任何名称），这里写我们所有的服务端逻辑和接口，下面初始化一下服务端的基础逻辑，
+5）创建自定义校验器，它的作用是进行请求数据验证的工具函数，确保数据符合预期的格式和类型规范，并提供类型安全的验证结果
+```ts
+// src/server/api/validator.ts
+import type {
+  Context,
+  MiddlewareHandler,
+  Env,
+  ValidationTargets,
+  TypedResponse,
+  Input,
+} from "hono";
+import { validator } from "hono/validator";
+import type { z, ZodSchema, ZodError } from "zod";
+
+export type Hook<
+  T,
+  E extends Env,
+  P extends string,
+  Target extends keyof ValidationTargets = keyof ValidationTargets,
+  // biome-ignore lint/complexity/noBannedTypes: <explanation>
+  O = {}
+> = (
+  result: (
+    | { success: true; data: T }
+    | { success: false; error: ZodError; data: T }
+  ) & {
+    target: Target;
+  },
+  c: Context<E, P>
+) =>
+  | Response
+  | void
+  | TypedResponse<O>
+  // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
+  | Promise<Response | void | TypedResponse<O>>;
+
+type HasUndefined<T> = undefined extends T ? true : false;
+
+export const zValidator = <
+  T extends ZodSchema,
+  Target extends keyof ValidationTargets,
+  E extends Env,
+  P extends string,
+  In = z.input<T>,
+  Out = z.output<T>,
+  I extends Input = {
+    in: HasUndefined<In> extends true
+      ? {
+          [K in Target]?: K extends "json"
+            ? In
+            : HasUndefined<keyof ValidationTargets[K]> extends true
+            ? { [K2 in keyof In]?: ValidationTargets[K][K2] }
+            : { [K2 in keyof In]: ValidationTargets[K][K2] };
+        }
+      : {
+          [K in Target]: K extends "json"
+            ? In
+            : HasUndefined<keyof ValidationTargets[K]> extends true
+            ? { [K2 in keyof In]?: ValidationTargets[K][K2] }
+            : { [K2 in keyof In]: ValidationTargets[K][K2] };
+        };
+    out: { [K in Target]: Out };
+  },
+  V extends I = I
+>(
+  target: Target,
+  schema: T,
+  hook?: Hook<z.infer<T>, E, P, Target>
+): MiddlewareHandler<E, P, V> =>
+  // @ts-expect-error not typed well
+  validator(target, async (value, c) => {
+    const result = await schema.safeParseAsync(value);
+
+    if (hook) {
+      const hookResult = await hook({ data: value, ...result, target }, c);
+      if (hookResult) {
+        if (hookResult instanceof Response) {
+          return hookResult;
+        }
+
+        if ("response" in hookResult) {
+          return hookResult.response;
+        }
+      }
+    }
+
+    if (!result.success) {
+      throw result.error;
+    }
+
+    return result.data as z.infer<T>;
+  });
+```
+6）创建错误处理文件，给到客户端更好的错误提示：
+```ts
+// src/server/api/error.ts
+import { z } from "zod";
+import type { Context } from "hono";
+import { HTTPException } from "hono/http-exception";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
+
+export class ApiError extends HTTPException {
+  public readonly code?: ContentfulStatusCode;
+  constructor({
+    code,
+    message,
+  }: {
+    code?: ContentfulStatusCode;
+    message: string;
+  }) {
+    super(code, { message });
+    this.code = code;
+  }
+}
+
+export function handleError(err: Error, c: Context): Response {
+  if (err instanceof z.ZodError) {
+    const firstError = err.errors[0];
+
+    return c.json(
+      { code: 422, message: `\`${firstError.path}\`: ${firstError.message}` },
+      422
+    );
+  }
+
+  /**
+   * This is a generic error, we should log it and return a 500
+   */
+  return c.json(
+    {
+      code: 500,
+      message: "服务端错误, 请稍后再试。",
+    },
+    { status: 500 }
+  );
+}
+```
+下面我们创建我们的第一个接口，验证 honojs 是否引入成功：
+```ts
+// src/server/api/routes/hello.ts
+import { Hono } from "hono";
+const app = new Hono().get("/hello", (c) =>
+  c.json({ message: "Hello, luckyChat" })
+);
+export default app;
+```
+7）最后，开发入口文件：
+```ts
+// src/server/api/index.ts
+import { handleError } from "./error";
+import { Hono } from "hono";
+import helloRoute from "./routes/hello";
+const app = new Hono().basePath("/api");
+app.onError(handleError);
+const routes = app.route("/", helloRoute);
+export default app;
+export type AppType = typeof routes;
+```
+现在我们不仅有了接口，还有了服务端接口的类型声明，我们可以非常方便的在客户端进行类型安全的接口请求，我们不需要写路由，也不需要写类型相关的内容，真的是 amazing，我们赶紧在客户端调用第一个接口吧！在调用接口前，
+8）我们先封装一个 fetch 方法：
+```ts
+// src/lib/fetch.ts
+import type { AppType } from "@/server/api";
+import { hc } from "hono/client";
+import ky from "ky";
+
+const baseUrl =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : process.env.NEXT_PUBLIC_APP_URL;
+
+export const fetch = ky.extend({
+  hooks: {
+    afterResponse: [
+      async (_, __, response: Response) => {
+        if (response.ok) {
+          return response;
+          // biome-ignore lint/style/noUselessElse: <explanation>
+        } else {
+          throw await response.json();
+        }
+      },
+    ],
+  },
+});
+
+export const client = hc<AppType>(baseUrl as string, {
+  fetch: fetch,
+});
+```
+ky 库是一个基于浏览器原生 Fetch API 的轻量级HTTP客户端库，提供了更简洁友好的接口，使用它更好的与 honojs 集成，这里我们使用 hc 和 AppType 创建了一个安全的接口请求方式：
+```tsx
+// src/app/page.tsx
+import { Button } from "@/components/ui/button";
+import { Heart } from "lucide-react";
+import { client } from "@/lib/fetch";
+async function getData() {
+  try {
+    const res = await client.api.hello.$get();
+    if (!res.ok) {
+      // This will activate the closest `error.js` Error Boundary
+      throw new Error("Failed to fetch data");
+    }
+    return res.json();
+  } catch (error) {
+    console.error("获取数据失败:", error);
+    return { message: "AI 助手" };
+  }
+}
+export default async function Home() {
+  const { message } = await getData();
+  return (
+    <div>
+	  <div>{message}</div>
+      <Button>
+        <Heart className="mr-2 h-4 w-4" /> lucky Snail
+      </Button>
+    </div>
+  );
+}
+```
+当我们在使用 client 的时候它会进行代码提示告诉你目前可以使用哪些接口，并且在后面我们可以借助 InferResponseType 和 typeof 等 ts 关键字来使用接口对应的 ts 类型，我们只需要在服务端定义好类型声明，在客户端直接消费即可 👍。
+
+9）下面进行最重要的一步，也就是数据库初始化，有开发经验的应该都知道数据库设计的好，可以大大降低系统复杂度，减少不必要的代码，这么重要的事情肯定是需要 AI 的参与的，我们把需求给到 AI，然后让 AI 帮忙进行初步数据库设计，下面在 cursor 中进行 ask：
+```text
+提示词：现在集成 DrizzleORM, and AI SDK.使用 postgreSQL 作为数据库，驱动使用 postgres，数据库名字叫 chatAI ，数据库就一张表，存储 AI 对话记录，设计良好的数据库表结构，最后开发 /agent API 来处理聊天请求，这里使用大模型为 Deepseek ，大模型的 key 存在 环境变量的 DEEPSEEK_API_KEY ，数据库集成参考 @https://orm.drizzle.team/docs/get-started-postgresql ，先梳理需求，然后一步步进行实现
+```
+AI 给到的数据库结构如下：
+```ts
+// src/lib/db/schema.ts
+import { pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+
+// 聊天消息类型
+export const chatMessages = pgTable('chat_messages', {
+  id: serial('id').primaryKey(),
+  sessionId: varchar('session_id', { length: 255 }).notNull(),
+  role: varchar('role', { length: 50 }).notNull(), // 'user' 或 'assistant'
+  content: text('content').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// 会话信息
+export const chatSessions = pgTable('chat_sessions', {
+  id: serial('id').primaryKey(),
+  sessionId: varchar('session_id', { length: 255 }).unique().notNull(),
+  title: varchar('title', { length: 255 }),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+```
+这里 AI 帮我们创建好了数据库的表结构，它能理解需求，并给出合理的数据库设计：
+- chat_sessions 表：存储聊天会话信息
+- chat_messages 表：存储聊天消息
+还帮我们在 package.json 添加了生成和运行迁移的脚本，我们在 env 配置到 DATABASE_URL，执行脚本即可初始化数据库
+
+现在我们完成了项目初始化，我们可以使用 cursor 提供的 `/generate Cursor Rules`  来生成项目开发指导，在后面业务能力开发中，我们每次都携带上这条 rules ，它能帮 AI 更好的生成内容
+![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/jike/20250521133957767.png)
+
+现在已经搭建好了前端和后端基础能力，并且生成了项目开发的 rules ，下面就全部交给 AI 来进行业务开发，我们只需要做一个合格的测试和 code review 就好了！
+
+## 核心能力开发
+
+一个聊天应用最核心的就是输入提示词 => AI 大模型响应内容 => 展示内容 => 继续对话
+
+1）开发 chat，提示词如下
+>下面 @project-structure.mdc 就是我们生成的项目开发 rules
+```text
+@project-structure.mdc 使用 ai-sdk 开发 /agent API 来处理聊天请求，遵循 RESTful API 风格，这里使用大模型为 Deepseek ，大模型的 key 存在 环境变量的 DEEPSEEK_API_KEY ，然后在开发对应的 chat 页面，一个输入框，右侧有发送和暂停按钮，支持接收用户的输入，支持发送和停止能力，这里使用 @ai-sdk/react 快速进行开发，需要流式输出 AI 生成内容。代码组件化，模块化，尽可能使用 shadui/cn 组件开发，先梳理需求，然后一步步进行实现
+```
+AI 可能需要比较漫长时间完成工作，在这个过程中，我们可以思考下一个提示词，在 AI 生成完成后，我们需要进行检查和修复 bug，当然你是可以借助 AI 来 fix error。这里需要额外注意的是当我们 chat 中断的时候应该把已经生成的内容进行存储数据库
+
+2）开发创建新会话能力，支持会话缓存到本地
+```text
+@project-structure.mdc 支持创建新会话，并且会话 id 存储 localStorage ，在页面刷新的时候会话 id 依然存在，注意点击停止需要把当前会话进行存储
+```
+3）开发历史会话列表展示，支持切换会话
+```text
+@project-structure.mdc 开发历史对话记录功能，先进行接口开发，这里两个接口：获取所有会话列表和获取指定 id 的会话信息，前端需要将会话列表封装为单独组件，点击会话列表项能进入该对话，数据接口逻辑使用自定义 hooks，保证代码清晰易理解。 注意客户端需要使用封装的 fetch 导出的 client 进行接口请求
+```
+4）支持 markdown 渲染 AI 生成的内容，优化页面布局 UI，支持内容自动滚动底部
+上面完成后，我们有了基本的 chat 功能页面，但是可能这时候页面比较丑不太美观，现在进行优化
+```text
+@project-structure.mdc 你是资深 UI 设计师，现在进行项目优化：
+1，实现 markdown 渲染流式内容。添加在对话中自动滚动到底部的能力
+2. 优化目前的页面 UI，页面布局为左边的侧边栏，展示历史记录和新对话能力都放在左边，当屏幕宽度小于 tailwindcss 的 lg 的时候就不展示侧边栏，右侧对话框 UI ，也需要进行优化，注意不要新增元素和修改逻辑，仅仅是对元素布局和 UI进行优化，参考优秀的 chatbox UI 设计
+```
+5）支持 function call 能力，获取当前时间
+```text
+@project-structure.mdc @web 参考文档支持 function call 能力，以获取最新时间为例
+```
+## 优化
+
+如果你做到这里，相信你的项目肯定还有一些 bug 和 UI 细节需要进行优化，你可以和 AI 一起进行优化，给大家看一下我和 AI  的 chat
+![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/jike/20250522232908332.png)
+不断的修复和优化，最终我的 chatbox 就出现啦！
+![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/jike/20250522232955471.png)
+你打几分呢？
+## 总结
+
+1. AI 目前编程能力已经超过 90% 的工程师了，它在开发功能安全性和兼容性考虑上十分的全面，但是它也有能力边界，在面对复杂系统，奇怪的需求上是不如人的。所以程序员以后更多是做决策，做 AI 与需求的桥梁，通过我们的经验和直觉去选择接受还是拒绝 AI 的生成
+2. 日常 AI 编程开发中，推荐使用方式为 gemini 做设计和文档类工作，写代码部分交给 claude
+3. 需要我们能够合理的进行模块拆分，能够识别 AI 代码是不是合理的
+4. 系统设计是 AI 时代程序员的必须要提升的技能，推荐一本书《软件设计的哲学》第二版
+5. 知识广度，全栈能力对前端有很大的帮助，借助 AI 快速将想法变成现实是程序员的红利
+6. 持续学习，跟进最新的 AI 是保证自己有竞争力的关键
+7. Vibe Coding 必然会成为新的编码方式，纯手工编程必然会像 php 一样成为历史
+8.  目前来看，编程智能体（Agent）真的很成功，让我这种普通人能够快速 开发出产品。
+
+ ## 参考：
+1. https://claude.ai/chat/fd4c29a3-3b5c-4965-9670-4380dcc28f98
+2. https://www.youtube.com/watch?v=tlrf4lu8Myc
+https://bigbang.easykol.com/search/following?platform=TIKTOK&url=https://www.tiktok.com/@meditationbuddhism
+

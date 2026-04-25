@@ -1,0 +1,25 @@
+---
+import { menuLinks, siteConfig } from "@/site.config";
+
+const year = new Date().getFullYear();
+---
+
+<footer
+	class="mt-auto border-t border-border bg-global-bg"
+>
+	<div
+		class="text-muted mx-auto flex w-full max-w-5xl flex-col items-center justify-between gap-4 px-5 py-8 text-xs sm:flex-row sm:px-8"
+	>
+		<span>&copy; {year} {siteConfig.author} · {siteConfig.title}</span>
+		<nav aria-labelledby="footer_links" class="flex items-center gap-1">
+			<p id="footer_links" class="sr-only">More on this site</p>
+			{
+				menuLinks.map((link) => (
+					<a class="hover:text-accent rounded-md px-2 py-1 transition-colors" href={link.path}>
+						{link.title}
+					</a>
+				))
+			}
+		</nav>
+	</div>
+</footer>

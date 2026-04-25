@@ -1,0 +1,110 @@
+---
+import { type CollectionEntry, render } from "astro:content";
+
+import Masthead from "@/components/blog/Masthead.astro";
+import TOC from "@/components/blog/TOC.astro";
+
+import BaseLayout from "./Base.astro";
+
+interface Props {
+	post: CollectionEntry<"post">;
+}
+
+const { post } = Astro.props;
+const { ogImage, title, description, updatedDate, publishDate, aiSummary, aiSummaryEn } = post.data;
+const socialImage = ogImage ?? `/og-image/${post.id}.png`;
+const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
+const { headings, remarkPluginFrontmatter } = await render(post);
+const readingTime: string = remarkPluginFrontmatter.readingTime;
+---
+
+<BaseLayout
+	meta={{
+		articleDate,
+		description: description ?? undefined,
+		ogImage: socialImage,
+		title,
+	}}
+>
+	<article class="grow break-words" data-pagefind-body>
+		<div id="blog-hero" class="mb-14"><Masthead content={post} readingTime={readingTime} /></div>
+		{
+			(aiSummary || aiSummaryEn) && (
+				<ai-summary data-ai-summary>
+					<div class="paper-panel mb-10 p-5 sm:p-6">
+						<div class="mb-3 flex items-center gap-2">
+							<svg
+								aria-hidden="true"
+								class="text-accent h-5 w-5"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.5"
+								viewBox="0 0 24 24"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+							<span class="eyebrow text-accent">AI 摘要</span>
+						</div>
+						<p class="text-global-text/80 ai-summary-zh text-sm leading-relaxed">{aiSummary}</p>
+						{aiSummaryEn && (
+							<p class="text-global-text/60 ai-summary-en mt-2 text-sm leading-relaxed">
+								{aiSummaryEn}
+							</p>
+						)}
+					</div>
+				</ai-summary>
+			)
+		}
+		<div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start">
+			{!!headings.length && <TOC headings={headings} />}
+			<div
+				class="prose prose-sm prose-img:rounded-[3px] prose-img:border prose-img:border-muted/10 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-5 prose-headings:before:text-accent/70 prose-headings:hover:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none lg:max-w-[43rem]"
+			>
+				<slot />
+			</div>
+		</div>
+	</article>
+	<button
+		class="border-muted/20 bg-global-bg/80 hover:border-link fixed end-4 bottom-8 z-90 flex h-10 w-10 translate-y-28 cursor-pointer items-center justify-center rounded-full border text-3xl opacity-0 shadow-lg backdrop-blur transition-all transition-discrete duration-300 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12"
+		data-show="false"
+		id="to-top-btn"
+	>
+		<span class="sr-only">Back to top</span>
+		<svg
+			aria-hidden="true"
+			class="h-6 w-6"
+			fill="none"
+			focusable="false"
+			stroke="currentColor"
+			stroke-width="2"
+			viewBox="0 0 24 24"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path d="M4.5 15.75l7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+		</svg>
+	</button>
+</BaseLayout>
+
+<script>
+	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
+	const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
+
+	function callback(entries: IntersectionObserverEntry[]) {
+		entries.forEach((entry) => {
+			// only show the scroll to top button when the heading is out of view
+			scrollBtn.dataset.show = (!entry.isIntersecting).toString();
+		});
+	}
+
+	scrollBtn.addEventListener("click", () => {
+		document.documentElement.scrollTo({ behavior: "smooth", top: 0 });
+	});
+
+	const observer = new IntersectionObserver(callback);
+	observer.observe(targetHeader);
+</script>

@@ -1,0 +1,72 @@
+---
+title: "一分钟带你将 DeepSeek-V3.1-Terminus 接入Claude Code 和 Codex"
+publishDate: "2025-09-24T07:10:54Z"
+updatedDate: "2026-01-28T08:53:09Z"
+tags: ["AI"]
+description: "就在最近， DeepSeek 发布了 V3 版本的终极版，刚好最近使用 Claude Code 和 Codex 总是被限速，下面跟着我快速将最新的 DeepSeek 接入 cc 和 Codex 吧！\n 接入 Claude Code\n\n1️⃣ 全局安装\n\nbash\nnpm install g @anthropicai/c"
+---
+
+
+ 就在最近， DeepSeek 发布了 V3 版本的终极版，刚好最近使用 Claude Code 和 Codex 总是被限速，下面跟着我快速将最新的 DeepSeek 接入 cc 和 Codex 吧！
+## 接入 Claude Code
+
+1️⃣ 全局安装
+
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+2️⃣ 配置环境变量
+ 先去 DeepSeek 官方 API 后台生成一个 API key
+ ![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/typora/20250923235052.png)
+然后在控制台配置
+```bash
+export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic     
+export ANTHROPIC_AUTH_TOKEN=你的DEEPSEEK_API_KEY     
+export ANTHROPIC_MODEL=deepseek-chat
+export ANTHROPIC_SMALL_FAST_MODEL=deepseek-chat
+```
+3️⃣ 测试使用
+运行 `claude` 启动，然后我们可以看到如下：
+ ![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/typora/20250923235905.png)
+这就代表成功啦！🎉
+
+## Codex
+
+> Codex 是 OpenAI 家的终端 Coding Agent  Cli ，和 Claude Code 差不多
+
+1️⃣ 安装
+
+```bash
+npm install -g @openai/codex
+```
+
+2️⃣ 配置
+
+```toml
+# 定义一个 DeepSeek 提供方（OpenAI 兼容）
+[model_providers.deepseek]
+name = "DeepSeek"
+base_url = "https://api.deepseek.com/v1"
+wire_api = "chat"
+env_key = "DEEPSEEK_API_KEY"
+
+[profiles.deepseek-chat]
+model_provider = "deepseek"
+model = "deepseek-chat" 
+```
+
+3️⃣ 测试使用
+
+```bash
+export DEEPSEEK_API_KEY="sk-xxx"
+codex --profile deepseek-chat
+```
+看到下面就代表成功啦！
+![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/typora/20250924004121.png)
+
+
+## 参考
+
+1. claude code 官方文档： https://claude.com/product/claude-code
+2. codex 官方文档： https://developers.openai.com/codex/cli/

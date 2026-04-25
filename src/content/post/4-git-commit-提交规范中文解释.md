@@ -1,0 +1,21 @@
+---
+title: "git commit 提交规范中文解释"
+publishDate: "2024-08-03T11:56:59Z"
+updatedDate: "2024-08-03T11:57:36Z"
+tags: ["git","笔记"]
+description: "这些是 @commitlint/configconventional 配置中定义的常用提交类型。每个类型的含义如下：\r\n1. build: 影响构建系统或外部依赖项的更改（例如：gulp、broccoli、npm）\r\n2. chore: 不修改源代码或测试文件的其他更改。通常用于维护性工作\r\n3. ci: 持续集成配置"
+---
+
+这些是 @commitlint/config-conventional 配置中定义的常用提交类型。每个类型的含义如下：
+1. build: 影响构建系统或外部依赖项的更改（例如：gulp、broccoli、npm）
+2. chore: 不修改源代码或测试文件的其他更改。通常用于维护性工作
+3. ci: 持续集成配置文件和脚本的更改（例如：Travis、Circle、BrowserStack、SauceLabs）
+4. docs: 仅文档的更改
+5. feat: 新功能
+6. fix: 修复 bug
+7. perf: 提高性能的代码更改
+8. refactor: 既不修复 bug 也不添加新功能的代码更改
+9. revert: 撤销之前的提交
+10. style: 不影响代码含义的更改（空白、格式化、缺少分号等）
+11. test: 添加缺失的测试或修正现有的测试
+这些类型帮助开发者快速了解每次提交的目的，使得版本历史更加清晰，也便于自动化工具生成更改日志。使用这些规范化的提交类型可以提高项目的可维护性和协作效率

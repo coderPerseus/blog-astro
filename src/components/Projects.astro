@@ -1,0 +1,136 @@
+---
+type Project = {
+	url: string;
+	icon: string;
+	name: string;
+	description: string;
+	tags: string[];
+};
+
+const projects: Project[] = [
+	{
+		url: "https://easykol.com/",
+		icon: "/projects/easykol.png",
+		name: "Easykol",
+		description:
+			"最好用的海外营销工具，帮你快速找到红人并内置邮件模板和批量建联，覆盖 TikTok、Instagram、YouTube、小红书、抖音等主流平台。",
+		tags: ["公司"],
+	},
+	{
+		url: "https://neovateai.dev/",
+		icon: "/projects/neovateCode.png",
+		name: "Neovate Code",
+		description:
+			"Neovate Code 是一款代码 Agent，用来生成代码、修复 bug、代码审查、补充测试。支持交互式与无头模式。",
+		tags: ["开源"],
+	},
+	{
+		url: "https://www.svgshow.cn/",
+		icon: "/projects/svgShow.png",
+		name: "SVG 秀",
+		description:
+			"利用当下最强的 SVG 动画库，把内容转为美观的 SVG 图片，并能看到 AI 是如何一步步画出来的。",
+		tags: ["个人"],
+	},
+	{
+		url: "https://ascii.luckysnail.cn/",
+		icon: "/projects/logo.png",
+		name: "ASCII 字符生成器",
+		description: "把图片和视频转为 ASCII 形式。",
+		tags: ["个人"],
+	},
+	{
+		url: "https://www.npmjs.com/package/bytemd-plugin-image-lazy",
+		icon: "/projects/npmIcon.webp",
+		name: "bytemd 图片懒加载插件",
+		description: "支持原生懒加载和 IntersectionObserver 懒加载。",
+		tags: ["个人"],
+	},
+	{
+		url: "https://www.luckySnail.cn",
+		icon: "/projects/logo.png",
+		name: "luckySnail 个人博客",
+		description: "基于 Next.js 创建的博客网站。",
+		tags: ["个人"],
+	},
+	{
+		url: "https://www.laoyujianli.com",
+		icon: "/projects/resume.png",
+		name: "老鱼简历",
+		description:
+			"很好用的写简历平台，能下载 PDF/PNG 简历或分享在线链接，支持多格式导入并接入 AI 帮你快速写简历。",
+		tags: ["公司"],
+	},
+	{
+		url: "https://www.codecopy.cn",
+		icon: "/projects/codecopy.png",
+		name: "代码小抄",
+		description: "一个方便的代码片段记录工具。",
+		tags: ["公司"],
+	},
+];
+
+function hostOf(url: string) {
+	try {
+		return new URL(url).host.replace(/^www\./, "");
+	} catch {
+		return url;
+	}
+}
+---
+
+<ul role="list" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+	{
+		projects.map((p) => (
+			<li>
+				<a
+					class="group flex h-full flex-col gap-3 rounded-lg border border-border bg-surface/40 p-5 transition-all hover:border-accent/50 hover:bg-surface"
+					href={p.url}
+					rel="noreferrer"
+					target="_blank"
+				>
+					<div class="flex items-center justify-between">
+						<div class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-global-bg ring-1 ring-border">
+							<img
+								alt=""
+								class="h-9 w-9 rounded-full object-cover"
+								height="36"
+								loading="lazy"
+								src={p.icon}
+								width="36"
+							/>
+						</div>
+						<svg
+							aria-hidden="true"
+							class="h-4 w-4 text-muted transition-colors group-hover:text-accent"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							viewBox="0 0 24 24"
+						>
+							<path
+								d="M7 17L17 7M17 7H8M17 7V16"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
+					</div>
+					<h3 class="text-base font-semibold text-accent-2 group-hover:text-accent">
+						{p.name}
+					</h3>
+					<p class="line-clamp-3 flex-1 text-sm leading-6 text-muted">
+						{p.description}
+					</p>
+					<div class="flex items-center justify-between gap-2 pt-1">
+						<div class="flex flex-wrap gap-1.5">
+							{p.tags.map((t) => (
+								<span class="chip">{t}</span>
+							))}
+						</div>
+						<span class="text-xs text-muted">{hostOf(p.url)}</span>
+					</div>
+				</a>
+			</li>
+		))
+	}
+</ul>

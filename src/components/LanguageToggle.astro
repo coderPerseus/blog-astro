@@ -1,0 +1,46 @@
+<lang-toggle class="ms-1 sm:ms-2">
+	<button
+		class="border-muted/15 hover:border-accent hover:text-accent bg-global-bg/40 relative h-9 cursor-pointer rounded-full border px-3 text-xs font-semibold transition-colors"
+		id="lang-toggle-btn"
+		type="button"
+		title="Switch language"
+	>
+		<span id="lang-label">EN</span>
+	</button>
+</lang-toggle>
+
+<script>
+	class LangToggle extends HTMLElement {
+		connectedCallback() {
+			const btn = this.querySelector<HTMLButtonElement>("#lang-toggle-btn");
+			const label = this.querySelector<HTMLSpanElement>("#lang-label");
+			if (!btn || !label) return;
+
+			const getLang = () =>
+				(typeof localStorage !== "undefined" && localStorage.getItem("blog-lang")) || "zh";
+
+			const updateLabel = () => {
+				const lang = getLang();
+				label.textContent = lang === "zh" ? "EN" : "中文";
+				btn.title = lang === "zh" ? "Switch to English" : "切换到中文";
+			};
+
+			updateLabel();
+
+			btn.addEventListener("click", () => {
+				const current = getLang();
+				const next = current === "zh" ? "en" : "zh";
+				localStorage.setItem("blog-lang", next);
+				updateLabel();
+				// Dispatch custom event so other components can react
+				document.dispatchEvent(new CustomEvent("lang-change", { detail: { lang: next } }));
+				// Reload to apply language changes
+				window.location.reload();
+			});
+
+			document.addEventListener("lang-change", () => updateLabel());
+		}
+	}
+
+	customElements.define("lang-toggle", LangToggle);
+</script>

@@ -1,0 +1,138 @@
+---
+import { Image } from "astro:assets";
+import LanguageToggle from "@/components/LanguageToggle.astro";
+import Search from "@/components/Search.astro";
+import ThemeToggle from "@/components/ThemeToggle.astro";
+import logo from "@/assets/logo.webp";
+import { menuLinks, siteConfig } from "@/site.config";
+---
+
+<header
+	class="sticky top-0 z-40 border-b border-border/60 bg-global-bg/80 backdrop-blur-md"
+	id="main-header"
+>
+	<div
+		class="mx-auto flex h-14 w-full max-w-5xl items-center gap-4 px-5 sm:h-16 sm:px-8"
+	>
+		<a
+			aria-current={Astro.url.pathname === "/" ? "page" : false}
+			class="flex items-center gap-2.5"
+			href="/"
+		>
+			<Image
+				alt={`${siteConfig.title} Logo`}
+				class="h-8 w-8 rounded-full ring-1 ring-border"
+				height={32}
+				loading="eager"
+				src={logo}
+				width={32}
+			/>
+			<span class="text-base font-semibold tracking-tight text-accent-2">
+				{siteConfig.title}
+			</span>
+		</a>
+
+		<nav
+			aria-label="主导航"
+			class="ms-4 hidden items-center gap-1 sm:flex"
+			id="navigation-menu"
+		>
+			{
+				menuLinks.map((link) => {
+					const isActive =
+						link.path === "/"
+							? Astro.url.pathname === "/"
+							: Astro.url.pathname.startsWith(link.path.replace(/\/$/, ""));
+					return (
+						<a
+							aria-current={isActive ? "page" : false}
+							class={`rounded-md px-3 py-1.5 text-sm transition-colors ${
+								isActive
+									? "text-accent"
+									: "text-muted hover:text-accent-2"
+							}`}
+							href={link.path}
+						>
+							{link.title}
+						</a>
+					);
+				})
+			}
+		</nav>
+
+		<div class="ms-auto flex items-center gap-1">
+			<Search />
+			<ThemeToggle />
+			<LanguageToggle />
+			<mobile-button class="sm:hidden">
+				<button
+					aria-expanded="false"
+					aria-haspopup="menu"
+					class="ms-1 inline-flex h-9 w-9 items-center justify-center rounded-md text-muted hover:bg-surface hover:text-accent-2"
+					id="toggle-navigation-menu"
+					type="button"
+				>
+					<span class="sr-only">打开菜单</span>
+					<svg
+						aria-hidden="true"
+						class="h-5 w-5"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+						viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M3.75 9h16.5m-16.5 6.75h16.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"></path>
+					</svg>
+				</button>
+			</mobile-button>
+		</div>
+	</div>
+
+	<nav
+		aria-label="移动导航"
+		class="hidden border-t border-border bg-global-bg sm:hidden group-[.menu-open]:flex group-[.menu-open]:flex-col"
+		id="mobile-menu"
+	>
+		{
+			menuLinks.map((link) => (
+				<a
+					class="border-b border-border/60 px-5 py-3 text-sm text-muted hover:text-accent"
+					href={link.path}
+				>
+					{link.title}
+				</a>
+			))
+		}
+	</nav>
+</header>
+
+<script>
+	import { toggleClass } from "@/utils/domElement";
+
+	class MobileNavBtn extends HTMLElement {
+		#menuOpen: boolean = false;
+
+		connectedCallback() {
+			const headerEl = document.getElementById("main-header")!;
+			const mobileButtonEl = this.querySelector<HTMLButtonElement>("button");
+			const mobileMenuEl = document.getElementById("mobile-menu");
+
+			mobileButtonEl?.addEventListener("click", () => {
+				if (headerEl) toggleClass(headerEl, "menu-open");
+				if (mobileMenuEl) {
+					mobileMenuEl.classList.toggle("hidden");
+					mobileMenuEl.classList.toggle("flex");
+					mobileMenuEl.classList.toggle("flex-col");
+				}
+				this.#menuOpen = !this.#menuOpen;
+				mobileButtonEl.setAttribute("aria-expanded", this.#menuOpen.toString());
+			});
+		}
+	}
+
+	customElements.define("mobile-button", MobileNavBtn);
+</script>

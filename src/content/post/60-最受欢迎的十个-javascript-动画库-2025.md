@@ -1,0 +1,186 @@
+---
+title: "最受欢迎的十个 JavaScript 动画库 -2025"
+publishDate: "2025-04-06T05:36:11Z"
+updatedDate: "2025-04-06T05:36:11Z"
+tags: ["动画库"]
+description: "好文翻译：https://dev.to/hadil/top10javascriptanimationlibrariesin20252ch5\n\n大家好，我是 luckySnail，动画是现代前端开发中必备的技能，作为一名 Web开发者，你一定深知动画效果对于用户体验至关重要，甚至能决定其成败。但说实话，从零开始手写自定义"
+---
+
+![ChatGPT_Image_2025年4月6日_13_32_13.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/work/ChatGPT_Image_2025%E5%B9%B44%E6%9C%886%E6%97%A5_13_32_13.png)
+
+
+> 好文翻译：https://dev.to/hadil/top-10-javascript-animation-libraries-in-2025-2ch5
+
+大家好，我是 luckySnail，动画是现代前端开发中必备的技能，作为一名 Web开发者，你一定深知动画效果对于用户体验至关重要，甚至能决定其成败。但说实话，从零开始手写自定义动画，那可真是个苦差事。因此 JavaScript 动画库应运而生！
+
+到了 2025 年，Web 动画的世界简直精彩纷呈！无论你是要构建一个简洁的个人作品集、一个动态的 Web 应用程序，还是仅仅想为你的项目增添一些亮点，这些动画库都能满足你的需求。让我们一起深入了解 **2025 年最佳 JavaScript 动画库 Top 10**，看看它们如何提升你的开发技能。
+
+## 1) GSAP (GreenSock Animation Platform) 🟢
+
+GSAP（GreenSock 动画平台）是当之无愧的 JavaScript 动画库之王。它速度快、灵活性强，并且可以在所有浏览器上无缝运行。借助 GSAP，你可以实现从简单过渡到复杂时间轴动画的多种效果。
+
+[![GSAP](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fa86gxm6dhe8vk6vni822.jpg)](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fa86gxm6dhe8vk6vni822.jpg)
+
+### 特性：
+
+*   闪电般的速度，让其他库望尘莫及，瞬间秒杀！
+*   背后有超大规模的社区支持，教程多到学不完，助你轻松精通。
+*   无论你是初学者还是资深开发者，都能轻松驾驭。
+
+👌🏻 **最佳应用场景**: 复杂和高性能的动画。
+
+[查看 GSAP 🔥](https://gsap.com/)
+
+##2) Three.js 🎲
+
+如果你对 3D 动画感兴趣，那么 Three.js 就是你的不二之选。它是创建令人惊叹的 3D 视觉效果和交互式体验的强大工具，所有这些都可以在浏览器中完成。
+
+[![Three.js](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9lxda7g3mbeecqlzk8nu.jpg)](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9lxda7g3mbeecqlzk8nu.jpg)
+
+### 特性：
+
+*   即使你不是 3D 大神，也能轻松玩转 3D 图形！
+*   令人难以置信的文档和丰富的示例。
+*   非常适合游戏、数据可视化和沉浸式网站。
+
+👌🏻 **最佳应用场景**: 3D 动画和 WebGL 项目。[查看 Three.js 🔥](https://threejs.org/)
+
+## 3) Anime.js 🤹🏻‍♂️
+
+Anime.js 是一个轻量级且直观的库，可以使用最少的代码轻松创建流畅、复杂的动画。
+
+[![Anime.js](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fs813mfeogbp6pmnrk9ed.jpg)](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fs813mfeogbp6pmnrk9ed.jpg)
+
+### 特性：
+
+*   语法简洁到爆，几分钟就能上手，瞬间起飞！
+*   轻松支持 CSS、SVG、DOM 和 JavaScript 动画。
+*   非常适合为你的用户界面 (UI) 添加微妙而优雅的动画。
+
+👌🏻 **最佳应用场景**: 轻量级和优雅的动画。
+
+[查看Anime.js 🔥](https://animejs.com/)
+
+## 4) Framer Motion 🔳
+
+Framer Motion 专为 React 开发者而构建，是一个可用于生产环境的动画库，可以轻松创建流畅、声明式的动画。
+
+[![Framer Motion](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0qnbx5qxqsluvzqdwkd4.jpg)](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0qnbx5qxqsluvzqdwkd4.jpg)
+
+### 特性：
+
+*   与 React 无缝集成，实现流畅的工作流程。
+*   声明式 API，让动画效果像魔法一样神奇！
+*   非常适合交互式和基于手势的动画。
+
+👌🏻 **最佳应用场景**: 基于 React 的项目。
+
+[查看 Framer Motion 🔥](https://motion.dev/)
+
+##5) ScrollMagic 🎩
+
+ScrollMagic 是一款专注于滚动触发动画效果的强大利器。它可以让你创建惊艳的效果，这些效果会在用户滚动页面时触发。
+
+[![ScrollMagic](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fvcmzr1gksslnp9r9hfrp.jpg)](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fvcmzr1gksslnp9r9hfrp.jpg)
+
+### 特性：
+
+*   讲故事和打造惊艳视差效果的绝佳利器！
+*   与GSAP 配合使用，实现高级动画。
+*   易于集成到现有项目中。
+
+👌🏻 **最佳应用场景**: 滚动触发的动画。
+
+[查看 ScrollMagic 🔥](https://motion.dev/)
+
+## 6) Mo.js 🔺
+
+Mo.js 是一个运动图形库，专门用于创建美观、可定制的动画。它非常适合为你的网站添加有趣、动态的元素。
+
+[![Mo.js](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgu1o9ir0vxqy5jyhd403.jpg)](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgu1o9ir0vxqy5jyhd403.jpg)
+
+### 特性：
+
+*   高度定制化和模块化，让你拥有无限创意空间！
+*   非常适合 UI 动画和令人愉悦的微交互。*   独特的、有趣的动画风格，脱颖而出。
+
+👌🏻 **最佳应用场景**: 创意和有趣的动画。
+
+[查看 Mo.js 🔥](https://mojs.github.io/)
+
+## 7) Theatre.js 🎭
+
+Theatre.js 是一个现代动画库，旨在通过可视化编辑器创建富有表现力的高性能动画。它非常适合希望无缝协作的开发人员和设计师。
+
+[![Theatre.js](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5cdv2bqsaj3kx5rm2rn9.jpg)](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5cdv2bqsaj3kx5rm2rn9.jpg)
+
+### 特性：
+
+*   可视化编辑器，让动画创作变得直观又有趣！
+*   非常适合创建富有表现力的高性能动画。
+*   非常适合设计师和开发人员之间的协作工作流程。
+
+👌🏻 **最佳应用场景**: 高性能和视觉驱动的动画。
+
+[查看 Theatre.js 🔥](https://www.theatrejs.com/)
+
+## 8) Popmotion 🕺
+
+Popmotion 是一个函数式、响应式动画库，非常适合创建交互式、基于物理的动画。
+
+[![Popmotion](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fupablyxqul8vijsf9pic.jpg)](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fupablyxqul8vijsf9pic.jpg)### 特性：
+
+*   函数式编程的强大力量与趣味性完美结合！
+*   非常适合交互式和手势驱动的动画。
+*   轻量级且灵活，适用于任何项目。
+
+👌🏻 **最佳应用场景**: 交互式和基于物理的动画。[查看 Popmotion 🔥](https://popmotion.io/)
+
+## 9) Lottie by Airbnb 🎬
+
+Lottie 可以轻松地将高质量的、基于矢量的动画添加到你的 Web 项目中。它非常适合集成在 After Effects 中创建的动画。
+
+[![Lottie by Airbnb](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fiwddfz7ddd46jgf00r2t.jpg)](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fiwddfz7ddd46jgf00r2t.jpg)
+
+### 特性：
+
+*轻量级且可扩展，适用于任何项目。
+*   与 After Effects 导出的 JSON 文件无缝衔接，简直天作之合！
+*   非常适合添加精致、专业的动画。
+
+👌🏻 **最佳应用场景**: 基于矢量的动画和 After Effects 集成。[查看 Lottie 🔥](https://airbnb.io/lottie/#/)
+
+## 10) Barba.js 🔄
+
+Barba.js 是一个轻量级的库，用于创建流畅、无缝的页面过渡效果。它非常适合单页应用程序 (SPA)，并可以改善用户体验。
+
+[![Barba.js](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjhu8brm1gesdxqqdttxn.jpg)](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjhu8brm1gesdxqqdttxn.jpg)### 特性：
+
+*   易于设置和使用，即使对于初学者也是如此。
+*   如黄油般丝滑的过渡效果，瞬间提升用户体验！
+*   与其他动画库完美协作。
+
+👌🏻 **最佳应用场景**: 页面过渡和 SPA。
+
+[查看Barba.js 🔥](https://barba.js.org/)
+
+## 🎉 为什么动画在 2025 年如此重要
+
+在 2025 年，动画不再仅仅是装饰，它们已成为用户体验的关键组成部分。从引导用户浏览你的应用程序到让你的网站充满活力，动画能让你的项目 C 位出道！借助这些库，你无需成为动画专家即可创造出令人惊叹的作品。
+
+---
+ 翻译到这里就结束了，但是我想补充一些动画库，这里没有提到我们常使用的:
+- React Spring：基于物理的动画库，专为 React 设计
+- VueUse/Motion：专为Vue应用设计的动画解决方案，提供简单易用的动画API
+- AutoAnimate - 一个零配置的动画工具，自动为DOM变化添加平滑动画效果
+- Three.js - 用于创建3D动画和WebGL内容的JavaScript库
+
+
+对了 animejs 发布了最新 4 版本，非常炫酷，大家快去看看吧！
+
+## 参考
+
+1. 前 100万个网站使用动画库情况： https://trends.builtwith.com/javascript/animation
+2. @vueuse/motion： https://motion.vueuse.org/
+3. AutoAnimate： https://github.com/formkit/auto-animate
+4. Three.js： https://threejs.org/
