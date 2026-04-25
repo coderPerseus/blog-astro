@@ -67,16 +67,16 @@ const translations: Record<string, Record<Lang, string>> = {
 	"home.meta_title": { zh: "首页", en: "Home" },
 	"home.eyebrow": { zh: "你好，我是", en: "Hi, I'm" },
 	"home.bio_1": {
-		zh: "我是幸运的蜗牛，一名前端开发工程师。专注于 Web 技术、AI 应用与开源工具，目前在上海。",
-		en: "I am LuckySnail, a frontend engineer based in Shanghai, focused on web technology, AI applications, and open source tools.",
+		zh: "我是幸运的蜗牛，全栈开发（偏前端）。专注于 Web 技术、服务端技术和 AI Agent，目前在上海。",
+		en: "I'm Lucky Snail, a full-stack developer (favoring front-end). Specialized in Web technologies, server-side technologies and AI Agent, currently in Shanghai.",
 	},
 	"home.bio_2": {
-		zh: "日常关注 React、TypeScript、Next.js、Astro 等前端生态，以及 Claude Code、Codex、Agent 开发等 AI 工程方向。这里是我记录技术思考、项目实践与学习心得的地方。",
-		en: "I write about React, TypeScript, Next.js, Astro, Claude Code, Codex, agent development, technical notes, project work, and what I learn along the way.",
+		zh: "技术栈：React/Vue、JavaScript/TypeScript、Next.js、Node.js、Fastify、Nest.js、PostgreSQL、React Native、Electron、Taro、Python等，目前在学习 AI Agent 开发。这里记录我的所见，所闻，所思",
+		en: "Technology stack: React/Vue, JavaScript/TypeScript, Next.js, Node.js, Fastify, Nest.js, PostgreSQL, React Native, Electron, Taro, Python, etc. Currently learning AI Agent development. Here's a record of what I've seen, heard, and thought about",
 	},
 	"home.bio_3": {
-		zh: "Frontend Developer · AI Explorer · Slow Thinker.",
-		en: "Frontend Developer · AI Explorer · Slow Thinker.",
+		zh: "座右铭：提高认知，强化执行，在竞争中做到极致",
+		en: "Motto: Enhance awareness, strengthen execution, and be the best in the competition",
 	},
 	"home.projects": { zh: "项目", en: "Projects" },
 	"home.latest_posts": { zh: "最新文章", en: "Latest Posts" },

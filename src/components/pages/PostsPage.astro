@@ -1,7 +1,6 @@
 ---
 import { type CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
-import FormattedDate from "@/components/FormattedDate.astro";
 import { getAllPosts, getUniqueTagsWithCount } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
@@ -21,6 +20,26 @@ const meta = {
 	title: t("posts.title", lang),
 };
 
+const postsByYear = allPostsByDate.reduce((groups, post) => {
+	const year = post.data.publishDate.getFullYear().toString();
+	const group = groups.get(year) ?? [];
+	group.push(post);
+	groups.set(year, group);
+	return groups;
+}, new Map<string, CollectionEntry<"post">[]>());
+
+const timelineGroups = Array.from(postsByYear, ([year, posts]) => ({ posts, year }));
+
+function formatTimelineDate(date: Date) {
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const day = String(date.getDate()).padStart(2, "0");
+	return `${month}-${day}`;
+}
+
+function yearCountLabel(count: number) {
+	return lang === "zh" ? `${count} 篇` : `${count} ${t("posts.count_suffix", lang)}`;
+}
+
 const INITIAL_BATCH = 20;
 ---
 
@@ -29,13 +48,15 @@ const INITIAL_BATCH = 20;
 		<div>
 			<h1 class="title text-3xl">{t("posts.title", lang)}</h1>
 			<p class="text-muted mt-2 text-sm">
-				{lang === "zh"
-					? `共 ${allPostsByDate.length} 篇 · ${t("posts.sort_hint", lang)}`
-					: `${allPostsByDate.length} ${t("posts.count_suffix", lang)} · ${t("posts.sort_hint", lang)}`}
+				{
+					lang === "zh"
+						? `共 ${allPostsByDate.length} 篇 · ${t("posts.sort_hint", lang)}`
+						: `${allPostsByDate.length} ${t("posts.count_suffix", lang)} · ${t("posts.sort_hint", lang)}`
+				}
 			</p>
 		</div>
 		<a
-			class="text-muted hover:text-accent inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-surface"
+			class="text-muted hover:text-accent hover:bg-surface inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors"
 			href="/rss.xml"
 			target="_blank"
 		>
@@ -44,72 +65,105 @@ const INITIAL_BATCH = 20;
 		</a>
 	</header>
 
-	<section class="mb-10" aria-label={t("posts.tags", lang)}>
-		<div class="mb-3 flex items-baseline justify-between gap-3">
-			<h2 class="eyebrow">{t("posts.tags", lang)}</h2>
-			<span class="text-muted text-xs">{t("posts.filter_hint", lang)}</span>
-		</div>
-		<ul class="flex flex-wrap gap-2" id="tag-filters" role="list">
-			<li>
-				<button class="tag-chip is-active" data-tag="" type="button">
-					{t("posts.all", lang)} <span class="text-muted">{allPostsByDate.length}</span>
-				</button>
-			</li>
-			{
-				tagsWithCount.map(([tag, count]) => (
-					<li>
-						<button class="tag-chip" data-tag={tag} type="button">
-							#{tag} <span class="text-muted">{count}</span>
-						</button>
-					</li>
-				))
-			}
-		</ul>
-	</section>
-
-	<section aria-label={t("posts.title", lang)}>
-		<ul class="divide-border divide-y" id="posts-list" role="list">
-			{
-				allPostsByDate.map((post, i) => (
-					<li
-						class="post-item grid gap-2 py-4 transition-colors sm:grid-cols-[9rem_1fr] sm:items-baseline sm:gap-4"
-						data-tags={post.data.tags.join("|")}
-						data-index={i}
-						style={i >= INITIAL_BATCH ? "display:none" : undefined}
-					>
-						<FormattedDate
-							class="text-muted text-sm font-medium tabular-nums"
-							date={post.data.publishDate}
-							lang={lang}
-						/>
-						<div class="min-w-0">
-							{post.data.draft && <span class="text-red-500">(Draft) </span>}
-							<a
-								class="hover:text-accent decoration-muted/30 hover:decoration-accent inline-flex items-baseline gap-2 underline underline-offset-4 transition-colors"
-								href={withLang(`/posts/${post.id}/`, lang)}
-							>
-								{post.data.title}
-							</a>
-							{post.data.tags.length > 0 && (
-								<div class="mt-1.5 flex flex-wrap gap-1.5">
-									{post.data.tags.map((tag) => (
-										<span class="text-muted text-xs">#{tag}</span>
-									))}
+	<div class="posts-shell grid gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-start">
+		<section aria-label={t("posts.title", lang)}>
+			<div class="space-y-8" id="posts-list" role="list">
+				{
+					timelineGroups.map((group) => (
+						<section
+							aria-label={`${group.year} ${t("posts.title", lang)}`}
+							class="timeline-year"
+							data-year={group.year}
+							role="listitem"
+						>
+							<header class="timeline-year-heading timeline-row">
+								<div class="timeline-date-col">
+									<h2 class="text-accent-2 text-3xl font-bold tracking-normal tabular-nums">
+										{group.year}
+										<span class="text-muted pt-2 text-sm">
+											{yearCountLabel(group.posts.length)}
+										</span>
+									</h2>
 								</div>
-							)}
-						</div>
-					</li>
-				))
-			}
-		</ul>
-		<div class="text-muted mt-8 hidden text-center text-sm" data-state="end" id="posts-end">
-			{t("posts.end", lang)}
-		</div>
-		<div class="text-muted mt-8 hidden text-center text-sm" data-state="empty" id="posts-empty">
-			{t("posts.empty", lang)}
-		</div>
-		<div aria-hidden="true" id="scroll-sentinel" class="h-px"></div>
-	</section>
+							</header>
+
+							<ul class="timeline-posts" role="list">
+								{group.posts.map((post) => {
+									const index = allPostsByDate.indexOf(post);
+									const isoDate = post.data.publishDate.toISOString();
+
+									return (
+										<li
+											class="post-item timeline-item timeline-row"
+											data-tags={post.data.tags.join("|")}
+											data-index={index}
+											style={index >= INITIAL_BATCH ? "display:none" : undefined}
+										>
+											<time
+												class="text-muted text-sm font-medium tabular-nums"
+												datetime={isoDate}
+												title={isoDate}
+											>
+												{formatTimelineDate(post.data.publishDate)}
+											</time>
+											<span aria-hidden="true" class="timeline-node" />
+											<div class="min-w-0">
+												<a
+													class="hover:text-accent decoration-muted/40 hover:decoration-accent inline underline decoration-transparent underline-offset-4 transition-colors"
+													href={withLang(`/posts/${post.id}/`, lang)}
+												>
+													{post.data.draft && <span class="text-red-500">(Draft) </span>}
+													{post.data.title}
+												</a>
+												{post.data.tags.length > 0 && (
+													<div class="mt-1.5 flex flex-wrap gap-1.5">
+														{post.data.tags.map((tag) => (
+															<span class="text-muted text-xs">#{tag}</span>
+														))}
+													</div>
+												)}
+											</div>
+										</li>
+									);
+								})}
+							</ul>
+						</section>
+					))
+				}
+			</div>
+			<div class="text-muted mt-8 hidden text-center text-sm" data-state="end" id="posts-end">
+				{t("posts.end", lang)}
+			</div>
+			<div class="text-muted mt-8 hidden text-center text-sm" data-state="empty" id="posts-empty">
+				{t("posts.empty", lang)}
+			</div>
+			<div aria-hidden="true" id="scroll-sentinel" class="h-px"></div>
+		</section>
+
+		<aside class="posts-tags lg:sticky lg:top-24" aria-label={t("posts.tags", lang)}>
+			<div class="mb-3 flex items-baseline justify-between gap-3">
+				<h2 class="eyebrow">{t("posts.tags", lang)}</h2>
+				<span class="text-muted text-xs">{t("posts.filter_hint", lang)}</span>
+			</div>
+			<ul class="flex flex-wrap gap-2 lg:gap-2.5" id="tag-filters" role="list">
+				<li>
+					<button class="tag-chip is-active" data-tag="" type="button">
+						{t("posts.all", lang)}
+						<span class="text-muted">{allPostsByDate.length}</span>
+					</button>
+				</li>
+				{
+					tagsWithCount.map(([tag, count]) => (
+						<li>
+							<button class="tag-chip" data-tag={tag} type="button">
+								#{tag} <span class="text-muted">{count}</span>
+							</button>
+						</li>
+					))
+				}
+			</ul>
+		</aside>
+	</div>
 </PageLayout>
 
 <style>
@@ -139,6 +193,77 @@ const INITIAL_BATCH = 20;
 	.tag-chip.is-active .text-muted {
 		color: color-mix(in oklch, var(--color-global-bg) 70%, transparent);
 	}
+	.timeline-year {
+		position: relative;
+	}
+	.timeline-row {
+		display: grid;
+		grid-template-columns: 4.75rem 1.35rem minmax(0, 1fr);
+		column-gap: 0.75rem;
+		align-items: start;
+	}
+	.timeline-date-col {
+		min-width: 0;
+		width: 100px;
+	}
+	.timeline-posts {
+		display: grid;
+		gap: 0;
+	}
+	.timeline-item {
+		padding-block: 0.65rem;
+	}
+	.timeline-year-heading {
+		position: sticky;
+		top: 4rem;
+		z-index: 10;
+		margin-bottom: 0.45rem;
+		padding-block: 0.35rem 0.55rem;
+		background: var(--color-global-bg);
+	}
+	.timeline-node {
+		position: relative;
+		display: flex;
+		min-height: 1.75rem;
+		justify-content: center;
+	}
+	.timeline-node::before {
+		content: "";
+		position: absolute;
+		top: -0.75rem;
+		bottom: -0.75rem;
+		width: 1px;
+		background: color-mix(in oklch, var(--color-border) 78%, transparent);
+	}
+	.timeline-node::after {
+		content: "";
+		position: relative;
+		z-index: 1;
+		margin-top: 0.45rem;
+		height: 0.38rem;
+		width: 0.38rem;
+		border-radius: 9999px;
+		background: var(--color-accent);
+		box-shadow: 0 0 0 3px var(--color-global-bg);
+	}
+	.timeline-item:first-child .timeline-node::before {
+		top: 0.65rem;
+	}
+	.timeline-item:last-child .timeline-node::before {
+		bottom: calc(100% - 0.65rem);
+	}
+	@media (min-width: 640px) {
+		.timeline-row {
+			grid-template-columns: 5.25rem 1.5rem minmax(0, 1fr);
+		}
+	}
+	@media (min-width: 1024px) {
+		.posts-tags {
+			max-height: calc(100vh - 7rem);
+			overflow: auto;
+			padding-right: 0.15rem;
+		}
+	}
 </style>
 
 <script>
@@ -147,13 +272,14 @@ const INITIAL_BATCH = 20;
 	let currentTag = "";
 	let visibleCount = INITIAL;
 
-	const list = document.getElementById("posts-list") as HTMLUListElement | null;
+	const list = document.getElementById("posts-list");
 	const endEl = document.getElementById("posts-end");
 	const emptyEl = document.getElementById("posts-empty");
 	const sentinel = document.getElementById("scroll-sentinel");
 	const filtersEl = document.getElementById("tag-filters");
 	if (list && filtersEl && sentinel) {
 		const items = Array.from(list.querySelectorAll<HTMLLIElement>(".post-item"));
+		const groups = Array.from(list.querySelectorAll<HTMLElement>(".timeline-year"));
 
 		function applyFilter() {
 			const matched = items.filter((el) => {
@@ -163,6 +289,12 @@ const INITIAL_BATCH = 20;
 			});
 			items.forEach((el) => (el.style.display = "none"));
 			matched.slice(0, visibleCount).forEach((el) => (el.style.display = ""));
+			groups.forEach((group) => {
+				const hasVisiblePost = Array.from(group.querySelectorAll<HTMLLIElement>(".post-item")).some(
+					(el) => el.style.display !== "none",
+				);
+				group.classList.toggle("hidden", !hasVisiblePost);
+			});
 
 			endEl?.classList.toggle("hidden", matched.length === 0 || visibleCount < matched.length);
 			emptyEl?.classList.toggle("hidden", matched.length > 0);

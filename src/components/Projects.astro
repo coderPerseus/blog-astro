@@ -2,7 +2,10 @@
 type Project = {
 	url: string;
 	icon: string;
-	name: string;
+	name: {
+		zh: string;
+		en: string;
+	};
 	description: {
 		zh: string;
 		en: string;
@@ -22,7 +25,10 @@ const projects: Project[] = [
 	{
 		url: "https://cocotranslate.com/",
 		icon: "/projects/cocotranslate.png",
-		name: "椰子翻译",
+		name: {
+			zh: "椰子翻译",
+			en: "coco translate",
+		},
 		description: {
 			zh: "免费的 AI 沉浸式翻译浏览器插件，支持 PDF 文档翻译、网页双语、划词翻译与视频字幕，多快好省的跨语言阅读体验。",
 			en: "A free AI immersive translation browser extension for PDFs, bilingual web pages, selected text, and video subtitles.",
@@ -32,7 +38,10 @@ const projects: Project[] = [
 	{
 		url: "https://easykol.com/",
 		icon: "/projects/easykol.png",
-		name: "Easykol",
+		name: {
+			zh: "Easykol",
+			en: "Easykol",
+		},
 		description: {
 			zh: "最好用的海外营销工具，帮你快速找到红人并内置邮件模板和批量建联，覆盖 TikTok、Instagram、YouTube、小红书、抖音等主流平台。",
 			en: "An overseas marketing tool for discovering creators and managing outreach across TikTok, Instagram, YouTube, Xiaohongshu, and Douyin.",
@@ -42,7 +51,10 @@ const projects: Project[] = [
 	{
 		url: "https://neovateai.dev/",
 		icon: "/projects/neovateCode.png",
-		name: "Neovate Code",
+		name: {
+			zh: "Neovate Code",
+			en: "Neovate Code",
+		},
 		description: {
 			zh: "Neovate Code 是一款代码 Agent，用来生成代码、修复 bug、代码审查、补充测试。支持交互式与无头模式。",
 			en: "A coding agent for generating code, fixing bugs, reviewing changes, and adding tests in interactive or headless mode.",
@@ -67,7 +79,10 @@ const projects: Project[] = [
 	{
 		url: "https://www.npmjs.com/package/bytemd-plugin-image-lazy",
 		icon: "/projects/npmIcon.webp",
-		name: "bytemd 图片懒加载插件",
+		name: {
+			zh: "bytemd 图片懒加载插件",
+			en: "bytemd image lazyload",
+		},
 		description: {
 			zh: "支持原生懒加载和 IntersectionObserver 懒加载。",
 			en: "A ByteMD plugin that supports native lazy loading and IntersectionObserver based lazy loading.",
@@ -84,7 +99,10 @@ const projects: Project[] = [
 	{
 		url: "https://www.laoyujianli.com",
 		icon: "/projects/resume.png",
-		name: "老鱼简历",
+		name: {
+			zh: "老鱼简历",
+			en: "laoyu resume",
+		},
 		description: {
 			zh: "很好用的写简历平台，能下载 PDF/PNG 简历或分享在线链接，支持多格式导入并接入 AI 帮你快速写简历。",
 			en: "A resume builder with PDF/PNG export, online sharing, multi-format import, and AI-assisted writing.",
@@ -94,7 +112,10 @@ const projects: Project[] = [
 	{
 		url: "https://www.codecopy.cn",
 		icon: "/projects/codecopy.png",
-		name: "代码小抄",
+		name: {
+			zh: "代码小抄",
+			en: "codecopy",
+		},
 		description: {
 			zh: "一个方便的代码片段记录工具。",
 			en: "A lightweight tool for saving and organizing code snippets.",
@@ -117,7 +138,7 @@ function hostOf(url: string) {
 		projects.map((p) => (
 			<li>
 				<a
-					class="group flex h-full flex-col gap-3 rounded-lg border border-border bg-surface/40 p-5 transition-all hover:border-accent/50 hover:bg-surface"
+					class="group border-border bg-surface/40 hover:border-accent/50 hover:bg-surface flex h-full flex-col gap-3 rounded-lg border p-5 transition-all"
 					href={p.url}
 					rel="noreferrer"
 					target="_blank"
@@ -133,25 +154,19 @@ function hostOf(url: string) {
 						/>
 						<svg
 							aria-hidden="true"
-							class="h-4 w-4 text-muted transition-colors group-hover:text-accent"
+							class="text-muted group-hover:text-accent h-4 w-4 transition-colors"
 							fill="none"
 							stroke="currentColor"
 							stroke-width="1.5"
 							viewBox="0 0 24 24"
 						>
-							<path
-								d="M7 17L17 7M17 7H8M17 7V16"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
+							<path d="M7 17L17 7M17 7H8M17 7V16" stroke-linecap="round" stroke-linejoin="round" />
 						</svg>
 					</div>
-					<h3 class="text-base font-semibold text-accent-2 group-hover:text-accent">
-						{p.name}
+					<h3 class="text-accent-2 group-hover:text-accent text-base font-semibold">
+						{p.name[lang]}
 					</h3>
-					<p class="line-clamp-3 flex-1 text-sm leading-6 text-muted">
-						{p.description[lang]}
-					</p>
+					<p class="text-muted line-clamp-3 flex-1 text-sm leading-6">{p.description[lang]}</p>
 					<div class="flex items-center justify-between gap-2 pt-1">
 						<div class="flex flex-wrap gap-1.5">
 							{p.tags.map((tag) => (
@@ -164,7 +179,7 @@ function hostOf(url: string) {
 								</span>
 							))}
 						</div>
-						<span class="text-xs text-muted">{hostOf(p.url)}</span>
+						<span class="text-muted text-xs">{hostOf(p.url)}</span>
 					</div>
 				</a>
 			</li>

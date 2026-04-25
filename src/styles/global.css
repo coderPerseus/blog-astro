@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "@fontsource-variable/dm-sans";
+@import "font-smiley-sans/style.css";
 @source not "../pages/og-image";
 @config "../../tailwind.config.ts";
 
@@ -52,6 +54,9 @@
 }
 
 @theme {
+	--font-sans: var(--font-en);
+	--font-en: "DM Sans Variable", "DM Sans", sans-serif;
+	--font-zh: "smiley-sans", sans-serif;
 	--color-global-bg: #ffffff;
 	--color-global-text: #18181b;
 	--color-muted: #71717a;
@@ -68,6 +73,17 @@
 		color-scheme: light dark;
 		accent-color: var(--color-accent);
 		scrollbar-gutter: stable;
+		font-family: var(--font-sans);
+		font-size: 17px;
+
+		&:lang(zh),
+		&:lang(zh-CN) {
+			--font-sans: var(--font-zh);
+		}
+
+		&:lang(en) {
+			--font-sans: var(--font-en);
+		}
 
 		&[data-theme="light"] {
 			color-scheme: light;
@@ -75,15 +91,15 @@
 
 		&[data-theme="dark"] {
 			color-scheme: dark;
-			--color-global-bg: #0a0a0a;
-			--color-global-text: #fafafa;
-			--color-muted: #a1a1aa;
-			--color-border: #27272a;
-			--color-surface: #131316;
-			--color-link: #a78bfa;
-			--color-accent: #a78bfa;
-			--color-accent-2: #ffffff;
-			--color-quote: #d4d4d8;
+			--color-global-bg: #202020;
+			--color-global-text: #f4f4f1;
+			--color-muted: #b8b8b2;
+			--color-border: #3a3a38;
+			--color-surface: #2f2f2d;
+			--color-link: #b9a2ff;
+			--color-accent: #b9a2ff;
+			--color-accent-2: #fbfaf7;
+			--color-quote: #d8d7d1;
 		}
 
 		--color-mode-transition-duration: 200ms;
