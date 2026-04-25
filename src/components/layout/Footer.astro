@@ -1,16 +1,31 @@
 ---
-import { menuLinks, siteConfig } from "@/site.config";
+import { siteConfig } from "@/site.config";
+import { getMenuLinks, type Lang, t } from "@/utils/i18n";
 
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
 const year = new Date().getFullYear();
+const menuLinks = getMenuLinks(lang);
+const siteTitle = t("site.title", lang);
 ---
 
-<footer
-	class="mt-auto border-t border-border bg-global-bg"
->
+<footer class="border-border bg-global-bg mt-auto border-t">
 	<div
-		class="text-muted mx-auto flex w-full max-w-5xl flex-col items-center justify-between gap-4 px-5 py-8 text-xs sm:flex-row sm:px-8"
+		class="text-muted mx-auto flex w-full max-w-5xl flex-col items-center justify-around gap-3 px-5 py-8 text-xs sm:flex-row sm:flex-wrap sm:gap-x-5 sm:px-8"
 	>
-		<span>&copy; {year} {siteConfig.author} · {siteConfig.title}</span>
+		<span>&copy; {year} {siteConfig.author} · {siteTitle}</span>
+		<a
+			class="hover:text-accent inline-flex items-center gap-1.5 transition-colors"
+			href="https://beian.miit.gov.cn/"
+			rel="noreferrer"
+			target="_blank"
+		>
+			<img alt={lang === "zh" ? "备案" : "ICP filing"} class="h-4 w-4" height="16" src="/police.png" width="16" />
+			浙ICP备2021039023号-3
+		</a>
 		<nav aria-labelledby="footer_links" class="flex items-center gap-1">
 			<p id="footer_links" class="sr-only">More on this site</p>
 			{

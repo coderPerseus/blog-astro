@@ -3,22 +3,26 @@ import { type CollectionEntry, render } from "astro:content";
 
 import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
+import { type Lang, t } from "@/utils/i18n";
 
 import BaseLayout from "./Base.astro";
 
 interface Props {
+	lang?: Lang;
 	post: CollectionEntry<"post">;
 }
 
-const { post } = Astro.props;
+const { lang = "zh", post } = Astro.props;
 const { ogImage, title, description, updatedDate, publishDate, aiSummary, aiSummaryEn } = post.data;
 const socialImage = ogImage ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;
+const summaryText = lang === "en" ? aiSummaryEn || aiSummary : aiSummary || aiSummaryEn;
 ---
 
 <BaseLayout
+	lang={lang}
 	meta={{
 		articleDate,
 		description: description ?? undefined,
@@ -27,9 +31,11 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 	}}
 >
 	<article class="grow break-words" data-pagefind-body>
-		<div id="blog-hero" class="mb-14"><Masthead content={post} readingTime={readingTime} /></div>
+		<div id="blog-hero" class="mb-14">
+			<Masthead content={post} lang={lang} readingTime={readingTime} />
+		</div>
 		{
-			(aiSummary || aiSummaryEn) && (
+			summaryText && (
 				<ai-summary data-ai-summary>
 					<div class="paper-panel mb-10 p-5 sm:p-6">
 						<div class="mb-3 flex items-center gap-2">
@@ -48,20 +54,15 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 									stroke-linejoin="round"
 								/>
 							</svg>
-							<span class="eyebrow text-accent">AI 摘要</span>
+							<span class="eyebrow text-accent">{t("posts.ai_summary", lang)}</span>
 						</div>
-						<p class="text-global-text/80 ai-summary-zh text-sm leading-relaxed">{aiSummary}</p>
-						{aiSummaryEn && (
-							<p class="text-global-text/60 ai-summary-en mt-2 text-sm leading-relaxed">
-								{aiSummaryEn}
-							</p>
-						)}
+						<p class="text-global-text/80 text-sm leading-relaxed">{summaryText}</p>
 					</div>
 				</ai-summary>
 			)
 		}
 		<div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start">
-			{!!headings.length && <TOC headings={headings} />}
+			{!!headings.length && <TOC headings={headings} lang={lang} />}
 			<div
 				class="prose prose-sm prose-img:rounded-[3px] prose-img:border prose-img:border-muted/10 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-5 prose-headings:before:text-accent/70 prose-headings:hover:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none lg:max-w-[43rem]"
 			>
@@ -74,7 +75,7 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 		data-show="false"
 		id="to-top-btn"
 	>
-		<span class="sr-only">Back to top</span>
+		<span class="sr-only">{t("back.top", lang)}</span>
 		<svg
 			aria-hidden="true"
 			class="h-6 w-6"

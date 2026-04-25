@@ -1,12 +1,22 @@
+---
+import { type Lang, t } from "@/utils/i18n";
+
+interface Props {
+	lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
+---
+
 <theme-toggle class="ms-2 sm:ms-4">
 	<button
-		class="border-muted/15 hover:border-accent hover:text-accent bg-global-bg/40 relative h-9 w-9 cursor-pointer rounded-full border p-2 transition-colors"
+		class="text-muted hover:text-accent hover:bg-surface relative h-9 w-9 cursor-pointer rounded-md p-2 transition-colors"
 		type="button"
 	>
-		<span class="sr-only">Dark Theme</span>
+		<span class="sr-only">{t("theme.dark", lang)}</span>
 		<svg
 			aria-hidden="true"
-			class="absolute start-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all dark:scale-0 dark:opacity-0"
+			class="absolute start-1/2 top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all dark:scale-0 dark:opacity-0"
 			fill="none"
 			focusable="false"
 			id="sun-svg"

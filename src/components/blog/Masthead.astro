@@ -2,16 +2,20 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
+import { type Lang, localizeReadingTime, t } from "@/utils/i18n";
 
 interface Props {
 	content: CollectionEntry<"post">;
+	lang: Lang;
 	readingTime: string;
 }
 
 const {
 	content: { data },
+	lang,
 	readingTime,
 } = Astro.props;
+const readingTimeText = localizeReadingTime(readingTime, lang);
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
 	month: "long",
@@ -35,7 +39,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 }
 {data.draft ? <span class="text-base text-red-500">(Draft)</span> : null}
 {
-	data.aiSummary && (
+	(data.aiSummary || data.aiSummaryEn) && (
 		<span class="border-accent/20 bg-accent/5 text-accent mb-5 inline-flex items-center gap-2 border px-3 py-1 text-xs font-semibold">
 			<svg
 				aria-hidden="true"
@@ -52,58 +56,42 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 					stroke-linejoin="round"
 				/>
 			</svg>
-			AI 摘要
+			{t("posts.ai_summary", lang)}
 		</span>
 	)
 }
 <div class="space-y-3">
-	<p class="eyebrow">Article</p>
+	<p class="eyebrow">{t("masthead.article", lang)}</p>
 	<h1 class="title max-w-3xl text-3xl leading-tight sm:text-4xl">
 		{data.title}
 	</h1>
 </div>
 <div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
 	<p class="text-accent-2 font-semibold">
-		<FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} /> /{" "}
-		{readingTime}
+		<FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} lang={lang} /> /{" "}
+		{readingTimeText}
 	</p>
 	{
 		data.updatedDate && (
 			<span class="border-muted/15 bg-global-bg/70 text-muted border px-2.5 py-1">
-				Updated:
-				<FormattedDate class="ms-1" date={data.updatedDate} dateTimeOptions={dateTimeOptions} />
+				{t("masthead.updated", lang)}
+				<FormattedDate
+					class="ms-1"
+					date={data.updatedDate}
+					dateTimeOptions={dateTimeOptions}
+					lang={lang}
+				/>
 			</span>
 		)
 	}
 </div>
 {
 	!!data.tags?.length && (
-		<div class="mt-5 flex flex-wrap items-center gap-2">
-			<svg
-				aria-hidden="true"
-				class="h-5 w-5"
-				fill="none"
-				focusable="false"
-				stroke="var(--color-muted)"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				stroke-width="1.5"
-				viewBox="0 0 24 24"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<path d="M0 0h24v24H0z" fill="none" stroke="none" />
-				<path d="M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z" />
-				<path d="M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116" />
-				<path d="M6 9h-.01" />
-			</svg>
-			{data.tags.map((tag, i) => (
-				<>
-					{/* prettier-ignore */}
-					<span class="contents">
-						<a class="border-muted/15 hover:border-accent/50 hover:text-link inline-block border px-2 py-1 text-xs font-semibold transition-colors before:content-['#']" data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}><span class="sr-only">View more blogs with the tag&nbsp;</span>{tag}
-						</a>{i < data.tags.length - 1 && ""}
-					</span>
-				</>
+		<div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs">
+			{data.tags.map((tag) => (
+				<span class="text-muted" data-pagefind-filter={`tag:${tag}`}>
+					#{tag}
+				</span>
 			))}
 		</div>
 	)

@@ -1,21 +1,25 @@
 ---
 import type { MarkdownHeading } from "astro";
 import { generateToc } from "@/utils/generateToc";
+import { type Lang, t } from "@/utils/i18n";
 import TOCHeading from "./TOCHeading.astro";
 
 interface Props {
 	headings: MarkdownHeading[];
+	lang?: Lang;
 }
 
-const { headings } = Astro.props;
+const { headings, lang = "zh" } = Astro.props;
 
 const toc = generateToc(headings);
 ---
 
 <details open class="paper-panel p-5 lg:sticky lg:top-8 lg:order-2">
 	<summary class="hover:marker:text-accent text-accent-2 cursor-pointer text-base font-semibold">
-		目录
-		<span class="text-muted ms-2 text-xs font-normal">Table of Contents</span>
+		{t("toc.title", lang)}
+		<span class="text-muted ms-2 text-xs font-normal">
+			{lang === "zh" ? "Table of Contents" : "目录"}
+		</span>
 	</summary>
 	<nav class="ms-1 lg:w-full">
 		<ol class="mt-4">

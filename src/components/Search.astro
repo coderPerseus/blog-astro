@@ -2,18 +2,25 @@
 // Heavy inspiration taken from Astro Starlight -> https://github.com/withastro/starlight/blob/main/packages/starlight/components/Search.astro
 
 import "@/styles/blocks/search.css";
+import { type Lang, t } from "@/utils/i18n";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
 ---
 
 <site-search class="ms-auto" id="search">
 	<button
-		class="border-muted/15 hover:border-accent hover:text-accent bg-global-bg/40 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border transition-colors"
+		class="text-muted hover:text-accent hover:bg-surface flex h-9 w-9 cursor-pointer items-center justify-center rounded-md transition-colors"
 		aria-keyshortcuts="Control+K Meta+K"
 		data-open-modal
 		disabled
 	>
 		<svg
 			aria-hidden="true"
-			class="h-7 w-7"
+			class="h-5 w-5"
 			fill="none"
 			height="16"
 			stroke="currentColor"
@@ -27,7 +34,7 @@ import "@/styles/blocks/search.css";
 			<path d="M0 0h24v24H0z" stroke="none"></path>
 			<path d="M3 10a7 7 0 1 0 14 0 7 7 0 1 0-14 0M21 21l-6-6"></path>
 		</svg>
-		<span class="sr-only">Open Search</span>
+		<span class="sr-only">{t("search.open", lang)}</span>
 	</button>
 	<dialog
 		aria-label="search"
@@ -36,14 +43,14 @@ import "@/styles/blocks/search.css";
 		<div class="dialog-frame flex grow flex-col gap-4 p-6 pt-12 sm:pt-6">
 			<button
 				class="border-muted/20 hover:border-accent ms-auto cursor-pointer border px-3 py-2 font-semibold transition-colors"
-				data-close-modal>Close</button
+				data-close-modal>{t("search.close", lang)}</button
 			>
 			{
 				import.meta.env.DEV ? (
 					<div class="mx-auto text-center">
 						<p>
-							Search is only available in production builds. <br />
-							Try building and previewing the site to test it out locally.
+							{t("search.dev_warning_line_1", lang)} <br />
+							{t("search.dev_warning_line_2", lang)}
 						</p>
 					</div>
 				) : (

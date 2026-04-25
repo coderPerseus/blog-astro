@@ -5,7 +5,8 @@
 
 export type Lang = "zh" | "en";
 
-const LANG_KEY = "blog-lang";
+export const languages = ["zh", "en"] as const satisfies Lang[];
+export const defaultLang: Lang = "zh";
 
 const translations: Record<string, Record<Lang, string>> = {
 	"site.title": {
@@ -23,8 +24,18 @@ const translations: Record<string, Record<Lang, string>> = {
 	"nav.tags": { zh: "标签", en: "Tags" },
 	"footer.copyright": { zh: "保留所有权利", en: "All rights reserved" },
 	"posts.title": { zh: "博客", en: "Posts" },
+	"posts.description": {
+		zh: "我的全部博客文章，按时间倒序排列。可按标签筛选。",
+		en: "All blog posts in reverse chronological order. Filter by tag.",
+	},
 	"posts.pinned": { zh: "置顶文章", en: "Pinned Posts" },
 	"posts.no_posts": { zh: "暂无文章", en: "No posts yet" },
+	"posts.count_suffix": { zh: "篇", en: "posts" },
+	"posts.sort_hint": { zh: "按时间倒序", en: "Newest first" },
+	"posts.filter_hint": { zh: "点击筛选", en: "Filter by tag" },
+	"posts.all": { zh: "全部", en: "All" },
+	"posts.end": { zh: "已经到底了 ✦", en: "You are all caught up ✦" },
+	"posts.empty": { zh: "没有匹配的文章", en: "No matching posts" },
 	"posts.previous": { zh: "← 上一页", en: "← Previous Page" },
 	"posts.next": { zh: "下一页 →", en: "Next Page →" },
 	"posts.view_all_tags": { zh: "查看全部", en: "View all" },
@@ -40,13 +51,43 @@ const translations: Record<string, Record<Lang, string>> = {
 		zh: "搜索仅在构建后的版本可用。请尝试构建并预览站点来测试。",
 		en: "Search is only available in production builds. Try building and previewing the site to test.",
 	},
+	"search.dev_warning_line_1": {
+		zh: "搜索仅在构建后的版本可用。",
+		en: "Search is only available in production builds.",
+	},
+	"search.dev_warning_line_2": {
+		zh: "请构建并预览站点来测试搜索。",
+		en: "Build and preview the site to test search locally.",
+	},
 	"theme.light": { zh: "浅色模式", en: "Light Mode" },
 	"theme.dark": { zh: "深色模式", en: "Dark Mode" },
 	"theme.system": { zh: "跟随系统", en: "System" },
 	"lang.switch": { zh: "Switch to English", en: "切换到中文" },
 	"lang.label": { zh: "EN", en: "中文" },
+	"home.meta_title": { zh: "首页", en: "Home" },
+	"home.eyebrow": { zh: "你好，我是", en: "Hi, I'm" },
+	"home.bio_1": {
+		zh: "我是幸运的蜗牛，一名前端开发工程师。专注于 Web 技术、AI 应用与开源工具，目前在上海。",
+		en: "I am LuckySnail, a frontend engineer based in Shanghai, focused on web technology, AI applications, and open source tools.",
+	},
+	"home.bio_2": {
+		zh: "日常关注 React、TypeScript、Next.js、Astro 等前端生态，以及 Claude Code、Codex、Agent 开发等 AI 工程方向。这里是我记录技术思考、项目实践与学习心得的地方。",
+		en: "I write about React, TypeScript, Next.js, Astro, Claude Code, Codex, agent development, technical notes, project work, and what I learn along the way.",
+	},
+	"home.bio_3": {
+		zh: "Frontend Developer · AI Explorer · Slow Thinker.",
+		en: "Frontend Developer · AI Explorer · Slow Thinker.",
+	},
+	"home.projects": { zh: "项目", en: "Projects" },
+	"home.latest_posts": { zh: "最新文章", en: "Latest Posts" },
+	"home.all_posts": { zh: "All posts →", en: "All posts →" },
+	"social.find_me": { zh: "找到我", en: "Find me" },
 	"404.title": { zh: "404 | 页面未找到", en: "404 | Page Not Found" },
-	"404.message": { zh: "请使用导航找到你要的内容", en: "Please use the navigation to find your way back" },
+	"404.message": {
+		zh: "请使用导航找到你要的内容",
+		en: "Please use the navigation to find your way back",
+	},
+	"404.heading": { zh: "页面未找到", en: "Page not found" },
 	"about.title": { zh: "关于", en: "About" },
 	"about.description": {
 		zh: "前端开发者 | AI 探索者 | 终身学习者",
@@ -55,28 +96,65 @@ const translations: Record<string, Record<Lang, string>> = {
 	"skip.content": { zh: "跳转到内容", en: "Skip to content" },
 	"back.top": { zh: "回到顶部", en: "Back to top" },
 	"toc.title": { zh: "目录", en: "Table of Contents" },
+	"masthead.article": { zh: "文章", en: "Article" },
+	"masthead.updated": { zh: "更新于：", en: "Updated:" },
+	"projects.company": { zh: "公司", en: "Work" },
+	"projects.open_source": { zh: "开源", en: "Open Source" },
+	"projects.personal": { zh: "个人", en: "Personal" },
 };
 
 export function t(key: string, lang: Lang): string {
 	return translations[key]?.[lang] ?? translations[key]?.zh ?? key;
 }
 
+export function isLang(value: string | undefined): value is Lang {
+	return value === "zh" || value === "en";
+}
+
 export function getLangFromRequest(url: URL): Lang {
 	const pathLang = url.pathname.split("/")[1];
-	if (pathLang === "en") return "en";
-	return "zh";
+	return isLang(pathLang) ? pathLang : defaultLang;
 }
 
-export function setLang(lang: Lang): void {
-	if (typeof localStorage !== "undefined") {
-		localStorage.setItem(LANG_KEY, lang);
-	}
+export function getLocale(lang: Lang): string {
+	return lang === "zh" ? "zh-CN" : "en";
 }
 
-export function getStoredLang(): Lang {
-	if (typeof localStorage !== "undefined") {
-		const stored = localStorage.getItem(LANG_KEY);
-		if (stored === "en" || stored === "zh") return stored;
-	}
-	return "zh";
+export function getOgLocale(lang: Lang): string {
+	return lang === "zh" ? "zh_CN" : "en_US";
+}
+
+export function stripLangFromPath(pathname: string): string {
+	const segments = pathname.split("/");
+	const maybeLang = segments[1];
+	if (!isLang(maybeLang)) return pathname || "/";
+
+	const stripped = `/${segments.slice(2).join("/")}`;
+	return stripped === "/" ? "/" : stripped.replace(/\/{2,}/g, "/");
+}
+
+export function withLang(pathname: string, lang: Lang): string {
+	if (/^(https?:)?\/\//.test(pathname) || pathname.startsWith("mailto:")) return pathname;
+
+	const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
+	const stripped = stripLangFromPath(normalized);
+	if (stripped === "/") return `/${lang}/`;
+	return `/${lang}${stripped}`;
+}
+
+export function switchLangPath(pathname: string, lang: Lang): string {
+	return withLang(stripLangFromPath(pathname), lang);
+}
+
+export function getMenuLinks(lang: Lang): { path: string; title: string }[] {
+	return [
+		{ path: withLang("/", lang), title: t("nav.home", lang) },
+		{ path: withLang("/posts/", lang), title: t("nav.posts", lang) },
+		{ path: "/rss.xml", title: t("nav.rss", lang) },
+	];
+}
+
+export function localizeReadingTime(readingTime: string, lang: Lang): string {
+	if (lang === "en") return readingTime;
+	return readingTime.replace(/\bmins?\s+read\b/i, "分钟阅读");
 }

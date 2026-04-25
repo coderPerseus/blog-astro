@@ -2,21 +2,23 @@
 import type { CollectionEntry } from "astro:content";
 import type { HTMLTag, Polymorphic } from "astro/types";
 import FormattedDate from "@/components/FormattedDate.astro";
+import { type Lang, withLang } from "@/utils/i18n";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
+	lang?: Lang;
 	post: CollectionEntry<"post">;
 	withDesc?: boolean;
 };
 
-const { as: Tag = "div", post, withDesc = false } = Astro.props;
+const { as: Tag = "div", lang = "zh", post, withDesc = false } = Astro.props;
 ---
 
-<FormattedDate class="text-muted font-semibold tabular-nums" date={post.data.publishDate} />
+<FormattedDate class="text-muted font-semibold tabular-nums" date={post.data.publishDate} lang={lang} />
 <Tag class="min-w-0">
 	{post.data.draft && <span class="text-red-500">(Draft) </span>}
 	<a
 		class="decoration-muted/35 hover:text-link hover:decoration-link group-hover:text-link inline-flex items-baseline gap-2 underline underline-offset-4 transition-colors"
-		href={`/posts/${post.id}/`}
+		href={withLang(`/posts/${post.id}/`, lang)}
 	>
 		{post.data.title}
 		<span

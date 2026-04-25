@@ -4,31 +4,40 @@ import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
 import SkipLink from "@/components/SkipLink.astro";
 import ThemeProvider from "@/components/ThemeProvider.astro";
-import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
+import { getLangFromRequest, getLocale, type Lang, t } from "@/utils/i18n";
 
 interface Props {
 	meta: SiteMeta;
+	lang?: Lang;
 }
 
 const {
-	meta: { articleDate, description = siteConfig.description, ogImage, title },
+	lang = getLangFromRequest(Astro.url),
+	meta: { articleDate, description = t("site.description", lang), ogImage, title },
 } = Astro.props;
+const htmlLang = getLocale(lang);
 ---
 
-<html class="scroll-smooth" lang={siteConfig.lang}>
+<html class="scroll-smooth" lang={htmlLang}>
 	<head>
-		<BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
+		<BaseHead
+			articleDate={articleDate}
+			description={description}
+			lang={lang}
+			ogImage={ogImage}
+			title={title}
+		/>
 		<ThemeProvider />
 	</head>
 	<body
 		class="bg-global-bg text-global-text flex min-h-screen flex-col font-sans text-sm font-normal antialiased"
 	>
-		<SkipLink />
-		<Header />
+		<SkipLink lang={lang} />
+		<Header lang={lang} />
 		<main class="mx-auto w-full max-w-5xl px-5 pt-12 pb-20 sm:px-8 sm:pt-16" id="main">
 			<slot />
 		</main>
-		<Footer />
+		<Footer lang={lang} />
 	</body>
 </html>

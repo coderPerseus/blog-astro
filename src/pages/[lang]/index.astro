@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import HomePage from "@/components/pages/HomePage.astro";
+import { languages } from "@/utils/i18n";
+
+export const getStaticPaths = (() =>
+	languages.map((lang) => ({
+		params: { lang },
+		props: { lang },
+	}))) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { lang } = Astro.props as Props;
+---
+
+<HomePage lang={lang} />

@@ -1,5 +1,12 @@
 ---
 import { Icon } from "astro-icon/components";
+import { type Lang, t } from "@/utils/i18n";
+
+interface Props {
+	lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
 
 /** 
 	Uses https://www.astroicon.dev/getting-started/
@@ -26,13 +33,13 @@ const socialLinks: {
 ---
 
 <div class="flex flex-wrap items-center gap-x-3">
-	<p class="eyebrow">Find me</p>
+	<p class="eyebrow">{t("social.find_me", lang)}</p>
 	<ul class="flex flex-1 items-center gap-x-2 sm:flex-initial">
 		{
 			socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
 				<li class="flex">
 					<a
-						class="border-muted/15 hover:border-accent hover:text-link inline-grid size-9 place-items-center border transition-colors"
+						class="text-muted hover:text-accent inline-grid size-9 place-items-center rounded-md transition-colors hover:bg-surface"
 						href={link}
 						rel={`noreferrer ${isWebmention ? "me authn" : ""}`}
 						target="_blank"

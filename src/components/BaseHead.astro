@@ -1,16 +1,21 @@
 ---
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
+import { getMenuLinks, getOgLocale, type Lang, stripLangFromPath, t, withLang } from "@/utils/i18n";
 import "@/styles/global.css";
 
-type Props = SiteMeta;
+type Props = SiteMeta & {
+	lang: Lang;
+};
 
-const { articleDate, description, ogImage, title } = Astro.props;
+const { articleDate, description, lang, ogImage, title } = Astro.props;
 
 const titleSeparator = "•";
-const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
+const localizedSiteTitle = t("site.title", lang);
+const siteTitle = `${title} ${titleSeparator} ${localizedSiteTitle}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url).href;
+const alternatePath = stripLangFromPath(Astro.url.pathname);
 ---
 
 <meta charset="utf-8" />
@@ -33,6 +38,9 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 
 {/* Canonical URL */}
 <link href={canonicalURL} rel="canonical" />
+<link href={new URL(withLang(alternatePath, "zh"), Astro.site)} hreflang="zh-CN" rel="alternate" />
+<link href={new URL(withLang(alternatePath, "en"), Astro.site)} hreflang="en" rel="alternate" />
+<link href={new URL(withLang(alternatePath, "zh"), Astro.site)} hreflang="x-default" rel="alternate" />
 
 {/* Primary Meta Tags */}
 <meta content={siteTitle} name="title" />
@@ -44,8 +52,8 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 <meta content={title} property="og:title" />
 <meta content={description} property="og:description" />
 <meta content={canonicalURL} property="og:url" />
-<meta content={siteConfig.title} property="og:site_name" />
-<meta content={siteConfig.ogLocale} property="og:locale" />
+<meta content={localizedSiteTitle} property="og:site_name" />
+<meta content={getOgLocale(lang)} property="og:locale" />
 <meta content={socialImageURL} property="og:image" />
 <meta content="1200" property="og:image:width" />
 <meta content="630" property="og:image:height" />
@@ -69,7 +77,7 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 <link href="/sitemap-index.xml" rel="sitemap" />
 
 {/* RSS auto-discovery */}
-<link href="/rss.xml" title="Blog" rel="alternate" type="application/rss+xml" />
+<link href="/rss.xml" title={getMenuLinks(lang).at(-1)?.title ?? "RSS"} rel="alternate" type="application/rss+xml" />
 
 
 

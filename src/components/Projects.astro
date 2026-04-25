@@ -3,69 +3,102 @@ type Project = {
 	url: string;
 	icon: string;
 	name: string;
-	description: string;
+	description: {
+		zh: string;
+		en: string;
+	};
 	tags: string[];
 };
 
+import { type Lang, t } from "@/utils/i18n";
+
+interface Props {
+	lang?: Lang;
+}
+
+const { lang = "zh" } = Astro.props;
+
 const projects: Project[] = [
+	{
+		url: "https://cocotranslate.com/",
+		icon: "/projects/cocotranslate.png",
+		name: "椰子翻译",
+		description: {
+			zh: "免费的 AI 沉浸式翻译浏览器插件，支持 PDF 文档翻译、网页双语、划词翻译与视频字幕，多快好省的跨语言阅读体验。",
+			en: "A free AI immersive translation browser extension for PDFs, bilingual web pages, selected text, and video subtitles.",
+		},
+		tags: ["公司"],
+	},
 	{
 		url: "https://easykol.com/",
 		icon: "/projects/easykol.png",
 		name: "Easykol",
-		description:
-			"最好用的海外营销工具，帮你快速找到红人并内置邮件模板和批量建联，覆盖 TikTok、Instagram、YouTube、小红书、抖音等主流平台。",
+		description: {
+			zh: "最好用的海外营销工具，帮你快速找到红人并内置邮件模板和批量建联，覆盖 TikTok、Instagram、YouTube、小红书、抖音等主流平台。",
+			en: "An overseas marketing tool for discovering creators and managing outreach across TikTok, Instagram, YouTube, Xiaohongshu, and Douyin.",
+		},
 		tags: ["公司"],
 	},
 	{
 		url: "https://neovateai.dev/",
 		icon: "/projects/neovateCode.png",
 		name: "Neovate Code",
-		description:
-			"Neovate Code 是一款代码 Agent，用来生成代码、修复 bug、代码审查、补充测试。支持交互式与无头模式。",
+		description: {
+			zh: "Neovate Code 是一款代码 Agent，用来生成代码、修复 bug、代码审查、补充测试。支持交互式与无头模式。",
+			en: "A coding agent for generating code, fixing bugs, reviewing changes, and adding tests in interactive or headless mode.",
+		},
 		tags: ["开源"],
 	},
-	{
-		url: "https://www.svgshow.cn/",
-		icon: "/projects/svgShow.png",
-		name: "SVG 秀",
-		description:
-			"利用当下最强的 SVG 动画库，把内容转为美观的 SVG 图片，并能看到 AI 是如何一步步画出来的。",
-		tags: ["个人"],
-	},
-	{
-		url: "https://ascii.luckysnail.cn/",
-		icon: "/projects/logo.png",
-		name: "ASCII 字符生成器",
-		description: "把图片和视频转为 ASCII 形式。",
-		tags: ["个人"],
-	},
+	// {
+	// 	url: "https://www.svgshow.cn/",
+	// 	icon: "/projects/svgShow.png",
+	// 	name: "SVG 秀",
+	// 	description:
+	// 		"利用当下最强的 SVG 动画库，把内容转为美观的 SVG 图片，并能看到 AI 是如何一步步画出来的。",
+	// 	tags: ["个人"],
+	// },
+	// {
+	// 	url: "https://ascii.luckysnail.cn/",
+	// 	icon: "/projects/logo.png",
+	// 	name: "ASCII 字符生成器",
+	// 	description: "把图片和视频转为 ASCII 形式。",
+	// 	tags: ["个人"],
+	// },
 	{
 		url: "https://www.npmjs.com/package/bytemd-plugin-image-lazy",
 		icon: "/projects/npmIcon.webp",
 		name: "bytemd 图片懒加载插件",
-		description: "支持原生懒加载和 IntersectionObserver 懒加载。",
+		description: {
+			zh: "支持原生懒加载和 IntersectionObserver 懒加载。",
+			en: "A ByteMD plugin that supports native lazy loading and IntersectionObserver based lazy loading.",
+		},
 		tags: ["个人"],
 	},
-	{
-		url: "https://www.luckySnail.cn",
-		icon: "/projects/logo.png",
-		name: "luckySnail 个人博客",
-		description: "基于 Next.js 创建的博客网站。",
-		tags: ["个人"],
-	},
+	// {
+	// 	url: "https://www.luckySnail.cn",
+	// 	icon: "/projects/logo.png",
+	// 	name: "luckySnail 个人博客",
+	// 	description: "基于 Next.js 创建的博客网站。",
+	// 	tags: ["个人"],
+	// },
 	{
 		url: "https://www.laoyujianli.com",
 		icon: "/projects/resume.png",
 		name: "老鱼简历",
-		description:
-			"很好用的写简历平台，能下载 PDF/PNG 简历或分享在线链接，支持多格式导入并接入 AI 帮你快速写简历。",
+		description: {
+			zh: "很好用的写简历平台，能下载 PDF/PNG 简历或分享在线链接，支持多格式导入并接入 AI 帮你快速写简历。",
+			en: "A resume builder with PDF/PNG export, online sharing, multi-format import, and AI-assisted writing.",
+		},
 		tags: ["公司"],
 	},
 	{
 		url: "https://www.codecopy.cn",
 		icon: "/projects/codecopy.png",
 		name: "代码小抄",
-		description: "一个方便的代码片段记录工具。",
+		description: {
+			zh: "一个方便的代码片段记录工具。",
+			en: "A lightweight tool for saving and organizing code snippets.",
+		},
 		tags: ["公司"],
 	},
 ];
@@ -90,16 +123,14 @@ function hostOf(url: string) {
 					target="_blank"
 				>
 					<div class="flex items-center justify-between">
-						<div class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-global-bg ring-1 ring-border">
-							<img
-								alt=""
-								class="h-9 w-9 rounded-full object-cover"
-								height="36"
-								loading="lazy"
-								src={p.icon}
-								width="36"
-							/>
-						</div>
+						<img
+							alt=""
+							class="h-10 w-10 rounded-full object-cover"
+							height="40"
+							loading="lazy"
+							src={p.icon}
+							width="40"
+						/>
 						<svg
 							aria-hidden="true"
 							class="h-4 w-4 text-muted transition-colors group-hover:text-accent"
@@ -119,12 +150,18 @@ function hostOf(url: string) {
 						{p.name}
 					</h3>
 					<p class="line-clamp-3 flex-1 text-sm leading-6 text-muted">
-						{p.description}
+						{p.description[lang]}
 					</p>
 					<div class="flex items-center justify-between gap-2 pt-1">
 						<div class="flex flex-wrap gap-1.5">
-							{p.tags.map((t) => (
-								<span class="chip">{t}</span>
+							{p.tags.map((tag) => (
+								<span class="chip">
+									{tag === "公司"
+										? t("projects.company", lang)
+										: tag === "开源"
+											? t("projects.open_source", lang)
+											: t("projects.personal", lang)}
+								</span>
 							))}
 						</div>
 						<span class="text-xs text-muted">{hostOf(p.url)}</span>
