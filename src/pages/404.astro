@@ -12,41 +12,8 @@ const homePath = withLang("/", lang);
 
 <PageLayout lang={lang} meta={meta}>
 	<section class="not-found" aria-labelledby="not-found-title">
-		<p class="not-found__eyebrow">{t("404.heading", lang)}</p>
 		<div class="not-found__number-wrap">
 			<h1 class="not-found__number" id="not-found-title">404</h1>
-			<svg
-				aria-hidden="true"
-				class="not-found__crown"
-				fill="none"
-				viewBox="0 0 74 68"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<path
-					d="M11.3 51.8 8.7 18.4l17.5 17L38.4 7.6l13.7 26.7 15.1-18.8-3.8 36.3H11.3Z"
-					fill="url(#crown-gradient)"></path>
-				<path
-					d="M14.8 55.4h45.9"
-					stroke="#8B5CF6"
-					stroke-linecap="round"
-					stroke-width="4.4"></path>
-				<circle cx="8.8" cy="15.7" fill="#A78BFA" r="4.1"></circle>
-				<circle cx="38.3" cy="6.6" fill="#A78BFA" r="4.4"></circle>
-				<circle cx="67.8" cy="13.2" fill="#A78BFA" r="4.1"></circle>
-				<defs>
-					<linearGradient
-						id="crown-gradient"
-						x1="8.7"
-						x2="67.2"
-						y1="7.6"
-						y2="51.8"
-						gradientUnits="userSpaceOnUse"
-					>
-						<stop stop-color="#C4B5FD"></stop>
-						<stop offset="1" stop-color="#7C3AED"></stop>
-					</linearGradient>
-				</defs>
-			</svg>
 		</div>
 		<p class="not-found__message">{t("404.message", lang)}</p>
 		<a class="not-found__button" href={homePath}>
@@ -76,25 +43,20 @@ const homePath = withLang("/", lang);
 			xmlns="http://www.w3.org/2000/svg"
 		>
 			<ellipse cx="60" cy="79" fill="#9B7CFF" opacity="0.12" rx="36" ry="4"></ellipse>
-			<g
-				stroke="#9B7CFF"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				stroke-width="2"
-			>
+			<g stroke="#9B7CFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
 				<path d="M18 75C27 71 40 73 52 73C68 73 82 68 91 58"></path>
-				<path
-					d="M20 75C31 78 50 78 64 74C78 70 87 61 88 48C89 39 84 34 78 36C72 38 69 44 69 52"></path>
+				<path d="M20 75C31 78 50 78 64 74C78 70 87 61 88 48C89 39 84 34 78 36C72 38 69 44 69 52"
+				></path>
 				<path d="M69 52C69 61 65 68 58 72"></path>
 				<path d="M87 48C90 43 94 40 98 42"></path>
 				<path d="M82 37C82 27 82 19 81 13"></path>
 				<path d="M91 38C96 29 101 23 106 18"></path>
-				<path
-					d="M69 56C68 70 56 78 42 77C27 76 17 65 18 51C19 36 31 25 46 25C61 25 72 38 69 56Z"></path>
-				<path
-					d="M45 38C36 38 29 45 29 54C29 63 36 70 45 70C56 70 64 62 64 51C64 40 55 31 44 31"></path>
-				<path
-					d="M44 45C39 45 36 49 36 54C36 59 40 63 45 63C51 63 55 58 55 52C55 46 50 41 44 41"></path>
+				<path d="M69 56C68 70 56 78 42 77C27 76 17 65 18 51C19 36 31 25 46 25C61 25 72 38 69 56Z"
+				></path>
+				<path d="M45 38C36 38 29 45 29 54C29 63 36 70 45 70C56 70 64 62 64 51C64 40 55 31 44 31"
+				></path>
+				<path d="M44 45C39 45 36 49 36 54C36 59 40 63 45 63C51 63 55 58 55 52C55 46 50 41 44 41"
+				></path>
 				<path d="M44 51C47 51 49 53 49 56C49 59 46 61 43 60"></path>
 				<circle cx="81" cy="11" fill="#9B7CFF" r="2" stroke="none"></circle>
 				<circle cx="107" cy="17" fill="#9B7CFF" r="2" stroke="none"></circle>
@@ -159,8 +121,7 @@ const homePath = withLang("/", lang);
 
 	.not-found__button {
 		align-items: center;
-		background:
-			linear-gradient(135deg, #7c3aed 0%, #6d28d9 54%, #8b5cf6 100%);
+		background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 54%, #8b5cf6 100%);
 		border-radius: 0.65rem;
 		box-shadow:
 			0 18px 38px color-mix(in oklch, var(--color-accent) 28%, transparent),
