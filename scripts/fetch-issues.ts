@@ -2,6 +2,14 @@
  * Fetch GitHub Issues from coderPerseus/blog and convert them to
  * MD/MDX files in src/content/post/ for Astro content collections.
  *
+ * Behavior:
+ *   - Match existing local posts by issue number prefix `<number>-*.md`
+ *   - New issue → write new file
+ *   - Existing issue, remote `updated_at` newer than local `updatedDate` → rewrite
+ *     and remove the sibling `.en.md` so the translate step regenerates it
+ *   - Existing issue with no changes → leave file alone
+ *   - Files without a numeric prefix (manually added) → never touched
+ *
  * Usage:
  *   npx tsx scripts/fetch-issues.ts
  *
@@ -226,22 +234,41 @@ async function fetchAllIssues(): Promise<GitHubIssue[]> {
 	return allIssues;
 }
 
+function readLocalUpdatedDate(filepath: string): Date | null {
+	try {
+		const content = fs.readFileSync(filepath, "utf-8");
+		const fmMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+		if (!fmMatch) return null;
+		const updMatch = fmMatch[1]!.match(/^updatedDate\s*:\s*"?([^"\n]+?)"?\s*$/m);
+		if (!updMatch) return null;
+		const d = new Date(updMatch[1]!);
+		return Number.isNaN(d.getTime()) ? null : d;
+	} catch {
+		return null;
+	}
+}
+
 async function main() {
 	console.log("Fetching issues from GitHub...");
 	const issues = await fetchAllIssues();
 	console.log(`Total issues fetched: ${issues.length}`);
 
-	// Ensure output directory exists
 	fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
-	// Clear existing content
-	const existingFiles = fs.readdirSync(OUTPUT_DIR).filter((f) => f.endsWith(".md"));
+	// Map issue number → existing zh-source file (ignore .en.md siblings).
+	// Match by number prefix so a renamed issue (different slug) is still resolved.
+	const existingFiles = fs
+		.readdirSync(OUTPUT_DIR)
+		.filter((f) => f.endsWith(".md") && !f.endsWith(".en.md"));
+	const numberToFile = new Map<number, string>();
 	for (const file of existingFiles) {
-		fs.unlinkSync(path.join(OUTPUT_DIR, file));
+		const m = file.match(/^(\d+)-/);
+		if (m) numberToFile.set(Number(m[1]), file);
 	}
-	console.log(`Cleared ${existingFiles.length} existing files`);
 
-	let written = 0;
+	let added = 0;
+	let updated = 0;
+	let unchanged = 0;
 	let skipped = 0;
 
 	for (const issue of issues) {
@@ -251,12 +278,36 @@ async function main() {
 			continue;
 		}
 
-		const filepath = path.join(OUTPUT_DIR, result.filename);
-		fs.writeFileSync(filepath, result.content, "utf-8");
-		written++;
+		const existingFile = numberToFile.get(issue.number);
+		if (!existingFile) {
+			fs.writeFileSync(path.join(OUTPUT_DIR, result.filename), result.content, "utf-8");
+			added++;
+			continue;
+		}
+
+		const existingPath = path.join(OUTPUT_DIR, existingFile);
+		const localUpdated = readLocalUpdatedDate(existingPath);
+		const remoteUpdated = new Date(issue.updated_at);
+
+		if (localUpdated && remoteUpdated <= localUpdated) {
+			unchanged++;
+			continue;
+		}
+
+		// Issue updated upstream — replace the zh source and drop the cached translation
+		// so the next translate step regenerates the .en.md.
+		fs.unlinkSync(existingPath);
+		const enFile = existingFile.replace(/\.md$/, ".en.md");
+		const enPath = path.join(OUTPUT_DIR, enFile);
+		if (fs.existsSync(enPath)) fs.unlinkSync(enPath);
+
+		fs.writeFileSync(path.join(OUTPUT_DIR, result.filename), result.content, "utf-8");
+		updated++;
 	}
 
-	console.log(`Done! Written ${written} posts, skipped ${skipped} issues.`);
+	console.log(
+		`Done! Added ${added}, updated ${updated}, unchanged ${unchanged}, skipped ${skipped}.`,
+	);
 }
 
 main().catch((err) => {

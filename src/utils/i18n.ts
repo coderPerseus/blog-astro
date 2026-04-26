@@ -125,9 +125,10 @@ export function getOgLocale(lang: Lang): string {
 }
 
 export function stripLangFromPath(pathname: string): string {
-	const segments = pathname.split("/");
+	const canonical = pathname.replace(/\.html$/, "").replace(/\/index$/, "") || "/";
+	const segments = canonical.split("/");
 	const maybeLang = segments[1];
-	if (!isLang(maybeLang)) return pathname || "/";
+	if (!isLang(maybeLang)) return canonical || "/";
 
 	const stripped = `/${segments.slice(2).join("/")}`;
 	return stripped === "/" ? "/" : stripped.replace(/\/{2,}/g, "/");

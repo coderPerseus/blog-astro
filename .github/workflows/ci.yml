@@ -1,13 +1,8 @@
 name: ci
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
-  schedule:
-    # Run daily at midnight UTC to sync issues
-    - cron: "0 0 * * *"
   workflow_dispatch:
 
 permissions:
@@ -36,11 +31,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      - name: Sync GitHub Issues
-        run: npx tsx scripts/fetch-issues.ts
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       # use astro check for issues
       - name: Run Astro check
