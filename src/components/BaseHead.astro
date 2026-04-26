@@ -1,7 +1,16 @@
 ---
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
-import { getMenuLinks, getOgLocale, type Lang, stripLangFromPath, t, withLang } from "@/utils/i18n";
+import {
+	getMenuLinks,
+	getOgLocale,
+	type Lang,
+	stripBaseFromPath,
+	stripLangFromPath,
+	t,
+	withBase,
+	withLang,
+} from "@/utils/i18n";
 import "@/styles/global.css";
 
 type Props = SiteMeta & {
@@ -13,8 +22,8 @@ const { articleDate, description, lang, ogImage, title } = Astro.props;
 const titleSeparator = "•";
 const localizedSiteTitle = t("site.title", lang);
 const siteTitle = `${title} ${titleSeparator} ${localizedSiteTitle}`;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url).href;
+const canonicalURL = new URL(withBase(stripBaseFromPath(Astro.url.pathname)), Astro.site);
+const socialImageURL = new URL(withBase(ogImage ? ogImage : "/social-card.png"), Astro.site).href;
 const alternatePath = stripLangFromPath(Astro.url.pathname);
 ---
 
@@ -23,9 +32,9 @@ const alternatePath = stripLangFromPath(Astro.url.pathname);
 <title>{siteTitle}</title>
 
 {/* Icons */}
-<link href="/favicon.ico" rel="icon" sizes="any" />
-<link href="/apple-icon.jpg" rel="apple-touch-icon" />
-<link href="/site.webmanifest" rel="manifest" />
+<link href={withBase("/favicon.ico")} rel="icon" sizes="any" />
+<link href={withBase("/apple-icon.jpg")} rel="apple-touch-icon" />
+<link href={withBase("/site.webmanifest")} rel="manifest" />
 
 {/* Search Engine Verification */}
 <meta content="codeva-7AmpPWgzQY" name="baidu-site-verification" />
@@ -73,11 +82,11 @@ const alternatePath = stripLangFromPath(Astro.url.pathname);
 <meta content={socialImageURL} property="twitter:image" />
 
 {/* Sitemap */}
-<link href="/sitemap-index.xml" rel="sitemap" />
+<link href={withBase("/sitemap-index.xml")} rel="sitemap" />
 
 {/* RSS auto-discovery */}
 <link
-	href="/rss.xml"
+	href={withBase("/rss.xml")}
 	title={getMenuLinks(lang).at(-1)?.title ?? "RSS"}
 	rel="alternate"
 	type="application/rss+xml"

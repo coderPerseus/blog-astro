@@ -19,6 +19,9 @@ concurrency:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      SITE: https://coderperseus.github.io
+      BASE_PATH: /blog-astro
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

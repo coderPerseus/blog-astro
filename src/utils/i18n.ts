@@ -124,8 +124,39 @@ export function getOgLocale(lang: Lang): string {
 	return lang === "zh" ? "zh_CN" : "en_US";
 }
 
-export function stripLangFromPath(pathname: string): string {
+function getBasePath(): string {
+	const base = import.meta.env.BASE_URL || "/";
+	const normalized = `/${base}`.replace(/\/+/g, "/").replace(/\/$/, "");
+	return normalized === "/" ? "" : normalized;
+}
+
+export function stripBaseFromPath(pathname: string): string {
 	const canonical = pathname.replace(/\.html$/, "").replace(/\/index$/, "") || "/";
+	const base = getBasePath();
+	if (!base) return canonical;
+	if (canonical === base) return "/";
+	if (canonical.startsWith(`${base}/`)) return canonical.slice(base.length) || "/";
+	return canonical;
+}
+
+export function withBase(pathname: string): string {
+	if (
+		/^(https?:)?\/\//.test(pathname) ||
+		pathname.startsWith("mailto:") ||
+		pathname.startsWith("#")
+	) {
+		return pathname;
+	}
+
+	const base = getBasePath();
+	const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
+	if (!base) return normalized;
+	if (normalized === base || normalized.startsWith(`${base}/`)) return normalized;
+	return `${base}${normalized === "/" ? "" : normalized}`;
+}
+
+export function stripLangFromPath(pathname: string): string {
+	const canonical = stripBaseFromPath(pathname);
 	const segments = canonical.split("/");
 	const maybeLang = segments[1];
 	if (!isLang(maybeLang)) return canonical || "/";
@@ -139,9 +170,9 @@ export function withLang(pathname: string, lang: Lang): string {
 
 	const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
 	const stripped = stripLangFromPath(normalized);
-	if (stripped === "/") return `/${lang}`;
+	if (stripped === "/") return withBase(`/${lang}`);
 	const trimmed = stripped.replace(/\/+$/, "");
-	return `/${lang}${trimmed}`;
+	return withBase(`/${lang}${trimmed}`);
 }
 
 export function switchLangPath(pathname: string, lang: Lang): string {

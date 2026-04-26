@@ -1,6 +1,6 @@
 ---
 import { siteConfig } from "@/site.config";
-import { getMenuLinks, type Lang, t } from "@/utils/i18n";
+import { getMenuLinks, type Lang, t, withBase } from "@/utils/i18n";
 
 interface Props {
 	lang: Lang;
@@ -27,7 +27,7 @@ const siteTitle = t("site.title", lang);
 				alt={lang === "zh" ? "备案" : "ICP filing"}
 				class="h-4 w-4"
 				height="16"
-				src="/police.png"
+				src={withBase("/police.png")}
 				width="16"
 			/>
 			浙ICP备2021039023号-3

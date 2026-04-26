@@ -16,9 +16,13 @@ import { remarkGithubCard } from "./src/plugins/remark-github-card";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
 import { expressiveCodeOptions, siteConfig } from "./src/site.config";
 
+const site = process.env.SITE || siteConfig.url;
+const base = process.env.BASE_PATH || "/";
+
 // https://astro.build/config
 export default defineConfig({
-	site: siteConfig.url,
+	site,
+	base,
 	trailingSlash: "ignore",
 	build: {
 		format: "file",
@@ -26,13 +30,7 @@ export default defineConfig({
 	image: {
 		domains: ["webmention.io"],
 	},
-	integrations: [
-		expressiveCode(expressiveCodeOptions),
-		icon(),
-		sitemap(),
-		mdx(),
-		robotsTxt(),
-	],
+	integrations: [expressiveCode(expressiveCodeOptions), icon(), sitemap(), mdx(), robotsTxt()],
 	markdown: {
 		rehypePlugins: [
 			rehypeHeadingIds,

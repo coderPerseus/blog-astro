@@ -14,7 +14,7 @@ type Project = {
 	tags: string[];
 };
 
-import { type Lang, t } from "@/utils/i18n";
+import { type Lang, t, withBase } from "@/utils/i18n";
 
 interface Props {
 	lang?: Lang;
@@ -166,7 +166,7 @@ function labelFor(tag: string) {
 									class="project-card__icon"
 									height="68"
 									loading="lazy"
-									src={p.icon}
+									src={withBase(p.icon)}
 									width="68"
 								/>
 							</div>
