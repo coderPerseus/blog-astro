@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
+import sitemap, { ChangeFreqEnum } from "@astrojs/sitemap";
 import tailwind from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
 import expressiveCode from "astro-expressive-code";
@@ -18,6 +18,8 @@ import { expressiveCodeOptions, siteConfig } from "./src/site.config";
 
 const site = process.env.SITE || siteConfig.url;
 const base = process.env.BASE_PATH || "/";
+const normalizedBase = normalizeBasePath(base);
+const englishPostIds = getEnglishPostIds();
 
 // https://astro.build/config
 export default defineConfig({
@@ -30,7 +32,46 @@ export default defineConfig({
 	image: {
 		domains: ["webmention.io"],
 	},
-	integrations: [expressiveCode(expressiveCodeOptions), icon(), sitemap(), mdx(), robotsTxt()],
+	integrations: [
+		expressiveCode(expressiveCodeOptions),
+		icon(),
+		sitemap({
+			filter: (page) => !isLegacyDuplicatePage(page),
+			i18n: {
+				defaultLocale: "zh",
+				locales: {
+					zh: "zh-CN",
+					en: "en",
+				},
+			},
+			serialize(item) {
+				const pathname = getSitePath(item.url);
+				const isHome = pathname === "/zh" || pathname === "/en";
+				const isPostsIndex = pathname === "/zh/posts" || pathname === "/en/posts";
+				const isPost = pathname.includes("/posts/");
+				const postSlug = getLocalizedPostSlug(pathname);
+				const links =
+					postSlug && !englishPostIds.has(postSlug)
+						? item.links?.filter((link) => link.lang !== "en")
+						: item.links;
+				const { links: _links, ...rest } = item;
+				const serializedItem = {
+					...rest,
+					changefreq: isHome || isPostsIndex ? ChangeFreqEnum.WEEKLY : ChangeFreqEnum.MONTHLY,
+					priority: isHome ? 1 : isPostsIndex ? 0.9 : isPost ? 0.8 : 0.7,
+				};
+				return {
+					...serializedItem,
+					...(links?.length ? { links } : {}),
+				};
+			},
+		}),
+		mdx(),
+		robotsTxt({
+			policy: [{ userAgent: "*", allow: "/" }],
+			sitemap: new URL(`${normalizedBase || ""}/sitemap-index.xml`, site).href,
+		}),
+	],
 	markdown: {
 		rehypePlugins: [
 			rehypeHeadingIds,
@@ -78,4 +119,54 @@ function rawFonts(ext: string[]) {
 			}
 		},
 	};
+}
+
+function normalizeBasePath(value: string) {
+	const normalized = `/${value}`.replace(/\/+/g, "/").replace(/\/$/, "");
+	return normalized === "/" ? "" : normalized;
+}
+
+function getSitePath(page: string) {
+	const pathname =
+		(page.startsWith("http") ? new URL(page).pathname : page).replace(/\/$/, "") || "/";
+	if (!normalizedBase) return pathname;
+	if (pathname === normalizedBase) return "/";
+	if (pathname.startsWith(`${normalizedBase}/`))
+		return pathname.slice(normalizedBase.length) || "/";
+	return pathname;
+}
+
+function isLegacyDuplicatePage(page: string) {
+	const pathname = getSitePath(page);
+	return pathname === "/" || pathname === "/posts" || pathname.startsWith("/posts/");
+}
+
+function getLocalizedPostSlug(pathname: string) {
+	const match = /^\/(?:zh|en)\/posts\/(.+)$/.exec(pathname);
+	if (!match?.[1]) return undefined;
+	try {
+		return decodeURIComponent(match[1]);
+	} catch {
+		return match[1];
+	}
+}
+
+function getEnglishPostIds() {
+	const postDir = new URL("./src/content/post/", import.meta.url);
+	const ids = new Set<string>();
+
+	function walk(dir: URL) {
+		for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+			const entryUrl = new URL(entry.name, `${dir.href}/`);
+			if (entry.isDirectory()) {
+				walk(entryUrl);
+				continue;
+			}
+			if (!/\.en\.mdx?$/.test(entry.name)) continue;
+			ids.add(entry.name.replace(/\.en\.(md|mdx)$/, ""));
+		}
+	}
+
+	if (fs.existsSync(postDir)) walk(postDir);
+	return ids;
 }

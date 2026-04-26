@@ -1,30 +1,63 @@
 ---
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
+import { getMenuLinks, getOgLocale, type Lang, stripLangFromPath, t, withBase } from "@/utils/i18n";
 import {
-	getMenuLinks,
-	getOgLocale,
-	type Lang,
-	stripBaseFromPath,
-	stripLangFromPath,
-	t,
-	withBase,
-	withLangPath,
-} from "@/utils/i18n";
+	buildStructuredData,
+	getAbsoluteSiteUrl,
+	getAlternateUrls,
+	getCanonicalUrl,
+	hreflangByLang,
+	safeJsonLd,
+} from "@/utils/seo";
 import "@/styles/global.css";
 
 type Props = SiteMeta & {
 	lang: Lang;
 };
 
-const { articleDate, description, lang, ogImage, title } = Astro.props;
+const {
+	alternateLangs,
+	articleDate,
+	articleModifiedDate,
+	description,
+	lang,
+	ogImage,
+	tags,
+	title,
+} = Astro.props;
 
 const titleSeparator = "•";
 const localizedSiteTitle = t("site.title", lang);
-const siteTitle = `${title} ${titleSeparator} ${localizedSiteTitle}`;
-const canonicalURL = new URL(stripBaseFromPath(Astro.url.pathname), siteConfig.url);
-const socialImageURL = new URL(withBase(ogImage ? ogImage : "/social-card.png"), Astro.site).href;
 const alternatePath = stripLangFromPath(Astro.url.pathname);
+const isHomePage = alternatePath === "/";
+const pageTitle = isHomePage ? localizedSiteTitle : title;
+const siteTitle = isHomePage
+	? `${localizedSiteTitle} ${titleSeparator} ${t("site.description", lang)}`
+	: `${title} ${titleSeparator} ${localizedSiteTitle}`;
+const metaDescription = description ?? t("site.description", lang);
+const canonicalURL = getCanonicalUrl(Astro.url.pathname, lang);
+const alternateURLs = getAlternateUrls(Astro.url.pathname, alternateLangs);
+const socialImageURL = getAbsoluteSiteUrl(ogImage ?? siteConfig.defaultOgImage);
+const article = articleDate
+	? {
+			datePublished: articleDate,
+			...(articleModifiedDate ? { dateModified: articleModifiedDate } : {}),
+			...(tags?.length ? { tags } : {}),
+		}
+	: undefined;
+const structuredData = safeJsonLd({
+	"@context": "https://schema.org",
+	"@graph": buildStructuredData({
+		article,
+		canonicalUrl: canonicalURL.href,
+		description: metaDescription,
+		imageUrl: socialImageURL,
+		lang,
+		pathname: Astro.url.pathname,
+		title: pageTitle,
+	}),
+});
 ---
 
 <meta charset="utf-8" />
@@ -35,6 +68,9 @@ const alternatePath = stripLangFromPath(Astro.url.pathname);
 <link href={withBase("/favicon.ico")} rel="icon" sizes="any" />
 <link href={withBase("/apple-icon.jpg")} rel="apple-touch-icon" />
 <link href={withBase("/site.webmanifest")} rel="manifest" />
+<meta content={siteConfig.themeColor} name="theme-color" />
+<meta content="light dark" name="color-scheme" />
+<meta content="strict-origin-when-cross-origin" name="referrer" />
 
 {/* Search Engine Verification */}
 <meta content="codeva-7AmpPWgzQY" name="baidu-site-verification" />
@@ -42,35 +78,33 @@ const alternatePath = stripLangFromPath(Astro.url.pathname);
 
 {/* Canonical URL */}
 <link href={canonicalURL} rel="canonical" />
-<link
-	href={new URL(withLangPath(alternatePath, "zh"), siteConfig.url)}
-	hreflang="zh-CN"
-	rel="alternate"
-/>
-<link
-	href={new URL(withLangPath(alternatePath, "en"), siteConfig.url)}
-	hreflang="en"
-	rel="alternate"
-/>
-<link
-	href={new URL(withLangPath(alternatePath, "zh"), siteConfig.url)}
-	hreflang="x-default"
-	rel="alternate"
-/>
+{alternateURLs.zh && <link href={alternateURLs.zh} hreflang={hreflangByLang.zh} rel="alternate" />}
+{alternateURLs.en && <link href={alternateURLs.en} hreflang={hreflangByLang.en} rel="alternate" />}
+{
+	alternateURLs["x-default"] && (
+		<link href={alternateURLs["x-default"]} hreflang="x-default" rel="alternate" />
+	)
+}
 
 {/* Primary Meta Tags */}
 <meta content={siteTitle} name="title" />
-<meta content={description} name="description" />
+<meta content={metaDescription} name="description" />
 <meta content={siteConfig.author} name="author" />
+<meta
+	content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+	name="robots"
+/>
+{tags?.length ? <meta content={tags.join(", ")} name="keywords" /> : null}
 
 {/* Open Graph / Facebook */}
 <meta content={articleDate ? "article" : "website"} property="og:type" />
-<meta content={title} property="og:title" />
-<meta content={description} property="og:description" />
+<meta content={pageTitle} property="og:title" />
+<meta content={metaDescription} property="og:description" />
 <meta content={canonicalURL} property="og:url" />
 <meta content={localizedSiteTitle} property="og:site_name" />
 <meta content={getOgLocale(lang)} property="og:locale" />
 <meta content={socialImageURL} property="og:image" />
+<meta content={pageTitle} property="og:image:alt" />
 <meta content="1200" property="og:image:width" />
 <meta content="630" property="og:image:height" />
 {
@@ -78,6 +112,12 @@ const alternatePath = stripLangFromPath(Astro.url.pathname);
 		<>
 			<meta content={siteConfig.author} property="article:author" />
 			<meta content={articleDate} property="article:published_time" />
+			{articleModifiedDate && (
+				<meta content={articleModifiedDate} property="article:modified_time" />
+			)}
+			{tags?.map((tag) => (
+				<meta content={tag} property="article:tag" />
+			))}
 		</>
 	)
 }
@@ -85,19 +125,21 @@ const alternatePath = stripLangFromPath(Astro.url.pathname);
 {/* Twitter */}
 <meta content="summary_large_image" property="twitter:card" />
 <meta content={canonicalURL} property="twitter:url" />
-<meta content={title} property="twitter:title" />
-<meta content={description} property="twitter:description" />
+<meta content={pageTitle} property="twitter:title" />
+<meta content={metaDescription} property="twitter:description" />
 <meta content={socialImageURL} property="twitter:image" />
+<meta content={pageTitle} property="twitter:image:alt" />
 
 {/* Sitemap */}
-<link href={withBase("/sitemap-index.xml")} rel="sitemap" />
+<link href={new URL("/sitemap-index.xml", siteConfig.url)} rel="sitemap" />
 
 {/* RSS auto-discovery */}
 <link
-	href={withBase("/rss.xml")}
+	href={new URL("/rss.xml", siteConfig.url)}
 	title={getMenuLinks(lang).at(-1)?.title ?? "RSS"}
 	rel="alternate"
 	type="application/rss+xml"
 />
 
+<script is:inline type="application/ld+json" set:html={structuredData} />
 <meta content={Astro.generator} name="generator" />

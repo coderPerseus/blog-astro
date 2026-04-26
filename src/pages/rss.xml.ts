@@ -4,7 +4,7 @@ import { siteConfig } from "@/site.config";
 
 export const GET = async () => {
 	const posts = await getAllPosts();
-	const site = new URL(import.meta.env.BASE_URL, import.meta.env.SITE).href;
+	const site = siteConfig.url;
 
 	return rss({
 		title: siteConfig.title,
@@ -14,7 +14,8 @@ export const GET = async () => {
 			title: post.data.title,
 			description: post.data.description,
 			pubDate: post.data.publishDate,
-			link: `posts/${post.id}/`,
+			link: `zh/posts/${post.id}/`,
+			categories: post.data.tags,
 		})),
 	});
 };

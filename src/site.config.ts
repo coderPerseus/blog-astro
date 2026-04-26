@@ -6,8 +6,16 @@ export const siteConfig: SiteConfig = {
 	title: "幸运的蜗牛",
 	author: "LuckySnail",
 	description: "前端开发者博客 | 探索 AI、React、TypeScript 与开源世界",
+	defaultOgImage: "/og-image/site.png",
+	logo: "/logo.png",
 	lang: "zh-CN",
 	ogLocale: "zh_CN",
+	socialLinks: [
+		"https://github.com/coderPerseus",
+		"https://www.xiaohongshu.com/user/profile/5e2d938d000000000100ac82",
+		"https://space.bilibili.com/1695997565",
+	],
+	themeColor: "#f7f3ea",
 	date: {
 		locale: "zh-CN",
 		options: {

@@ -1,21 +1,25 @@
 {
-	"name": "luckySnail",
-	"short_name": "luckySnail",
-	"description": "基于 github issues 的 个人 blog",
-	"start_url": "/",
+	"name": "幸运的蜗牛",
+	"short_name": "LuckySnail",
+	"description": "前端开发者博客 | 探索 AI、React、TypeScript 与开源世界",
+	"lang": "zh-CN",
+	"start_url": "/zh",
+	"scope": "/",
 	"icons": [
 		{
 			"src": "/logo.png",
 			"sizes": "192x192",
-			"type": "image/png"
+			"type": "image/png",
+			"purpose": "any maskable"
 		},
 		{
 			"src": "/logo.png",
 			"sizes": "512x512",
-			"type": "image/png"
+			"type": "image/png",
+			"purpose": "any maskable"
 		}
 	],
-	"theme_color": "#8b5cf6",
+	"theme_color": "#f7f3ea",
 	"background_color": "#ffffff",
 	"display": "standalone"
 }
