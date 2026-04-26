@@ -175,6 +175,16 @@ export function withLang(pathname: string, lang: Lang): string {
 	return withBase(`/${lang}${trimmed}`);
 }
 
+export function withLangPath(pathname: string, lang: Lang): string {
+	if (/^(https?:)?\/\//.test(pathname) || pathname.startsWith("mailto:")) return pathname;
+
+	const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
+	const stripped = stripLangFromPath(normalized);
+	if (stripped === "/") return `/${lang}`;
+	const trimmed = stripped.replace(/\/+$/, "");
+	return `/${lang}${trimmed}`;
+}
+
 export function switchLangPath(pathname: string, lang: Lang): string {
 	return withLang(stripLangFromPath(pathname), lang);
 }

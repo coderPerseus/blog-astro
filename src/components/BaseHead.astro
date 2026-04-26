@@ -9,7 +9,7 @@ import {
 	stripLangFromPath,
 	t,
 	withBase,
-	withLang,
+	withLangPath,
 } from "@/utils/i18n";
 import "@/styles/global.css";
 
@@ -22,7 +22,7 @@ const { articleDate, description, lang, ogImage, title } = Astro.props;
 const titleSeparator = "•";
 const localizedSiteTitle = t("site.title", lang);
 const siteTitle = `${title} ${titleSeparator} ${localizedSiteTitle}`;
-const canonicalURL = new URL(withBase(stripBaseFromPath(Astro.url.pathname)), Astro.site);
+const canonicalURL = new URL(stripBaseFromPath(Astro.url.pathname), siteConfig.url);
 const socialImageURL = new URL(withBase(ogImage ? ogImage : "/social-card.png"), Astro.site).href;
 const alternatePath = stripLangFromPath(Astro.url.pathname);
 ---
@@ -42,10 +42,18 @@ const alternatePath = stripLangFromPath(Astro.url.pathname);
 
 {/* Canonical URL */}
 <link href={canonicalURL} rel="canonical" />
-<link href={new URL(withLang(alternatePath, "zh"), Astro.site)} hreflang="zh-CN" rel="alternate" />
-<link href={new URL(withLang(alternatePath, "en"), Astro.site)} hreflang="en" rel="alternate" />
 <link
-	href={new URL(withLang(alternatePath, "zh"), Astro.site)}
+	href={new URL(withLangPath(alternatePath, "zh"), siteConfig.url)}
+	hreflang="zh-CN"
+	rel="alternate"
+/>
+<link
+	href={new URL(withLangPath(alternatePath, "en"), siteConfig.url)}
+	hreflang="en"
+	rel="alternate"
+/>
+<link
+	href={new URL(withLangPath(alternatePath, "zh"), siteConfig.url)}
 	hreflang="x-default"
 	rel="alternate"
 />

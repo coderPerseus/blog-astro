@@ -171,11 +171,21 @@ pnpm preview
 4. 将同步后的内容提交回 `main`。
 5. 构建 Astro 站点。
 6. 部署到 GitHub Pages。
+7. 如果配置了宝塔服务器的 SSH 信息，同时构建并同步到宝塔站点目录。
 
 需要在 GitHub 仓库中配置：
 
 - `GH_TOKEN`
 - `DEEPSEEK_API_KEY`
+
+如果要同步部署到宝塔服务器，还需要配置：
+
+- `BAOTA_HOST`：服务器 IP 或域名
+- `BAOTA_PORT`：SSH 端口，未配置时默认使用 `22`
+- `BAOTA_USER`：SSH 用户
+- `BAOTA_PATH`：宝塔站点目录，例如 `/www/wwwroot/luckysnail.cn`
+- `BAOTA_SSH_KEY`：可登录服务器的 SSH 私钥
+- `BAOTA_SITE`：国内站点域名，未配置时默认使用 `https://luckysnail.cn`
 
 ## 致谢
 

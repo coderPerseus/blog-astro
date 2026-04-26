@@ -22,6 +22,7 @@ jobs:
     env:
       SITE: https://coderperseus.github.io
       BASE_PATH: /blog-astro
+      BAOTA_DEPLOY_ENABLED: ${{ secrets.BAOTA_HOST != '' && secrets.BAOTA_USER != '' && secrets.BAOTA_PATH != '' && secrets.BAOTA_SSH_KEY != '' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -82,7 +83,7 @@ jobs:
           echo "push still failing after retries"
           exit 1
 
-      - name: Build
+      - name: Build for GitHub Pages
         run: pnpm build
 
       - name: Setup Pages
@@ -96,3 +97,32 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Build for BaoTa server
+        if: env.BAOTA_DEPLOY_ENABLED == 'true'
+        env:
+          SITE: ${{ secrets.BAOTA_SITE || 'https://luckysnail.cn' }}
+          BASE_PATH: /
+        run: pnpm build
+
+      - name: Deploy to BaoTa server
+        if: env.BAOTA_DEPLOY_ENABLED == 'true'
+        env:
+          BAOTA_HOST: ${{ secrets.BAOTA_HOST }}
+          BAOTA_PORT: ${{ secrets.BAOTA_PORT }}
+          BAOTA_USER: ${{ secrets.BAOTA_USER }}
+          BAOTA_PATH: ${{ secrets.BAOTA_PATH }}
+          BAOTA_SSH_KEY: ${{ secrets.BAOTA_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$BAOTA_SSH_KEY" > ~/.ssh/baota_deploy_key
+          chmod 600 ~/.ssh/baota_deploy_key
+          ssh-keyscan -p "${BAOTA_PORT:-22}" "$BAOTA_HOST" >> ~/.ssh/known_hosts
+
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/baota_deploy_key -p ${BAOTA_PORT:-22}" \
+            dist/ "$BAOTA_USER@$BAOTA_HOST:$BAOTA_PATH/"
+
+      - name: Skip BaoTa deployment
+        if: env.BAOTA_DEPLOY_ENABLED != 'true'
+        run: echo "BaoTa deployment skipped because BAOTA_* secrets are not fully configured."
