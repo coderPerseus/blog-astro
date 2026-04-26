@@ -114,13 +114,52 @@ jobs:
           BAOTA_PATH: ${{ secrets.BAOTA_PATH }}
           BAOTA_SSH_KEY: ${{ secrets.BAOTA_SSH_KEY }}
         run: |
+          set -euo pipefail
+
+          SSH_PORT="${BAOTA_PORT:-22}"
+          if [[ ! "$SSH_PORT" =~ ^[0-9]+$ ]]; then
+            echo "::error::BAOTA_PORT must be a number, for example 22."
+            exit 1
+          fi
+
+          if [[ "$BAOTA_HOST" == http://* || "$BAOTA_HOST" == https://* ]]; then
+            echo "::error::BAOTA_HOST should be a host or IP only, without http:// or https://."
+            exit 1
+          fi
+
           mkdir -p ~/.ssh
-          printf '%s\n' "$BAOTA_SSH_KEY" > ~/.ssh/baota_deploy_key
+          printf '%s\n' "$BAOTA_SSH_KEY" | tr -d '\r' > ~/.ssh/baota_deploy_key
           chmod 600 ~/.ssh/baota_deploy_key
-          ssh-keyscan -p "${BAOTA_PORT:-22}" "$BAOTA_HOST" >> ~/.ssh/known_hosts
+
+          if ! timeout 10 ssh-keygen -y -f ~/.ssh/baota_deploy_key >/dev/null; then
+            echo "::error::BAOTA_SSH_KEY is not a valid unencrypted SSH private key."
+            exit 1
+          fi
+
+          echo "Adding SSH host key for $BAOTA_HOST:$SSH_PORT"
+          if ! timeout 20 ssh-keyscan -p "$SSH_PORT" -H "$BAOTA_HOST" >> ~/.ssh/known_hosts; then
+            echo "::error::Unable to read the SSH host key. Check BAOTA_HOST, BAOTA_PORT, firewall, and whether SSH is open to GitHub Actions."
+            exit 1
+          fi
+
+          SSH_TARGET="$BAOTA_USER@$BAOTA_HOST"
+          SSH_OPTIONS=(-i ~/.ssh/baota_deploy_key -p "$SSH_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=20)
+
+          echo "Testing SSH login for $SSH_TARGET"
+          if ! ssh "${SSH_OPTIONS[@]}" "$SSH_TARGET" "echo ssh-ok"; then
+            echo "::error::SSH login failed. Check BAOTA_USER and whether the public key is in that user's ~/.ssh/authorized_keys."
+            exit 1
+          fi
+
+          REMOTE_PATH=$(printf '%q' "$BAOTA_PATH")
+          echo "Checking remote path and rsync on $SSH_TARGET"
+          if ! ssh "${SSH_OPTIONS[@]}" "$SSH_TARGET" "mkdir -p $REMOTE_PATH && test -w $REMOTE_PATH && command -v rsync >/dev/null"; then
+            echo "::error::Remote preflight failed. Check BAOTA_PATH permissions and make sure rsync is installed on the server."
+            exit 1
+          fi
 
           rsync -az --delete \
-            -e "ssh -i ~/.ssh/baota_deploy_key -p ${BAOTA_PORT:-22}" \
+            -e "ssh -i ~/.ssh/baota_deploy_key -p $SSH_PORT -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=20" \
             dist/ "$BAOTA_USER@$BAOTA_HOST:$BAOTA_PATH/"
 
       - name: Skip BaoTa deployment
