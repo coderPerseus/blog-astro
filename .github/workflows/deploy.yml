@@ -47,7 +47,7 @@ jobs:
 
       - name: Sync GitHub Issues (incremental + update detection)
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
         run: npx tsx scripts/fetch-issues.ts
 
       - name: Translate new or updated posts
@@ -64,18 +64,26 @@ jobs:
           git add src/content/post/
           if git diff --staged --quiet; then
             echo "No content changes to commit."
-          else
-            git commit -m "chore(content): sync posts and translations [skip ci]"
-            git push
+            exit 0
           fi
+          git commit -m "chore(content): sync posts and translations [skip ci]"
+          # Rebase on top of latest remote main, then push. Retry on race.
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push; then
+              echo "push succeeded on attempt $attempt"
+              exit 0
+            fi
+            echo "push attempt $attempt failed, retrying..."
+            sleep $((attempt * 3))
+          done
+          echo "push still failing after retries"
+          exit 1
 
       - name: Build
         run: pnpm build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

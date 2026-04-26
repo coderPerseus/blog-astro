@@ -1,189 +1,185 @@
-<div align="center">
-  <img alt="Astro Cactus logo" src="https://github.com/user-attachments/assets/92dfbabf-ca65-4bf6-991d-9a71e5319880" width="70" />
-</div>
-<h1 align="center">
-  Astro Cactus
-</h1>
+# 幸运的蜗牛 Blog
 
-Astro Cactus is a simple opinionated starter built with [Astro](https://astro.build). Use it to create an easy-to-use blog or website.
+这是 [luckysnail.cn](https://luckysnail.cn/) 的源码仓库，一个基于 Astro 的个人技术博客。项目从 Astro Cactus 主题演进而来，当前主要用于发布前端、AI、React、TypeScript、开源和工程实践相关内容。
 
-## Table Of Contents
+## 技术栈
 
-1. [Key Features](#key-features)
-2. [Demo](#demo-)
-3. [Quick start](#quick-start)
-4. [Preview](#preview)
-5. [Commands](#commands)
-6. [Configure](#configure)
-7. [Updating](#updating)
-8. [Adding posts, notes, and tags](#adding-posts-notes-and-tags)
-   - [Post Frontmatter](#post-frontmatter)
-   - [Note Frontmatter](#note-frontmatter)
-   - [Tag Frontmatter](#tag-frontmatter)
-   - [Frontmatter Snippets](#frontmatter-snippets)
-9. [Pagefind search](#pagefind-search)
-10. [Analytics](#analytics)
-11. [Deploy](#deploy)
-12. [Acknowledgment](#acknowledgment)
+- [Astro 6](https://astro.build/) + Content Collections
+- Tailwind CSS 4
+- Markdown / MDX 内容写作
+- 中英双语路由与文章集合
+- Pagefind 静态搜索
+- Expressive Code 代码高亮
+- Satori + Sharp 生成文章 Open Graph 图片
+- GitHub Actions 自动同步、翻译、构建并部署到 GitHub Pages
 
-## Key Features
+## 项目结构
 
-- Astro v6 Fast 🚀
-- Tailwind v4
-- Accessible, semantic HTML markup
-- Responsive & SEO-friendly
-- Dark & Light mode
-- MD & [MDX](https://docs.astro.build/en/guides/markdown-content/#mdx-only-features) posts & notes
-  - Includes [Admonitions](https://astro-cactus.chriswilliams.dev/posts/markdown-elements/admonitions/)
-- [Satori](https://github.com/vercel/satori) for creating open graph png images
-- [Automatic RSS feeds](https://docs.astro.build/en/guides/rss)
-- [Webmentions](https://webmention.io/)
-- Auto-generated:
-  - [sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)
-  - [robots.txt](https://github.com/alextim/astro-lib/blob/main/packages/astro-robots-txt/README.md)
-  - [web app manifest](https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md)
-- [Pagefind](https://pagefind.app/) static search library integration
-- [Astro Icon](https://github.com/natemoo-re/astro-icon) svg icon component
-- [Expressive Code](https://expressive-code.com/) code blocks and syntax highlighter
-
-## Demo 💻
-
-Check out the [Demo](https://astro-cactus.chriswilliams.dev/), hosted on Netlify
-
-## Quick start
-
-[Create a new repo](https://github.com/chrismwilliams/astro-theme-cactus/generate) from this template.
-
-```bash
-# npm 7+
-npm create astro@latest -- --template chrismwilliams/astro-theme-cactus
-
-# pnpm
-pnpm dlx create-astro --template chrismwilliams/astro-theme-cactus
+```text
+.
+├── src/
+│   ├── components/        # 页面、布局、搜索、主题切换等组件
+│   ├── content/post/      # 博客文章，中文原文与 .en.md 英文译文
+│   ├── data/post.ts       # 文章查询、标签统计等数据方法
+│   ├── layouts/           # 基础布局和文章布局
+│   ├── pages/             # Astro 路由，包含双语页面、RSS、OG 图片
+│   ├── plugins/           # remark 插件
+│   ├── styles/            # 全局样式和组件样式
+│   └── utils/             # i18n、日期、目录生成等工具
+├── scripts/
+│   ├── fetch-issues.ts        # 从 GitHub Issues 同步文章
+│   ├── translate-posts.ts     # 使用 DeepSeek 生成英文译文
+│   └── generate-ai-content.ts # 生成 AI 摘要字段
+├── public/                # favicon、manifest、验证文件等静态资源
+└── .github/workflows/     # CI 与部署工作流
 ```
 
-[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/chrismwilliams/astro-theme-cactus) [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fchrismwilliams%2Fastro-theme-cactus&project-name=astro-theme-cactus)
+## 本地开发
 
-## Preview
+建议使用 pnpm。
 
-![Astro Theme Cactus in a light theme mode](https://github.com/chrismwilliams/astro-theme-cactus/assets/12715988/84c89d42-4525-4674-b10c-6d6ebdc06382)
+```bash
+pnpm install
+pnpm dev
+```
 
-![Astro Theme Cactus in a dark theme mode](https://github.com/chrismwilliams/astro-theme-cactus/assets/12715988/e0e575e2-445f-4c2d-a812-b5b53d2d9031)
+开发服务器默认由 Astro 启动，通常是 `http://localhost:4321`。
 
-## Commands
+## 常用命令
 
-Replace pnpm with your choice of npm / yarn
+| 命令             | 作用                             |
+| ---------------- | -------------------------------- |
+| `pnpm dev`       | 启动本地开发服务器               |
+| `pnpm build`     | 构建生产版本到 `dist/`           |
+| `pnpm postbuild` | 为构建产物生成 Pagefind 搜索索引 |
+| `pnpm preview`   | 本地预览构建产物                 |
+| `pnpm check`     | 运行 `astro check` 与 Biome 检查 |
+| `pnpm lint`      | 使用 Biome 自动修复可修复问题    |
+| `pnpm format`    | 使用 Prettier 格式化项目文件     |
 
-| Command          | Action                                                         |
-| :--------------- | :------------------------------------------------------------- |
-| `pnpm install`   | Installs dependencies                                          |
-| `pnpm dev`       | Starts local dev server at `localhost:3000`                    |
-| `pnpm build`     | Build your production site to `./dist/`                        |
-| `pnpm postbuild` | Pagefind script to build the static search of your blog posts  |
-| `pnpm preview`   | Preview your build locally, before deploying                   |
-| `pnpm sync`      | Generate types based on your config in `src/content/config.ts` |
+## 写文章
 
-## Configure
+文章放在 `src/content/post/`。中文原文使用普通 Markdown / MDX 文件，英文译文使用同名 `.en.md` 文件。
 
-- Edit the template's config file `src/site.config.ts`
-  - **Important**: set the url property with your own domain.
-  - Modify the settings for markdown code blocks, generated by [Expressive Code](https://expressive-code.com). Astro Cactus has both a dark (dracula) and light (github-light) theme. You can find more options [@ expressive-code](https://expressive-code.com/guides/themes/#available-themes).
-- Update file `astro.config.ts`
-  - [astro-webmanifest options](https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md)
-- Replace & update files within the `/public` folder:
-  - icon.svg - used as the source to create favicons & manifest icons
-  - social-card.png - used as the default og:image
-- Modify file `src/styles/global.css` with your own light and dark styles, and customise [Tailwind's theme settings](https://tailwindcss.com/docs/theme#customizing-your-theme).
-- Edit social links in `src/components/SocialList.astro` to add/replace your media profile. Icons can be found @ [icones.js.org](https://icones.js.org/), per [Astro Icon's instructions](https://www.astroicon.dev/guides/customization/#find-an-icon-set).
-- Create/edit posts & notes for your blog within `src/content/post/` & `src/content/note/` with .md/mdx file(s). See [below](#adding-posts-notes-and-tags) for more details.
-  - Read [this post](http://astro-cactus.chriswilliams.dev/posts/webmentions/) for adding webmentions to your site.
-  - Add any custom Tag pages for related blog posts in `/src/content/tag/`, ensuring that the file name is the same as the tag.
-- OG Image:
-  - If you would like to change the style of the generated image the Satori library creates, open up `src/pages/og-image/[slug].png.ts` to the markup function where you can edit the html/tailwind-classes as necessary. You can use this [playground](https://og-playground.vercel.app/) to aid your design.
-  - You can also create your own og images and skip satori generating it for you by adding an ogImage property in the frontmatter with a link to the asset, an example can be found in `src/content/post/social-image.md`. More info on frontmatter can be found [below](#post-frontmatter)
-- Optional:
-  - Fonts: This theme sets the body element to the font family `font-mono`, in `src/layouts/Base.astro` on the `<body>`. You can change fonts by removing the variant `font-mono`, after which TailwindCSS will default to the `font-sans` [font family stack](https://tailwindcss.com/docs/font-family).
+示例：
 
-## Updating
+```text
+src/content/post/102-2026手写代码时代彻底结束了.md
+src/content/post/102-2026手写代码时代彻底结束了.en.md
+```
 
-If you've forked the template, you can [sync the fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) with your own project, remembering to **not** click Discard Changes as you will lose your own.
+常用 frontmatter：
 
-If you have a template repository, you can add this template as a remote, [as discussed here](https://stackoverflow.com/questions/56577184/github-pull-changes-from-a-template-repository).
+```yaml
+---
+title: "文章标题"
+publishDate: "2026-01-01T00:00:00.000Z"
+updatedDate: "2026-01-02T00:00:00.000Z"
+tags: ["ai", "frontend"]
+description: "文章摘要，用于 SEO 和列表展示"
+draft: false
+pinned: false
+aiSummary: "中文 AI 摘要"
+aiSummaryEn: "English AI summary"
+translationEn: true
+---
+```
 
-## Adding posts, notes, and tags
+说明：
 
-This theme uses [Content Collections](https://docs.astro.build/en/guides/content-collections/) to organise local Markdown and MDX files, as well as type-checking frontmatter with a schema -> `src/content.config.ts`.
+- `draft: true` 的文章在生产环境会被过滤。
+- `pinned: true` 会让文章进入置顶区域。
+- `tags` 会自动去重并转为小写。
+- 英文文章通过 `postEn` collection 加载，`.en.md` 会和中文原文共享同一个文章 id。
 
-Adding a post/note/tag is as simple as adding your .md(x) files to either `src/content/post`, `src/content/note`, and `src/content/tag` folders, the filename of which will be used as the slug/url.
+## 内容自动化
 
-The Tag collection allows you to override the content for generated tag pages. For example the template includes `src/content/tag/test.md` which overrides the content shown in `your-domain.com/tags/test`.
+### 同步 GitHub Issues
 
-> **Note**
-> For a tag page to work, the file name (`src/content/tag/*`) must also be in a post's [tags frontmatter.](#post-frontmatter)
+`scripts/fetch-issues.ts` 会从 `coderPerseus/blog` 的 GitHub Issues 拉取内容并写入 `src/content/post/`。
 
-The posts/notes/tags included with this template are there as an example of how to structure your frontmatter. Additionally, the [Astro docs](https://docs.astro.build/en/guides/markdown-content/) has a detailed section on markdown pages.
+```bash
+GH_TOKEN=xxx npx tsx scripts/fetch-issues.ts
+```
 
-### Post Frontmatter
+同步规则：
 
-| Property (\* required) | Description                                                                                                                                                                                                                                                                                                  |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| title \*               | Self explanatory. Used as the text link to the post, the h1 on the posts' page, and the pages title property. Has a max length of 60 chars, set in `src/content/config.ts`                                                                                                                                   |
-| description \*         | Similar to above, used as the seo description property. Has a min length of 50 and a max length of 160 chars, set in the post schema.                                                                                                                                                                        |
-| publishDate \*         | Again pretty simple. To change the date format/locale, currently **en-GB**, update the date option in `src/site.config.ts`. Note you can also pass additional options to the component `<FormattedDate>` if required.                                                                                        |
-| updatedDate            | This is an optional date representing when a post has been updated, in the same format as the publishDate.                                                                                                                                                                                                   |
-| tags                   | Tags are optional with any created post. Any new tag(s) will be shown in `your-domain.com/posts` & `your-domain.com/tags`, and generate the page(s) `your-domain.com/tags/[yourTag]`                                                                                                                         |
-| coverImage             | This is an optional object that will add a cover image to the top of a post. Include both a `src`: "_path-to-image_" and `alt`: "_image alt_". You can view an example in `src/content/post/cover-image.md`.                                                                                                 |
-| ogImage                | This is an optional property. An OG Image will be generated automatically for every post where this property **isn't** provided. If you would like to create your own for a specific post, include this property and a link to your image, the theme will then skip automatically generating one.            |
-| draft                  | This is an optional property as it is set to false by default in the schema. By adding true, the post will be filtered out of the production build in a number of places, inc. getAllPosts() calls, og-images, rss feeds, and generated page[s]. You can view an example in `src/content/post/draft-post.md` |
+- 只同步 open issue。
+- 会跳过 `codex`、`bug` 等非内容标签。
+- 已存在文章按 issue number 前缀匹配。
+- 远端 issue 更新后会重写本地中文文章，并删除对应英文译文，方便重新翻译。
 
-### Note Frontmatter
+### 生成英文译文
 
-| Property (\* required) | Description                                                                                                           |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| title \*               | Used as the link text to the note, the pages title property, and the h1 of said note page. Has a max length 60 chars. |
-| description            | Optional. Used for the head meta description property.                                                                |
-| publishDate \*         | ISO 8601 format with offsets allowed.                                                                                 |
+`scripts/translate-posts.ts` 使用 DeepSeek 的 OpenAI 兼容接口，把缺失的中文文章翻译成 `.en.md`。
 
-### Tag Frontmatter
+```bash
+DEEPSEEK_API_KEY=xxx npx tsx scripts/translate-posts.ts
+```
 
-| Property (\* required) | Description                                                                                             |
-| ---------------------- | ------------------------------------------------------------------------------------------------------- |
-| title                  | Optional. Used as the h1 on the tags' page, and the pages title property. Has a max length of 60 chars. |
-| description            | Optional. Used for the head meta description and the first paragraph under the h1.                      |
+常用参数：
 
-### Frontmatter snippets
+```bash
+npx tsx scripts/translate-posts.ts --slug=104-
+npx tsx scripts/translate-posts.ts --limit=1
+npx tsx scripts/translate-posts.ts --dry-run
+npx tsx scripts/translate-posts.ts --force
+```
 
-Astro Cactus includes a helpful VSCode snippet which creates a frontmatter 'stub' for posts and note's, found here -> `.vscode/post.code-snippets`. Start typing the word `frontmatter` on your newly created .md(x) file to trigger it. Visual Studio Code snippets appear in IntelliSense via (⌃Space) on mac, (Ctrl+Space) on windows.
+### 生成 AI 摘要
 
-## Pagefind search
+`scripts/generate-ai-content.ts` 会为文章补齐 `aiSummary` 和 `aiSummaryEn`。
 
-This integration brings a static search feature for searching blog posts and notes. In its current form, pagefind only works once the site has been built. This theme adds a postbuild script that should be run after Astro has built the site. You can preview locally by running both build && postbuild.
+```bash
+OPENAI_API_KEY=xxx OPENAI_BASE_URL=https://api.openai.com/v1 npx tsx scripts/generate-ai-content.ts
+```
 
-Search results only includes pages from posts and notes. If you would like to include other/all your pages, remove/re-locate the attribute `data-pagefind-body` to the article tag found in `src/layouts/BlogPost.astro` and `src/components/note/Note.astro`.
+也支持读取 `ANTHROPIC_API_KEY`、`ANTHROPIC_BASE_URL` 和 `ANTHROPIC_DEFAULT_SONNET_MODEL`。
 
-It also allows you to filter posts by tags added in the frontmatter of blog posts. If you would rather remove this, remove the data attribute `data-pagefind-filter="tag"` from the link in `src/components/blog/Masthead.astro`.
+## 站点配置
 
-If you would rather not include this integration, simply remove the component `src/components/Search.astro`, and uninstall both `@pagefind/default-ui` & `pagefind` from package.json. You will also need to remove the postbuild script from here as well.
+核心配置在 `src/site.config.ts`：
 
-You can reduce the initial css payload of your css, [as demonstrated here](https://github.com/chrismwilliams/astro-theme-cactus/pull/145#issue-1943779868), by lazy loading the web components styles.
+- `siteConfig.url`：站点域名
+- `siteConfig.title`：站点标题
+- `siteConfig.description`：站点描述
+- `siteConfig.date`：日期本地化配置
+- `expressiveCodeOptions`：代码块主题和样式
 
-## Analytics
+路由和语言相关逻辑在 `src/utils/i18n.ts`。当前支持：
 
-You may want to track the number of visitors you receive to your blog/website in order to understand trends and popular posts/pages you've created. There are a number of providers out there one could use, including web hosts such as [vercel](https://vercel.com/analytics), [netlify](https://www.netlify.com/products/analytics/), and [cloudflare](https://www.cloudflare.com/web-analytics/).
+- `/zh`：中文
+- `/en`：英文
 
-This theme/template doesn't include a specific solution due to there being a number of use cases and/or options which some people may or may not use.
+## 搜索
 
-You may be asked to included a snippet inside the **HEAD** tag of your website when setting it up, which can be found in `src/layouts/Base.astro`. Alternatively, you can add the snippet in `src/components/BaseHead.astro`.
+搜索基于 Pagefind。开发环境不会生成索引，需要先构建再预览：
 
-## Deploy
+```bash
+pnpm build
+pnpm postbuild
+pnpm preview
+```
 
-[Astro docs](https://docs.astro.build/en/guides/deploy/) has a great section and breakdown of how to deploy your own Astro site on various platforms and their idiosyncrasies.
+## 部署
 
-By default the site will be built (see [Commands](#commands) section above) to a `/dist` directory.
+部署工作流位于 `.github/workflows/deploy.yml`。主流程是：
 
-## Acknowledgment
+1. 安装依赖。
+2. 从 GitHub Issues 增量同步文章。
+3. 使用 DeepSeek 翻译新增或更新文章。
+4. 将同步后的内容提交回 `main`。
+5. 构建 Astro 站点。
+6. 部署到 GitHub Pages。
 
-This theme was inspired by [Hexo Theme Cactus](https://github.com/probberechts/hexo-theme-cactus)
+需要在 GitHub 仓库中配置：
+
+- `GH_TOKEN`
+- `DEEPSEEK_API_KEY`
+
+## 致谢
+
+项目最初基于 [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus) 修改。
 
 ## License
 
