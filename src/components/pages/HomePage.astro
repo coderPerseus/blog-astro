@@ -18,7 +18,7 @@ type PostLike = CollectionEntry<"post"> | CollectionEntry<"postEn">;
 const allPosts = (await getAllPostsByLang(lang)) as PostLike[];
 const allPostsByDate = [...allPosts].sort(collectionDateSort);
 const latestPosts = allPostsByDate.slice(0, MAX_POSTS);
-const postsPath = withLang("/posts/", lang);
+const postsPath = withLang("/posts", lang);
 ---
 
 <PageLayout lang={lang} meta={{ title: t("home.meta_title", lang) }}>

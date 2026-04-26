@@ -11,11 +11,13 @@ import { getLangFromRequest, getLocale, type Lang, t } from "@/utils/i18n";
 interface Props {
 	meta: SiteMeta;
 	lang?: Lang;
+	pagefindIgnore?: boolean;
 }
 
 const {
 	lang = getLangFromRequest(Astro.url),
 	meta: { articleDate, description = t("site.description", lang), ogImage, title },
+	pagefindIgnore = false,
 } = Astro.props;
 const htmlLang = getLocale(lang);
 ---
@@ -34,6 +36,7 @@ const htmlLang = getLocale(lang);
 	</head>
 	<body
 		class="bg-global-bg text-global-text flex min-h-screen flex-col font-sans text-sm font-normal antialiased"
+		data-pagefind-ignore={pagefindIgnore ? true : undefined}
 	>
 		<SkipLink lang={lang} />
 		<Header lang={lang} />

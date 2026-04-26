@@ -18,7 +18,7 @@ const { as: Tag = "div", lang = "zh", post, withDesc = false } = Astro.props;
 	{post.data.draft && <span class="text-red-500">(Draft) </span>}
 	<a
 		class="decoration-muted/35 hover:text-link hover:decoration-link group-hover:text-link inline-flex items-baseline gap-2 underline underline-offset-4 transition-colors"
-		href={withLang(`/posts/${post.id}/`, lang)}
+		href={withLang(`/posts/${post.id}`, lang)}
 	>
 		{post.data.title}
 		<span

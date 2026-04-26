@@ -17,6 +17,7 @@ const homePath = withLang("/", lang);
 const siteTitle = t("site.title", lang);
 const navLabel = lang === "zh" ? "主导航" : "Primary navigation";
 const mobileNavLabel = lang === "zh" ? "移动导航" : "Mobile navigation";
+const isHome = currentPath === "/";
 ---
 
 <header
@@ -26,23 +27,40 @@ const mobileNavLabel = lang === "zh" ? "移动导航" : "Mobile navigation";
 	<div
 		class="mx-auto flex h-14 w-full max-w-5xl items-center gap-4 px-5 sm:h-16 sm:px-8"
 	>
-		<a
-			aria-current={currentPath === "/" ? "page" : false}
-			class="flex items-center gap-2.5"
-			href={homePath}
-		>
-			<Image
-				alt={`${siteTitle} Logo`}
-				class="h-8 w-8 rounded-full"
-				height={32}
-				loading="eager"
-				src={logo}
-				width={32}
-			/>
-			<span class="text-base font-semibold tracking-tight text-accent-2">
-				{siteTitle}
-			</span>
-		</a>
+		{
+			isHome ? (
+				<div
+					aria-current="page"
+					class="flex items-center gap-2.5 cursor-default"
+				>
+					<Image
+						alt={`${siteTitle} Logo`}
+						class="h-8 w-8 rounded-full"
+						height={32}
+						loading="eager"
+						src={logo}
+						width={32}
+					/>
+					<span class="text-base font-semibold tracking-tight text-accent-2">
+						{siteTitle}
+					</span>
+				</div>
+			) : (
+				<a class="flex items-center gap-2.5" href={homePath}>
+					<Image
+						alt={`${siteTitle} Logo`}
+						class="h-8 w-8 rounded-full"
+						height={32}
+						loading="eager"
+						src={logo}
+						width={32}
+					/>
+					<span class="text-base font-semibold tracking-tight text-accent-2">
+						{siteTitle}
+					</span>
+				</a>
+			)
+		}
 
 		<nav
 			aria-label={navLabel}
@@ -52,13 +70,25 @@ const mobileNavLabel = lang === "zh" ? "移动导航" : "Mobile navigation";
 			{
 				menuLinks.map((link) => {
 					const linkPath = stripLangFromPath(link.path);
+					const normalizedLink = linkPath.replace(/\/$/, "") || "/";
+					const normalizedCurrent = currentPath.replace(/\/$/, "") || "/";
 					const isActive =
 						linkPath === "/"
 							? currentPath === "/"
 							: currentPath.startsWith(linkPath.replace(/\/$/, ""));
+					const isCurrentPage = normalizedCurrent === normalizedLink;
+					if (isCurrentPage) {
+						return (
+							<span
+								aria-current="page"
+								class="rounded-md px-3 py-1.5 text-sm text-accent cursor-default"
+							>
+								{link.title}
+							</span>
+						);
+					}
 					return (
 						<a
-							aria-current={isActive ? "page" : false}
 							class={`rounded-md px-3 py-1.5 text-sm transition-colors ${
 								isActive
 									? "text-accent"
@@ -130,14 +160,30 @@ const mobileNavLabel = lang === "zh" ? "移动导航" : "Mobile navigation";
 		id="mobile-menu"
 	>
 		{
-			menuLinks.map((link) => (
-				<a
-					class="border-b border-border/60 px-5 py-3 text-sm text-muted hover:text-accent"
-					href={link.path}
-				>
-					{link.title}
-				</a>
-			))
+			menuLinks.map((link) => {
+				const linkPath = stripLangFromPath(link.path);
+				const normalizedLink = linkPath.replace(/\/$/, "") || "/";
+				const normalizedCurrent = currentPath.replace(/\/$/, "") || "/";
+				const isCurrentPage = normalizedCurrent === normalizedLink;
+				if (isCurrentPage) {
+					return (
+						<span
+							aria-current="page"
+							class="border-b border-border/60 px-5 py-3 text-sm text-accent cursor-default"
+						>
+							{link.title}
+						</span>
+					);
+				}
+				return (
+					<a
+						class="border-b border-border/60 px-5 py-3 text-sm text-muted hover:text-accent"
+						href={link.path}
+					>
+						{link.title}
+					</a>
+				);
+			})
 		}
 	</nav>
 </header>

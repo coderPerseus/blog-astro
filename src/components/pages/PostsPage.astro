@@ -112,7 +112,7 @@ const INITIAL_BATCH = 20;
 											<div class="min-w-0">
 												<a
 													class="hover:text-accent hover:decoration-accent inline break-words text-base underline decoration-transparent underline-offset-4 transition-colors"
-													href={withLang(`/posts/${post.id}/`, lang)}
+													href={withLang(`/posts/${post.id}`, lang)}
 												>
 													{post.data.draft && <span class="text-red-500">(Draft) </span>}
 													{post.data.title}
@@ -148,7 +148,7 @@ const INITIAL_BATCH = 20;
 				role="list"
 			>
 				<li class="shrink-0 lg:shrink">
-					<a class="tag-chip is-active" data-tag="" href={withLang("/posts/", lang)}>
+					<a class="tag-chip is-active" data-tag="" href={withLang("/posts", lang)}>
 						{t("posts.all", lang)}
 						<span class="text-muted">{allPostsByDate.length}</span>
 					</a>
@@ -159,7 +159,7 @@ const INITIAL_BATCH = 20;
 							<a
 								class="tag-chip"
 								data-tag={tag}
-								href={`${withLang("/posts/", lang)}?tag=${encodeURIComponent(tag)}`}
+								href={`${withLang("/posts", lang)}?tag=${encodeURIComponent(tag)}`}
 							>
 								#{tag} <span class="text-muted">{count}</span>
 							</a>

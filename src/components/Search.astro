@@ -68,7 +68,11 @@ const { lang } = Astro.props;
 		#closeBtn: HTMLButtonElement | null;
 		#dialog: HTMLDialogElement | null;
 		#dialogFrame: HTMLDivElement | null;
+		#loadMoreButton: HTMLButtonElement | null;
+		#loadMoreObserver: IntersectionObserver | null;
+		#mutationObserver: MutationObserver | null;
 		#openBtn: HTMLButtonElement | null;
+		#searchContainer: HTMLDivElement | null;
 		#controller: AbortController;
 
 		constructor() {
@@ -77,6 +81,10 @@ const { lang } = Astro.props;
 			this.#closeBtn = this.querySelector<HTMLButtonElement>("button[data-close-modal]");
 			this.#dialog = this.querySelector<HTMLDialogElement>("dialog");
 			this.#dialogFrame = this.querySelector(".dialog-frame");
+			this.#searchContainer = this.querySelector(".search-container");
+			this.#loadMoreButton = null;
+			this.#loadMoreObserver = null;
+			this.#mutationObserver = null;
 			this.#controller = new AbortController();
 
 			// Set up events
@@ -113,6 +121,7 @@ const { lang } = Astro.props;
 					showImages: false,
 					showSubResults: true,
 				});
+				this.watchSearchResults();
 			});
 		}
 
@@ -122,8 +131,70 @@ const { lang } = Astro.props;
 		}
 
 		disconnectedCallback() {
+			this.#loadMoreObserver?.disconnect();
+			this.#mutationObserver?.disconnect();
 			this.#controller.abort();
 		}
+
+		watchSearchResults = () => {
+			if (!this.#searchContainer) return;
+
+			this.#searchContainer.addEventListener("wheel", this.onSearchWheel, {
+				passive: false,
+				signal: this.#controller.signal,
+			});
+			this.#mutationObserver = new MutationObserver(this.observeLoadMoreButton);
+			this.#mutationObserver.observe(this.#searchContainer, {
+				childList: true,
+				subtree: true,
+			});
+			this.observeLoadMoreButton();
+		};
+
+		observeLoadMoreButton = () => {
+			if (!this.#searchContainer) return;
+
+			const button = this.#searchContainer.querySelector<HTMLButtonElement>(".pagefind-ui__button");
+			if (!button || button === this.#loadMoreButton) return;
+
+			this.#loadMoreObserver?.disconnect();
+			this.#loadMoreButton = button;
+			this.#loadMoreObserver = new IntersectionObserver(
+				(entries) => {
+					const entry = entries[0];
+					if (!entry?.isIntersecting || button.disabled) return;
+
+					this.#loadMoreObserver?.unobserve(button);
+					button.click();
+					this.#loadMoreButton = null;
+					window.requestAnimationFrame(() => this.observeLoadMoreButton());
+				},
+				{
+					root: this.#searchContainer,
+					rootMargin: "0px 0px 160px",
+					threshold: 0.01,
+				},
+			);
+			this.#loadMoreObserver.observe(button);
+		};
+
+		onSearchWheel = (event: WheelEvent) => {
+			if (!this.#searchContainer) return;
+
+			const { clientHeight, scrollHeight, scrollTop } = this.#searchContainer;
+			if (scrollHeight <= clientHeight) {
+				event.preventDefault();
+				event.stopPropagation();
+				return;
+			}
+
+			const atTop = scrollTop <= 0;
+			const atBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
+			if ((event.deltaY < 0 && atTop) || (event.deltaY > 0 && atBottom)) {
+				event.preventDefault();
+			}
+			event.stopPropagation();
+		};
 
 		openModal = (event?: MouseEvent) => {
 			if (!this.#dialog) {

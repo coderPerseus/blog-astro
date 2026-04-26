@@ -14,7 +14,7 @@ const siteTitle = t("site.title", lang);
 
 <footer class="border-border bg-global-bg mt-auto border-t">
 	<div
-		class="text-muted mx-auto flex w-full max-w-5xl flex-col items-center justify-around gap-3 px-5 py-8 text-xs sm:flex-row sm:flex-wrap sm:gap-x-5 sm:px-8"
+		class="text-muted mx-auto flex w-full max-w-5xl flex-col items-center justify-between gap-3 px-5 py-8 text-xs sm:flex-row sm:flex-wrap sm:gap-x-5 sm:px-8"
 	>
 		<span>&copy; {year} {siteConfig.author} · {siteTitle}</span>
 		<a
@@ -23,7 +23,13 @@ const siteTitle = t("site.title", lang);
 			rel="noreferrer"
 			target="_blank"
 		>
-			<img alt={lang === "zh" ? "备案" : "ICP filing"} class="h-4 w-4" height="16" src="/police.png" width="16" />
+			<img
+				alt={lang === "zh" ? "备案" : "ICP filing"}
+				class="h-4 w-4"
+				height="16"
+				src="/police.png"
+				width="16"
+			/>
 			浙ICP备2021039023号-3
 		</a>
 		<nav aria-labelledby="footer_links" class="flex items-center gap-1">

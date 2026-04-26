@@ -23,6 +23,7 @@ const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;
 const summaryText = lang === "en" ? aiSummaryEn || aiSummary : aiSummary || aiSummaryEn;
+const pagefindIgnore = Astro.url.pathname.startsWith("/posts/");
 ---
 
 <BaseLayout
@@ -33,8 +34,9 @@ const summaryText = lang === "en" ? aiSummaryEn || aiSummary : aiSummary || aiSu
 		ogImage: socialImage,
 		title,
 	}}
+	pagefindIgnore={pagefindIgnore}
 >
-	<article class="grow break-words" data-pagefind-body>
+	<article class="grow break-words" data-pagefind-body={pagefindIgnore ? undefined : true}>
 		<div id="blog-hero" class="mb-5">
 			<Masthead content={post} lang={lang} readingTime={readingTime} />
 		</div>

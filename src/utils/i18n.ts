@@ -138,8 +138,9 @@ export function withLang(pathname: string, lang: Lang): string {
 
 	const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
 	const stripped = stripLangFromPath(normalized);
-	if (stripped === "/") return `/${lang}/`;
-	return `/${lang}${stripped}`;
+	if (stripped === "/") return `/${lang}`;
+	const trimmed = stripped.replace(/\/+$/, "");
+	return `/${lang}${trimmed}`;
 }
 
 export function switchLangPath(pathname: string, lang: Lang): string {
@@ -149,7 +150,7 @@ export function switchLangPath(pathname: string, lang: Lang): string {
 export function getMenuLinks(lang: Lang): { path: string; title: string }[] {
 	return [
 		{ path: withLang("/", lang), title: t("nav.home", lang) },
-		{ path: withLang("/posts/", lang), title: t("nav.posts", lang) },
+		{ path: withLang("/posts", lang), title: t("nav.posts", lang) },
 	];
 }
 
