@@ -155,13 +155,25 @@ jobs:
           fi
 
           REMOTE_PATH=$(printf '%q' "$BAOTA_PATH")
-          echo "Checking remote path and rsync on $SSH_TARGET"
-          if ! ssh "${SSH_OPTIONS[@]}" "$SSH_TARGET" "mkdir -p $REMOTE_PATH && test -w $REMOTE_PATH && command -v rsync >/dev/null"; then
-            echo "::error::Remote preflight failed. Check BAOTA_PATH permissions and make sure rsync is installed on the server."
+          echo "Checking remote path on $SSH_TARGET"
+          if ! ssh "${SSH_OPTIONS[@]}" "$SSH_TARGET" "mkdir -p $REMOTE_PATH"; then
+            echo "::error::Unable to create BAOTA_PATH. Check the parent directory and BAOTA_USER permissions."
+            exit 1
+          fi
+
+          if ! ssh "${SSH_OPTIONS[@]}" "$SSH_TARGET" "test -d $REMOTE_PATH && test -w $REMOTE_PATH"; then
+            echo "::error::BAOTA_PATH exists but is not writable by BAOTA_USER."
+            exit 1
+          fi
+
+          echo "Checking rsync on $SSH_TARGET"
+          if ! ssh "${SSH_OPTIONS[@]}" "$SSH_TARGET" "command -v rsync >/dev/null"; then
+            echo "::error::rsync is not installed on the BaoTa server."
             exit 1
           fi
 
           rsync -az --delete \
+            --exclude='.user.ini' \
             -e "ssh -i ~/.ssh/baota_deploy_key -p $SSH_PORT -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=20" \
             dist/ "$BAOTA_USER@$BAOTA_HOST:$BAOTA_PATH/"
 
