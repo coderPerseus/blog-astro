@@ -23,24 +23,23 @@ const alternatePath = stripLangFromPath(Astro.url.pathname);
 <title>{siteTitle}</title>
 
 {/* Icons */}
-<link href="/icon.svg" rel="icon" type="image/svg+xml" />
-{
-	import.meta.env.PROD && (
-		<>
-			{/* Favicon & Apple Icon */}
-			<link rel="icon" href="/favicon-32x32.png" type="image/png" />
-			<link href="/icons/apple-touch-icon.png" rel="apple-touch-icon" />
-			{/* Manifest */}
-			<link href="/manifest.webmanifest" rel="manifest" />
-		</>
-	)
-}
+<link href="/favicon.ico" rel="icon" sizes="any" />
+<link href="/apple-icon.jpg" rel="apple-touch-icon" />
+<link href="/site.webmanifest" rel="manifest" />
+
+{/* Search Engine Verification */}
+<meta content="codeva-7AmpPWgzQY" name="baidu-site-verification" />
+<meta content="TTbfOvWmLj0icfk0BQNUZB3crwReji82Q_vRdnZFFAc" name="google-site-verification" />
 
 {/* Canonical URL */}
 <link href={canonicalURL} rel="canonical" />
 <link href={new URL(withLang(alternatePath, "zh"), Astro.site)} hreflang="zh-CN" rel="alternate" />
 <link href={new URL(withLang(alternatePath, "en"), Astro.site)} hreflang="en" rel="alternate" />
-<link href={new URL(withLang(alternatePath, "zh"), Astro.site)} hreflang="x-default" rel="alternate" />
+<link
+	href={new URL(withLang(alternatePath, "zh"), Astro.site)}
+	hreflang="x-default"
+	rel="alternate"
+/>
 
 {/* Primary Meta Tags */}
 <meta content={siteTitle} name="title" />
@@ -77,8 +76,11 @@ const alternatePath = stripLangFromPath(Astro.url.pathname);
 <link href="/sitemap-index.xml" rel="sitemap" />
 
 {/* RSS auto-discovery */}
-<link href="/rss.xml" title={getMenuLinks(lang).at(-1)?.title ?? "RSS"} rel="alternate" type="application/rss+xml" />
-
-
+<link
+	href="/rss.xml"
+	title={getMenuLinks(lang).at(-1)?.title ?? "RSS"}
+	rel="alternate"
+	type="application/rss+xml"
+/>
 
 <meta content={Astro.generator} name="generator" />

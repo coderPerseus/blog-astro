@@ -5,16 +5,16 @@ import FormattedDate from "@/components/FormattedDate.astro";
 import { type Lang, localizeReadingTime, t } from "@/utils/i18n";
 
 interface Props {
-	content: CollectionEntry<"post">;
+	content: CollectionEntry<"post"> | CollectionEntry<"postEn">;
 	lang: Lang;
 	readingTime: string;
 }
 
-const {
-	content: { data },
-	lang,
-	readingTime,
-} = Astro.props;
+const { content, lang, readingTime } = Astro.props;
+const data = content.data as typeof content.data & {
+	aiSummary?: string;
+	aiSummaryEn?: string;
+};
 const readingTimeText = localizeReadingTime(readingTime, lang);
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
@@ -82,15 +82,16 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 	<span class="text-muted text-sm">
 		{readingTimeText}
 	</span>
+	<span> / </span>
+	{
+		!!data.tags?.length && (
+			<div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+				{data.tags.map((tag) => (
+					<span class="text-muted" data-pagefind-filter={`tag:${tag}`}>
+						#{tag}
+					</span>
+				))}
+			</div>
+		)
+	}
 </div>
-<!-- {
-	!!data.tags?.length && (
-		<div class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs sm:mt-5">
-			{data.tags.map((tag) => (
-				<span class="text-muted" data-pagefind-filter={`tag:${tag}`}>
-					#{tag}
-				</span>
-			))}
-		</div>
-	)
-} -->

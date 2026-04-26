@@ -1,4 +1,5 @@
 ---
+import Analytics from "@/components/Analytics.astro";
 import BaseHead from "@/components/BaseHead.astro";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
@@ -29,6 +30,7 @@ const htmlLang = getLocale(lang);
 			title={title}
 		/>
 		<ThemeProvider />
+		<Analytics />
 	</head>
 	<body
 		class="bg-global-bg text-global-text flex min-h-screen flex-col font-sans text-sm font-normal antialiased"

@@ -1,24 +1,26 @@
 ---
-import { render } from "astro:content";
+import { type CollectionEntry, render } from "astro:content";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
-import { getAllPosts } from "@/data/post";
+import { getAllPosts, getAllPostsEn } from "@/data/post";
 import PostLayout from "@/layouts/BlogPost.astro";
-import { languages } from "@/utils/i18n";
 
 export const getStaticPaths = (async () => {
-	const blogEntries = await getAllPosts();
-	return languages.flatMap((lang) =>
-		blogEntries.map((post) => ({
-			params: { lang, slug: post.id },
-			props: { lang, post },
-		})),
-	);
+	const [zhPosts, enPosts] = await Promise.all([getAllPosts(), getAllPostsEn()]);
+	const zhPaths = zhPosts.map((post) => ({
+		params: { lang: "zh", slug: post.id },
+		props: { lang: "zh" as const, post },
+	}));
+	const enPaths = enPosts.map((post) => ({
+		params: { lang: "en", slug: post.id },
+		props: { lang: "en" as const, post },
+	}));
+	return [...zhPaths, ...enPaths];
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { lang, post } = Astro.props as Props;
-const { Content } = await render(post);
+const { Content } = await render(post as CollectionEntry<"post"> | CollectionEntry<"postEn">);
 ---
 
 <PostLayout lang={lang} post={post}>

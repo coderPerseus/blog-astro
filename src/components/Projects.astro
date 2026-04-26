@@ -2,6 +2,7 @@
 type Project = {
 	url: string;
 	icon: string;
+	tone: "green" | "blue" | "violet" | "red" | "cyan" | "amber";
 	name: {
 		zh: string;
 		en: string;
@@ -25,6 +26,7 @@ const projects: Project[] = [
 	{
 		url: "https://cocotranslate.com/",
 		icon: "/projects/cocotranslate.png",
+		tone: "green",
 		name: {
 			zh: "椰子翻译",
 			en: "coco translate",
@@ -38,6 +40,7 @@ const projects: Project[] = [
 	{
 		url: "https://easykol.com/",
 		icon: "/projects/easykol.png",
+		tone: "blue",
 		name: {
 			zh: "Easykol",
 			en: "Easykol",
@@ -51,6 +54,7 @@ const projects: Project[] = [
 	{
 		url: "https://neovateai.dev/",
 		icon: "/projects/neovateCode.png",
+		tone: "violet",
 		name: {
 			zh: "Neovate Code",
 			en: "Neovate Code",
@@ -79,6 +83,7 @@ const projects: Project[] = [
 	{
 		url: "https://www.npmjs.com/package/bytemd-plugin-image-lazy",
 		icon: "/projects/npmIcon.webp",
+		tone: "red",
 		name: {
 			zh: "bytemd 图片懒加载插件",
 			en: "bytemd image lazyload",
@@ -99,6 +104,7 @@ const projects: Project[] = [
 	{
 		url: "https://www.laoyujianli.com",
 		icon: "/projects/resume.png",
+		tone: "cyan",
 		name: {
 			zh: "老鱼简历",
 			en: "laoyu resume",
@@ -112,6 +118,7 @@ const projects: Project[] = [
 	{
 		url: "https://www.codecopy.cn",
 		icon: "/projects/codecopy.png",
+		tone: "amber",
 		name: {
 			zh: "代码小抄",
 			en: "codecopy",
@@ -131,58 +138,334 @@ function hostOf(url: string) {
 		return url;
 	}
 }
+
+function labelFor(tag: string) {
+	if (tag === "公司") return t("projects.company", lang);
+	if (tag === "开源") return t("projects.open_source", lang);
+	return t("projects.personal", lang);
+}
 ---
 
-<ul role="list" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+<ul role="list" class="project-grid">
 	{
 		projects.map((p) => (
-			<li>
+			<li class="project-item">
 				<a
-					class="group border-border bg-surface/40 hover:border-accent/50 hover:bg-surface flex h-full flex-col gap-3 rounded-lg border p-5 transition-all"
+					class:list={["project-card group", `project-card--${p.tone}`]}
 					href={p.url}
 					rel="noreferrer"
 					target="_blank"
 				>
-					<div class="flex items-center justify-between">
-						<img
-							alt=""
-							class="h-10 w-10 rounded-full object-cover"
-							height="40"
-							loading="lazy"
-							src={p.icon}
-							width="40"
-						/>
-						<svg
-							aria-hidden="true"
-							class="text-muted group-hover:text-accent h-4 w-4 transition-colors"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-							viewBox="0 0 24 24"
-						>
-							<path d="M7 17L17 7M17 7H8M17 7V16" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
+					<div class="project-card__glow" aria-hidden="true" />
+
+					<div class="project-card__body">
+						<div class="project-card__header">
+							<div class="project-card__media">
+								<img
+									alt=""
+									class="project-card__icon"
+									height="68"
+									loading="lazy"
+									src={p.icon}
+									width="68"
+								/>
+							</div>
+							<h3 class="project-card__title">{p.name[lang]}</h3>
+						</div>
+						<p class="project-card__desc">{p.description[lang]}</p>
 					</div>
-					<h3 class="text-accent-2 group-hover:text-accent text-base font-semibold">
-						{p.name[lang]}
-					</h3>
-					<p class="text-muted line-clamp-3 flex-1 text-sm leading-6">{p.description[lang]}</p>
-					<div class="flex items-center justify-between gap-2 pt-1">
-						<div class="flex flex-wrap gap-1.5">
+					<div class="project-card__footer">
+						<div class="project-card__tags">
 							{p.tags.map((tag) => (
-								<span class="chip">
-									{tag === "公司"
-										? t("projects.company", lang)
-										: tag === "开源"
-											? t("projects.open_source", lang)
-											: t("projects.personal", lang)}
+								<span class:list={["project-card__tag", `project-card__tag--${p.tone}`]}>
+									{labelFor(tag)}
 								</span>
 							))}
 						</div>
-						<span class="text-muted text-xs">{hostOf(p.url)}</span>
+						<span class="project-card__host">
+							{hostOf(p.url)}
+							<svg
+								aria-hidden="true"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.7"
+								viewBox="0 0 24 24"
+							>
+								<path d="M7 17 17 7M17 7H8M17 7v9" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+						</span>
 					</div>
 				</a>
 			</li>
 		))
 	}
 </ul>
+
+<style>
+	.project-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.project-card {
+		--project-rgb: 124 58 237;
+		--project-ink: rgb(var(--project-rgb));
+		position: relative;
+		isolation: isolate;
+		display: flex;
+		flex-direction: column;
+		min-height: 13.75rem;
+		height: 100%;
+		gap: 1rem;
+		overflow: hidden;
+		border: 1px solid color-mix(in oklch, rgb(var(--project-rgb)) 24%, var(--color-border));
+		border-radius: 10px;
+		background:
+			radial-gradient(circle at 9% 9%, rgb(var(--project-rgb) / 0.12), transparent 30%),
+			linear-gradient(135deg, rgb(var(--project-rgb) / 0.08), transparent 36%),
+			var(--color-global-bg);
+		box-shadow:
+			0 18px 42px rgb(24 24 27 / 0.08),
+			inset 0 1px 0 rgb(255 255 255 / 0.75);
+		padding: 1.35rem;
+		text-decoration: none;
+		transition:
+			border-color 180ms ease,
+			box-shadow 180ms ease,
+			transform 180ms ease;
+	}
+
+	:global([data-theme="dark"]) .project-card {
+		background:
+			radial-gradient(circle at 10% 9%, rgb(var(--project-rgb) / 0.2), transparent 32%),
+			linear-gradient(135deg, rgb(var(--project-rgb) / 0.1), transparent 38%),
+			color-mix(in oklch, var(--color-surface) 92%, black);
+		box-shadow:
+			0 18px 42px rgb(0 0 0 / 0.2),
+			inset 0 1px 0 rgb(255 255 255 / 0.05);
+	}
+
+	.project-card:hover {
+		border-color: color-mix(in oklch, rgb(var(--project-rgb)) 46%, var(--color-border));
+		box-shadow:
+			0 22px 54px rgb(var(--project-rgb) / 0.15),
+			inset 0 1px 0 rgb(255 255 255 / 0.85);
+		transform: translateY(-3px);
+	}
+
+	:global([data-theme="dark"]) .project-card:hover {
+		box-shadow:
+			0 22px 54px rgb(0 0 0 / 0.28),
+			0 0 0 1px rgb(var(--project-rgb) / 0.14) inset;
+	}
+
+	.project-card--green {
+		--project-rgb: 107 190 74;
+	}
+
+	.project-card--blue {
+		--project-rgb: 74 134 244;
+	}
+
+	.project-card--violet {
+		--project-rgb: 139 92 246;
+	}
+
+	.project-card--red {
+		--project-rgb: 239 68 68;
+	}
+
+	.project-card--cyan {
+		--project-rgb: 59 130 246;
+	}
+
+	.project-card--amber {
+		--project-rgb: 245 158 11;
+	}
+
+	.project-card__glow {
+		position: absolute;
+		inset: auto -18% -38% 20%;
+		z-index: -1;
+		height: 9rem;
+		background: repeating-linear-gradient(
+			-12deg,
+			rgb(var(--project-rgb) / 0.08) 0 1px,
+			transparent 1px 12px
+		);
+		opacity: 0.68;
+		mask-image: linear-gradient(90deg, transparent, black 30%, transparent);
+		pointer-events: none;
+	}
+
+	.project-card__media {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		flex: 0 0 2.25rem;
+		place-items: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: 22px;
+		background: rgb(255 255 255 / 0.74);
+		box-shadow:
+			0 16px 28px rgb(var(--project-rgb) / 0.2),
+			0 8px 18px rgb(24 24 27 / 0.08);
+	}
+
+	:global([data-theme="dark"]) .project-card__media {
+		background: rgb(255 255 255 / 0.08);
+		box-shadow:
+			0 16px 28px rgb(0 0 0 / 0.2),
+			0 0 0 1px rgb(255 255 255 / 0.06) inset;
+	}
+
+	.project-card__icon {
+		display: block;
+		width: 100%;
+		height: 100%;
+		border-radius: inherit;
+		object-fit: cover;
+	}
+
+	.project-card__body {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		min-width: 0;
+	}
+
+	.project-card__header {
+		display: flex;
+		align-items: center;
+		gap: 0.65rem;
+		min-width: 0;
+	}
+
+	.project-card__title {
+		min-width: 0;
+		margin: 0;
+		color: var(--color-accent-2);
+		font-size: 1.16rem;
+		font-weight: 700;
+		letter-spacing: 0;
+		line-height: 1.25;
+		overflow-wrap: anywhere;
+		transition: color 180ms ease;
+	}
+
+	.project-card:hover .project-card__title {
+		color: var(--project-ink);
+	}
+
+	.project-card__desc {
+		display: -webkit-box;
+		margin: 0.58rem 0 0;
+		overflow: hidden;
+		color: var(--color-muted);
+		font-size: 0.88rem;
+		line-height: 1.75;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+	}
+
+	.project-card__footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		min-width: 0;
+		margin-top: auto;
+		border-top: 1px solid rgb(var(--project-rgb) / 0.1);
+		padding-top: 0.95rem;
+	}
+
+	.project-card__tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+	}
+
+	.project-card__tag {
+		display: inline-flex;
+		align-items: center;
+		border: 1px solid rgb(var(--project-rgb) / 0.28);
+		border-radius: 7px;
+		background: rgb(var(--project-rgb) / 0.08);
+		color: var(--project-ink);
+		font-size: 0.72rem;
+		font-weight: 700;
+		line-height: 1;
+		padding: 0.36rem 0.52rem;
+	}
+
+	.project-card__host {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		min-width: 0;
+		max-width: 100%;
+		overflow: hidden;
+		color: var(--color-muted);
+		font-size: 0.76rem;
+		line-height: 1;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.project-card__host svg {
+		flex: 0 0 auto;
+		width: 0.95rem;
+		height: 0.95rem;
+		color: color-mix(in oklch, var(--color-muted) 80%, var(--project-ink));
+	}
+
+	@media (min-width: 640px) {
+		.project-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (min-width: 900px) {
+		.project-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 1rem;
+		}
+	}
+
+	@media (max-width: 899px) {
+		.project-card {
+			min-height: 12rem;
+		}
+	}
+
+	@media (max-width: 420px) {
+		.project-card {
+			gap: 0.85rem;
+			padding: 1.1rem;
+		}
+
+		.project-card__header {
+			gap: 0.75rem;
+		}
+
+		.project-card__media {
+			width: 3.7rem;
+			height: auto;
+			border-radius: 18px;
+		}
+
+		.project-card__title {
+			font-size: 1.03rem;
+		}
+
+		.project-card__footer {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+	}
+</style>

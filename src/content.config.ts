@@ -6,14 +6,18 @@ function removeDupsAndLowerCase(array: string[]) {
 	return [...new Set(array.map((str) => str.toLowerCase()))];
 }
 
-const titleSchema = z.string().max(120);
+// EN translations are typically 1.5–2x longer than the Chinese original.
+const titleSchema = z.string().max(200);
 
 const baseSchema = z.object({
 	title: titleSchema,
 });
 
 const post = defineCollection({
-	loader: glob({ base: "./src/content/post", pattern: "**/*.{md,mdx}" }),
+	loader: glob({
+		base: "./src/content/post",
+		pattern: ["**/*.{md,mdx}", "!**/*.en.{md,mdx}"],
+	}),
 	schema: ({ image }) =>
 		baseSchema.extend({
 			description: z.string().optional(),
@@ -42,4 +46,35 @@ const post = defineCollection({
 		}),
 });
 
-export const collections = { post };
+const postEn = defineCollection({
+	loader: glob({
+		base: "./src/content/post",
+		pattern: "**/*.en.{md,mdx}",
+		// Strip the trailing ".en" so EN entries share an id with their ZH original.
+		generateId: ({ entry }) => entry.replace(/\.en\.(md|mdx)$/, ""),
+	}),
+	schema: ({ image }) =>
+		baseSchema.extend({
+			description: z.string().optional(),
+			coverImage: z
+				.object({
+					alt: z.string(),
+					src: image(),
+				})
+				.optional(),
+			draft: z.boolean().default(false),
+			ogImage: z.string().optional(),
+			tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
+			publishDate: z
+				.string()
+				.or(z.date())
+				.transform((val) => new Date(val)),
+			updatedDate: z
+				.string()
+				.optional()
+				.transform((str) => (str ? new Date(str) : undefined)),
+			pinned: z.boolean().default(false),
+		}),
+});
+
+export const collections = { post, postEn };

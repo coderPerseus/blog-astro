@@ -9,11 +9,15 @@ import BaseLayout from "./Base.astro";
 
 interface Props {
 	lang?: Lang;
-	post: CollectionEntry<"post">;
+	post: CollectionEntry<"post"> | CollectionEntry<"postEn">;
 }
 
 const { lang = "zh", post } = Astro.props;
-const { ogImage, title, description, updatedDate, publishDate, aiSummary, aiSummaryEn } = post.data;
+const data = post.data as CollectionEntry<"post">["data"] & {
+	aiSummary?: string;
+	aiSummaryEn?: string;
+};
+const { ogImage, title, description, updatedDate, publishDate, aiSummary, aiSummaryEn } = data;
 const socialImage = ogImage ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);

@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
-import { getAllPosts, getUniqueTagsWithCount } from "@/data/post";
+import { getAllPostsByLang, getUniqueTagsWithCount } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
 import { type Lang, t, withLang } from "@/utils/i18n";
@@ -11,8 +11,9 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const allPosts = await getAllPosts();
-const allPostsByDate = allPosts.sort(collectionDateSort) as CollectionEntry<"post">[];
+type PostLike = CollectionEntry<"post"> | CollectionEntry<"postEn">;
+const allPosts = (await getAllPostsByLang(lang)) as PostLike[];
+const allPostsByDate = [...allPosts].sort(collectionDateSort);
 const tagsWithCount = getUniqueTagsWithCount(allPosts);
 
 const meta = {
@@ -26,7 +27,7 @@ const postsByYear = allPostsByDate.reduce((groups, post) => {
 	group.push(post);
 	groups.set(year, group);
 	return groups;
-}, new Map<string, CollectionEntry<"post">[]>());
+}, new Map<string, PostLike[]>());
 
 const timelineGroups = Array.from(postsByYear, ([year, posts]) => ({ posts, year }));
 

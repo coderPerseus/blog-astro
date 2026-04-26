@@ -83,10 +83,11 @@ const translations: Record<string, Record<Lang, string>> = {
 	"social.find_me": { zh: "找到我", en: "Find me" },
 	"404.title": { zh: "404 | 页面未找到", en: "404 | Page Not Found" },
 	"404.message": {
-		zh: "请使用导航找到你要的内容",
-		en: "Please use the navigation to find your way back",
+		zh: "糟糕，你要找的页面不存在。",
+		en: "Oops, the page you’re looking for can’t be found.",
 	},
 	"404.heading": { zh: "页面未找到", en: "Page not found" },
+	"404.cta": { zh: "返回首页", en: "Back to Home" },
 	"about.title": { zh: "关于", en: "About" },
 	"about.description": {
 		zh: "前端开发者 | AI 探索者 | 终身学习者",

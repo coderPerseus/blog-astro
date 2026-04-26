@@ -6,7 +6,7 @@ import { type Lang, withLang } from "@/utils/i18n";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 	lang?: Lang;
-	post: CollectionEntry<"post">;
+	post: CollectionEntry<"post"> | CollectionEntry<"postEn">;
 	withDesc?: boolean;
 };
 

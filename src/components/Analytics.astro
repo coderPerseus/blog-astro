@@ -1,0 +1,35 @@
+---
+const googleId = import.meta.env.PUBLIC_GOOGLE_ID;
+const baiduId = import.meta.env.PUBLIC_BAIDU_TONGJI;
+const isProd = import.meta.env.PROD;
+---
+
+{
+	isProd && googleId && (
+		<>
+			<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${googleId}`} />
+			<script is:inline define:vars={{ googleId }}>
+				window.dataLayer = window.dataLayer || [];
+				function gtag() {
+					dataLayer.push(arguments);
+				}
+				gtag("js", new Date());
+				gtag("config", googleId, { page_path: window.location.pathname });
+			</script>
+		</>
+	)
+}
+
+{
+	isProd && baiduId && (
+		<script is:inline define:vars={{ baiduId }}>
+			var _hmt = _hmt || [];
+			(function () {
+				var hm = document.createElement("script");
+				hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+	)
+}
