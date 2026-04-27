@@ -71,7 +71,7 @@ const translations: Record<string, Record<Lang, string>> = {
 	},
 	"home.bio_2": {
 		zh: "技术栈：React/Vue、JavaScript/TypeScript、Next.js、Node.js、Fastify、Nest.js、PostgreSQL、React Native、Electron、Taro、Python等，目前在开发自己的 AI Agent 。这里记录我的所见，所闻，所思",
-		en: "I work with React, Vue, JavaScript, TypeScript, Next.js, Node.js, Fastify, Nest.js, PostgreSQL, React Native, Electron, Taro, and Python. I’m currently building my own AI agent.Here, I share what I see, learn, and think.",
+		en: "I work with React, Vue, JavaScript, TypeScript, Next.js, Node.js, Fastify, Nest.js, PostgreSQL, React Native, Electron, Taro, and Python. I’m currently building my own AI agent. Here, I share what I see, learn, and think.",
 	},
 	"home.bio_3": {
 		zh: "座右铭：提高认知，强化执行，在竞争中做到极致",

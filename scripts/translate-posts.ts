@@ -64,7 +64,7 @@ function getArg(name: string): string | undefined {
 	return found ? found.slice(prefix.length) : undefined;
 }
 const slugFilter = getArg("slug");
-const limit = parseInt(getArg("limit") || "0", 10);
+const limit = Number.parseInt(getArg("limit") || "0", 10);
 const force = getFlag("force");
 const dryRun = getFlag("dry-run");
 
@@ -84,10 +84,7 @@ function parseFrontmatter(raw: string): Fm {
 		const m = line.match(/^([A-Za-z_][\w-]*)\s*:\s*(.+)$/);
 		if (!m) continue;
 		let v = m[2]!.trim();
-		if (
-			(v.startsWith('"') && v.endsWith('"')) ||
-			(v.startsWith("'") && v.endsWith("'"))
-		) {
+		if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
 			v = v.slice(1, -1);
 		}
 		out[m[1]!] = v;
@@ -109,18 +106,24 @@ function buildFrontmatter(fm: Fm): string {
 }
 
 // ---------- DeepSeek call ----------
-const SYSTEM_PROMPT = `You are a professional translator for a personal Chinese tech blog written by a developer.
-Translate the Chinese markdown the user sends into natural, idiomatic English.
+const SYSTEM_PROMPT = `You are a senior Chinese-to-English editor for Lucky Snail, a personal tech blog written by a full-stack developer.
+Translate the Chinese markdown into natural, idiomatic English for international software engineers.
 
-Strict rules:
-1. Output ONLY the translated content. No commentary, no preamble, no surrounding code fences.
-2. Preserve ALL markdown syntax exactly: headings (#), lists, tables, blockquotes, links, images, footnotes, custom directives such as :::tip ... :::, and inline HTML.
-3. Code blocks (fenced with \`\`\`) and inline code (\`...\`) MUST stay byte-for-byte identical, except: translate Chinese comments inside code to English comments. Do NOT translate identifiers, strings, or APIs.
-4. Keep all URLs unchanged. Keep image src unchanged. Translate alt text.
-5. Keep brand and product names in English (React, Next.js, OpenAI, GitHub, Claude, Cursor, etc.). Don't transliterate them.
-6. Tone: clear, conversational, like a developer talking to peers — not academic or marketing-style.
-7. Match the original paragraph structure and length. Don't merge or split paragraphs.
-8. Translate technical terms accurately (e.g. "提示词" → "prompt", "智能体" → "agent", "踩坑" → "pitfall"/"gotcha").`;
+Output rules:
+1. Output ONLY the translated content. No commentary, no preamble, no labels, no surrounding code fences.
+2. Preserve markdown structure exactly: headings (#), lists, tables, blockquotes, links, images, footnotes, custom directives such as :::tip ... :::, and inline HTML. Do not add or remove sections.
+3. Code blocks (fenced with \`\`\`) and inline code (\`...\`) MUST stay byte-for-byte identical, except Chinese comments inside code may be translated to English comments. Do NOT translate identifiers, strings, APIs, shell commands, environment variable names, filenames, URLs, or package names.
+4. Keep URLs and image src values unchanged. Translate image alt text when it is prose.
+
+Editorial rules:
+5. Write fluent English, not word-by-word translation. Preserve the author's meaning and personality, but adapt Chinese idioms, slang, jokes, and cultural references so they make sense in English. If a literal translation would sound odd, use a natural English equivalent or add a short clarifying phrase.
+6. Use a clear, conversational developer tone. Avoid academic, corporate, marketing, and AI-generated phrasing.
+7. Keep sentences complete. Do not drop subjects, articles, or necessary connectors. Fix punctuation spacing and capitalization while preserving markdown structure.
+8. Use sentence case for headings unless a proper noun requires capitalization. Capitalize framework and product names correctly: React, Vue, Next.js, Node.js, Fastify, Nest.js, PostgreSQL, Claude Code, Codex, Cursor, Kimi, GLM, DeepSeek, GitHub.
+9. Remove untranslated Chinese UI labels from English prose unless they are part of a title, product name, quote, or needed cultural context. When keeping Chinese titles, put the English title first and the Chinese title in parentheses.
+10. Translate technical terms consistently: "提示词" -> "prompt", "智能体" -> "agent", "踩坑" -> "pitfall" or "gotcha", "大模型" -> "large model" or "LLM", "划词翻译" -> "selected-text translation", "红人" -> "creator" or "influencer" based on context.
+11. Avoid filler and machine-translation artifacts such as "just do it", "vibe code one", "may good luck be with you", "and so on", "it is worth noting", and repeated exclamation marks. Use natural alternatives.
+12. Match the original paragraph structure and approximate length. Do not merge or split paragraphs unless a sentence would be ungrammatical in English without a small adjustment.`;
 
 async function callDeepSeek(messages: { role: string; content: string }[]): Promise<string> {
 	const url = `${BASE_URL}/chat/completions`;
@@ -267,16 +270,18 @@ async function translateOne(filepath: string): Promise<"translated" | "skipped" 
 	const title = fm.title ?? path.basename(filepath, ".md");
 
 	if (dryRun) {
-		console.log(`  [dry-run] would translate title + ${fm.description ? "description + " : ""}body (${split.body.length} chars) → ${path.basename(enPath)}`);
+		console.log(
+			`  [dry-run] would translate title + ${fm.description ? "description + " : ""}body (${split.body.length} chars) → ${path.basename(enPath)}`,
+		);
 		return "translated";
 	}
 
-	console.log(`  translating title…`);
+	console.log("  translating title…");
 	const titleEn = await translate(title, "title");
 
 	let descriptionEn = "";
 	if (fm.description) {
-		console.log(`  translating description…`);
+		console.log("  translating description…");
 		descriptionEn = await translate(fm.description, "description");
 	}
 
@@ -290,7 +295,7 @@ async function translateOne(filepath: string): Promise<"translated" | "skipped" 
 	delete enFm.aiSummaryEn;
 	delete enFm.translationEn;
 
-	const out = buildFrontmatter(enFm) + "\n" + bodyEn.trim() + "\n";
+	const out = `${buildFrontmatter(enFm)}\n${bodyEn.trim()}\n`;
 	fs.writeFileSync(enPath, out, "utf-8");
 	console.log(`  wrote ${path.basename(enPath)} (${out.length} chars)`);
 	return "translated";

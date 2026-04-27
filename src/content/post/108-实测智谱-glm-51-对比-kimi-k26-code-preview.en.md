@@ -1,18 +1,18 @@
 ---
-title: "Hands-on Test: Zhipu GLM 5.1 vs Kimi K2.6-code-preview"
+title: "Hands-on test: Zhipu GLM 5.1 vs Kimi K2.6-code-preview"
 publishDate: "2026-04-21T01:01:36Z"
 updatedDate: "2026-04-21T01:01:45Z"
 tags: ["AI","LLM"]
-description: "Stop trying to grab Zhipu—my real-world test shows Kimi's latest K2.6-codepreview absolutely crushes GLM 5.1\n\nSince Claude Code is getting stricter and stricter, and I can't seem to send money to Claude, I went ahead and subscribed to Zhipu's Max plan for a top-tier domestic model. But after putting it to the test, the results were still underwhelming.\n\nSo I switched to Kimi's Max plan, and it just so happens they've released the K2.6-codepreview."
+description: "I tested Zhipu GLM 5.1 against Kimi's latest K2.6-code-preview, and Kimi came out far ahead.\n\nSince Claude Code has become stricter and I could no longer pay for Claude smoothly, I subscribed to Zhipu's Max plan to try a top domestic model. After real use, the results were still underwhelming.\n\nSo I switched to Kimi's Max plan. Kimi had just released K2.6-code-preview."
 ---
 
-Stop scrambling for Zhipu — I tested Kimi's latest K2.6-code-preview and it crushes GLM 5.1
+I tested Zhipu GLM 5.1 against Kimi's latest K2.6-code-preview, and Kimi came out far ahead.
 
-Because Claude Code keeps getting stricter, I couldn't pay for Claude anymore, so I ordered the Max plan from the domestic top-tier model Zhipu. After actually using it, the results were still not great.
+Because Claude Code has become stricter and I could no longer pay for Claude smoothly, I subscribed to Zhipu's Max plan to try a top domestic model. After real use, the results were still not great.
 
 ![image-20260420120746536](https://pub-0d530dc48245462d8f3734870a46cd58.r2.dev/image-20260420120746536.png)
 
-So I bought Kimi's Max plan instead. They just released the K2.6-code-preview model. Below I'll show two examples that clearly and comprehensively demonstrate the gap between the two models. In coding, Kimi is definitely ahead of Zhipu. While not many people know about this yet, I suggest you go subscribe quickly — I suspect after people find out, it'll sell out. Also I noticed Kimi is hiring AI infra engineers recently, probably preparing for the upcoming traffic surge.
+So I bought Kimi's Max plan instead. Kimi had just released the K2.6-code-preview model. Below are two examples that show the gap between the two models. For coding, Kimi is clearly ahead of Zhipu. Not many people know this yet, so if you are interested, subscribe early. I suspect the plan may sell out once more people find out. I also noticed Kimi has been hiring AI infrastructure engineers recently, probably to prepare for a traffic spike.
 
 ![image-20260420121125143](https://pub-0d530dc48245462d8f3734870a46cd58.r2.dev/image-20260420121125143.png)
 
@@ -20,11 +20,11 @@ My test setup:
 
 1. On a Mac, using Claude Code as the harness agent, TypeScript as the programming language.
 2. Full evaluation through two tasks: **template project scaffolding** and **blog project development**, using the same prompts and environment.
-3. Using Claude model as the code and system architecture quality judge, while I'm in charge of actual testing and giving conclusions.
+3. I used Claude to evaluate code and system architecture quality while I handled the actual testing and drew the conclusions.
 
-Alright, I bet you're curious now. Let's dive in. (Oh, and if you want to know how to integrate GLM, Kimi with Claude Code, see the end of the article.)
+You are probably curious now, so let's get into it. If you want to know how to integrate GLM and Kimi with Claude Code, see the end of the article.
 
-### 1) fastify template project scaffolding
+### Fastify template project scaffolding
 
 Prompt:
 
@@ -42,7 +42,7 @@ After starting, the API service works normally.
 **GLM**:
 
 ![image-20260420170444307](https://pub-0d530dc48245462d8f3734870a46cd58.r2.dev/image-20260420170444307.png)
-After starting, it doesn't work — had to fix a bug before it worked.
+After starting the service, it did not work. I had to fix a bug before it would run.
 
 Finally I had Claude Code analyze the code, and the result: Kimi wins.
 
@@ -78,7 +78,7 @@ Zhipu GLM:
 
 ![image-20260420203037591](https://pub-0d530dc48245462d8f3734870a46cd58.r2.dev/image-20260420203037591.png)
 
-It's very obvious — Zhipu's implementation is simply not good, and it even had errors initially, which for someone doing vibe coding is completely unacceptable.
+The difference is obvious: Zhipu's implementation was weak, and it even failed at first. For vibe coding, that is unacceptable.
 
 Out of curiosity, I also compared MiniMax and Codex with the same prompt.
 
@@ -92,14 +92,14 @@ Codex:
 
 I didn't have Claude model do the development. Two reasons:
 
-1. I need Claude to be the judge — if Claude were one of the participants, it might be unfair.
-2. Claude is way too expensive — if I let it run, my 5-hour quota would probably be used up before it finishes.
+1. I needed Claude to act as the judge. If Claude were also a participant, the comparison might be unfair.
+2. Claude is too expensive. If I let it run, my 5-hour quota would probably be used up before it finished.
 
 Now let's look at Claude model's summary of the code and results from these four models.
 
 ![image-20260420193729999](https://pub-0d530dc48245462d8f3734870a46cd58.r2.dev/image-20260420193729999.png)
 
-Here's my prompt, and below is the conclusion:
+Here is my prompt, followed by the conclusion:
 
 ![image-20260420193805997](https://pub-0d530dc48245462d8f3734870a46cd58.r2.dev/image-20260420193805997.png)
 
@@ -107,19 +107,19 @@ The conclusion says Codex is best, followed by Kimi. Although Codex's implementa
 
 ### Real project development experience
 
-After testing, I used Kimi's K2.6-code-preview model for two days on real projects. I'm even more convinced that it's truly powerful. Here's a record of a problem that Codex failed to solve twice, but Kimi fixed in one go:
+After testing, I used Kimi's K2.6-code-preview model for two days on real projects. I am now more convinced that it is powerful. Here is a problem that Codex failed to solve twice, but Kimi fixed in one try:
 
 Problem: After confirming a click in a scrollable area, auto-scroll to top fix.
 
 ![image-20260420142324178](https://pub-0d530dc48245462d8f3734870a46cd58.r2.dev/image-20260420142324178.png)
 
-I had tried with Codex 5.4 twice without success, but Kimi fixed it in one try. Codex is the model I consider most powerful for debugging, but it lost to Kimi here. In the end, I had Codex learn from Kimi's problem-solving approach — a domestic AI rising star.
+I tried Codex 5.4 twice without success, but Kimi fixed it in one try. I still consider Codex one of the strongest debugging models, but it lost to Kimi here. In the end, I had Codex learn from Kimi's approach. This is a serious domestic AI contender.
 
 ![image-20260420143742036](https://pub-0d530dc48245462d8f3734870a46cd58.r2.dev/image-20260420143742036.png)
 
 ## Summary
 
-Through testing and deep usage, I believe Kimi's K2.6-code-preview is definitely a dark horse that hasn't been discovered yet. If you're still considering which big model to subscribe to, I recommend getting Kimi's starter plan — 49 yuan per month, and under normal usage you probably won't use up the quota.
+Through testing and real use, I believe Kimi's K2.6-code-preview is an under-the-radar dark horse. If you are still deciding which large model to subscribe to, I recommend Kimi's starter plan. It costs 49 yuan per month, and under normal use you probably will not use up the quota.
 
 ## MiniMax, Kimi, GLM integration with Claude Code
 
@@ -133,7 +133,7 @@ export ANTHROPIC_DEFAULT_SONNET_MODEL=MiniMax-M2.7
 export ANTHROPIC_DEFAULT_HAIKU_MODEL=MiniMax-M2.7
 export API_TIMEOUT_MS=3000000
 export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
-# kimi
+# Kimi
 export ANTHROPIC_BASE_URL=https://api.kimi.com/coding/
 export ANTHROPIC_API_KEY=sk-xxx
 export ANTHROPIC_DEFAULT_OPUS_MODE=K2.6-code-preview
@@ -141,7 +141,7 @@ export ANTHROPIC_DEFAULT_SONNET_MODEL=K2.6-code-preview
 export ANTHROPIC_DEFAULT_HAIKU_MODEL=K2.6-code-preview
 export API_TIMEOUT_MS=3000000
 export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
-# zai glm
+# Zhipu GLM
 export ANTHROPIC_AUTH_TOKEN=xxx
 export ANTHROPIC_BASE_URL=https://open.bigmodel.cn/api/anthropic
 export ANTHROPIC_DEFAULT_OPUS_MODE=glm-5.1
@@ -151,9 +151,9 @@ export API_TIMEOUT_MS=3000000
 export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
 ```
 
-Since I also have an official Claude subscription provided by my company, I usually just paste the corresponding service into the terminal, use it temporarily in that window, and manage it conveniently with a clipboard tool.
+Since my company also provides an official Claude subscription, I usually paste the corresponding service configuration into the terminal, use it temporarily in that window, and manage the snippets with a clipboard tool.
 
-You might see a warning in the terminal like below, but it's fine — just use it as normal.
+You might see a warning in the terminal like the one below, but it is fine. Use it as normal.
 
 ![image-20260420164648079](https://pub-0d530dc48245462d8f3734870a46cd58.r2.dev/image-20260420164648079.png)
 

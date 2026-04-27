@@ -1,101 +1,104 @@
 ---
-title: "Understanding Multi-repo and Mono-repo Code Management (with Practice Source Code)"
+title: "Multi-repo vs. Mono-repo: A Practical Guide (with Source Code)"
 publishDate: "2024-07-03T00:00:00.000Z"
 tags: ["multi-repo","mono-repo","代码仓库管理"]
-description: "This article takes a deep dive into the two main approaches to code repository management: multi-repo and mono-repo. It covers their concepts, pros and cons, and suitable use cases in detail. The focus is on mono-repo in practice, including how to set up a mono-repo project using two tools: pnpm and Turborepo. Through step-by-step instructions, the article demonstrates how to configure workspaces, manage dependencies, and set up build tasks. For developers looking to understand and adopt mono-repo, this is a comprehensive and practical guide, offering knowledge and techniques ranging from beginner to advanced levels."
+description: "A deep dive into the two dominant approaches to repository management — multi-repo and mono-repo — covering the concepts, trade-offs, and where each one fits. The bulk of the article is hands-on: setting up a mono-repo with pnpm workspaces and then with Turborepo, walking through workspace setup, dependency management, and build orchestration. If you're trying to decide between the two, or want a working starting point for mono-repo, this guide takes you from the basics through to the advanced bits."
 ---
 
-## Understanding Repository Management Approaches
+## Repository Management Approaches
 
 ### Multi-repo
 
-Full name: Multiple Repositories
+Short for **Multiple Repositories**.
 
-Multi-repo means each project or component has its own independent version control repository. Its characteristics include:
+In a multi-repo setup, every project or component lives in its own version control repository. Key traits:
 
-- Each project has its own codebase and version control history
-- Projects remain separate, can use different frameworks, languages, or technologies
-- Higher code security because each repository is independent
-- Suitable for large projects or organizations with multiple independent teams
+- Each project has its own codebase and its own commit history
+- Projects stay isolated and can use different frameworks, languages, or stacks
+- Stronger code isolation, since each repo is independent
+- Works well for large projects or organizations with multiple independent teams
 
-Our business projects are basically multi-repo. However, if a multi-repo project needs to develop multiple libraries that have dependencies on each other, collaboration becomes very cumbersome. For example, in the React project, we know it has the React core library, React DOM, React Native, and these modules share a lot of code and dependencies. Using mono-repo allows these modules to share the same codebase, avoiding code duplication and improving code reuse. Okay, let's understand mono-repo!
+Most product codebases are multi-repo by default. The pain shows up when you need to develop several libraries that depend on one another — coordination across repos gets painful fast. Take React: the project includes the React core, React DOM, and React Native, and these modules share a lot of code and dependencies. With a mono-repo, they all live in one codebase, which kills duplication and makes shared code easy to reuse. Let's take a closer look at mono-repo.
 
 ### Mono-repo
 
-Full name: Monolithic Repository
+Short for **Monolithic Repository**.
 
-Mono-repo means containing multiple projects or components in a single version control repository. Its characteristics include:
+A mono-repo holds multiple projects or components in a single version control repository. Key traits:
 
-- All projects share the same codebase and version control history
-- Facilitates code sharing and centralized management
+- All projects share one codebase and one commit history
+- Encourages code sharing and centralized management
 - Simplifies dependency management
-- Suitable for small to medium-sized projects or related projects that need tight integration
+- Works well for small-to-medium projects or related projects that need tight integration
 
-As mentioned above, projects like React are a perfect fit for using mono-repo. However, mono-repo also has its drawbacks:
+As mentioned, projects like React are a near-perfect fit for a mono-repo. That said, mono-repos come with real downsides:
 
-- Performance: As the repository size grows, combining code across different functions and contexts in a single repository can slow down code pulling operations. This may affect new developers or CI/CD (Continuous Integration/Continuous Deployment) systems.
-- Difficult access control: For large organizations, it may be difficult to implement fine-grained access control in a single repository, potentially leading to security risks.
-- Technology stack limitations: Mono-repo may encourage a unified tech stack, which could limit the ability to use the most appropriate technology for specific projects.
+- **Performance**: as the repo grows, pulling code that spans many functions and contexts can get slow. This hits new contributors and CI/CD (Continuous Integration / Continuous Deployment) pipelines hardest.
+- **Hard to do fine-grained access control**: in large organizations, enforcing per-package permissions inside a single repo is tricky and can create security risk.
+- **Tech-stack pressure**: mono-repos tend to nudge teams toward a unified stack, which can stop a given project from picking the tool best suited for the job.
 
-So, choosing to use mono-repo as the repository management approach needs careful consideration. Let's put it into practice next!
+So it's worth thinking carefully before committing to a mono-repo. With that out of the way, let's build one.
 
-## Mono-repo Practice
+## Mono-repo in Practice
 
-We can choose technologies based on the dimension of simplicity vs. complexity.
+You can pick a tool along a simplicity-vs.-power axis.
 
-Simple tools:
+Lightweight tools:
 
-- npm workspace: [https://docs.npmjs.com/cli/v7/using-npm/workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
-- yarn workspace: [https://classic.yarnpkg.com/lang/en/docs/workspaces/](https://classic.yarnpkg.com/lang/en/docs/workspaces/)
-- pnpm workspace: [https://pnpm.io/workspaces](https://pnpm.io/workspaces) (recommended reading: [https://juejin.cn/post/7127295203177676837](https://juejin.cn/post/7127295203177676837))
+- npm workspaces: [https://docs.npmjs.com/cli/v7/using-npm/workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
+- Yarn workspaces: [https://classic.yarnpkg.com/lang/en/docs/workspaces/](https://classic.yarnpkg.com/lang/en/docs/workspaces/)
+- pnpm workspaces: [https://pnpm.io/workspaces](https://pnpm.io/workspaces) (further reading: [https://juejin.cn/post/7127295203177676837](https://juejin.cn/post/7127295203177676837))
 
-Professional tools:
+Heavier-duty tools:
 
-- lerna: [https://www.lernajs.cn/](https://www.lernajs.cn/), originally created by Sebastian McKenzie, who is also the author of Babel. Lerna is now maintained by the open source community, with major contributors from various tech companies.
-- Nx: [https://nx.dev/](https://nx.dev/), developed and maintained by Nrwl. Nrwl is a company focused on providing enterprise-level development tools and services, founded by former Google employees Victor Savkin and Jeff Cross.
-- Turborepo: [https://turborepo.org/](https://turborepo.org/), originally developed personally by Jared Palmer. In 2021, Vercel acquired Turborepo, and it is now developed and maintained by the Vercel team. Vercel is a company focused on frontend development and deployment, known for the Next.js framework.
-- Bazel: [https://bazel.build/about/intro?hl=en](https://bazel.build/about/intro?hl=en), developed and maintained by Google. It originated from Google's internal build tool Blaze, which was later open-sourced and renamed Bazel. Google's large-scale mono-repo practice provided rich experience for Bazel's design.
-- Rush: [https://rushjs.io/](https://rushjs.io/), a scalable mono-repo manager developed by Microsoft.
+- **Lerna**: [https://www.lernajs.cn/](https://www.lernajs.cn/) — originally created by Sebastian McKenzie (also the author of Babel). Now maintained by the open-source community, with contributors from many of the major tech companies.
+- **Nx**: [https://nx.dev/](https://nx.dev/) — built and maintained by Nrwl, a company focused on enterprise-grade developer tooling, founded by ex-Googlers Victor Savkin and Jeff Cross.
+- **Turborepo**: [https://turborepo.org/](https://turborepo.org/) — started as a personal project by Jared Palmer. Vercel acquired it in 2021 and now drives its development. Vercel is best known for the Next.js framework.
+- **Bazel**: [https://bazel.build/about/intro?hl=en](https://bazel.build/about/intro?hl=en) — built and maintained by Google. It grew out of Google's internal build tool Blaze, which was open-sourced and renamed. Google's massive internal mono-repo gave Bazel a deep well of real-world experience to draw on.
+- **Rush**: [https://rushjs.io/](https://rushjs.io/) — a scalable mono-repo manager from Microsoft.
 
-### Simple Tool: Using pnpm
+### Lightweight: pnpm Workspaces
 
-For personal small projects, using pnpm is sufficient. Let's get started quickly.
+For a personal project, pnpm is plenty. Here's the quickstart.
 
-1) Create a folder
+**1) Create a folder**
 
 ```bash
 mkdir mono-repo-pnpm
 cd ./mono-repo-pnpm
 ```
 
-2) Initialize pnpm
+**2) Initialize pnpm**
 
 ```bash
 pnpm init
 ```
 
-3) Initialize pnpm-workspace.yaml + configure global code standards
-   Reference: [https://pnpm.io/pnpm-workspace_yaml](https://pnpm.io/pnpm-workspace_yaml), create pnpm-workspace.yaml
+**3) Set up `pnpm-workspace.yaml` and shared linting/formatting**
+
+See the docs: [https://pnpm.io/pnpm-workspace_yaml](https://pnpm.io/pnpm-workspace_yaml). Create a new `pnpm-workspace.yaml`:
 
 ```yaml
 packages:
   - 'packages/*'
 ```
 
-This specifies that all files under `/package` are all sub-projects of our mono-repo. The initial configuration of our mono-repo is complete.
+This tells pnpm that everything under `packages/` is a sub-project of the mono-repo. That's the entire base configuration — done.
 
-Now, let's install the global code formatting dependencies. This way, each sub-package uses a unified code formatting standard. Oh, by the way, our editor needs to have ESLint and Prettier plugins installed first, and configure them in settings.
+Now let's set up shared code formatting so every sub-package follows the same rules. Make sure your editor has the ESLint and Prettier extensions installed and enabled first:
+
 ![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/work/1719751228447-c40b7f35-5863-48fa-a241-1ef951fdd8f7.png)
-Then, we install:
+
+Then install ESLint:
 
 ```bash
 pnpm i eslint -D -w
 ```
 
-`-w` is an alias for `--workspace-root`, meaning it is installed in the project root directory as a shared dependency for all submodules. You can also use `-r` to install recursively for each submodule, or `--filter <package_name>` to install for a specific submodule. Then initialize it, run in the terminal: `npx eslint --init` (we need to select some configurations, and after selection, an eslint.config.mjs file will be generated for us). However, you might encounter a prompt like this:
+`-w` is short for `--workspace-root` — it installs the dependency at the root, where it's shared by every sub-module. You can also use `-r` to install across every sub-module recursively, or `--filter <package_name>` to target a specific one. Next, initialize ESLint with `npx eslint --init` (it'll ask a few questions and generate an `eslint.config.mjs` for you). You may run into a warning like this:
 
 ```bash
- WARN  Issues with peer dependencies found
+ WARN  Issues with peer dependencies found
 .
 ├─┬ @typescript-eslint/parser 7.14.1
 │ └── ✕ unmet peer eslint@^8.56.0: found 9.6.0
@@ -109,15 +112,15 @@ pnpm i eslint -D -w
       └── ✕ unmet peer eslint@^8.56.0: found 9.6.0
 ```
 
-We can execute: `pnpm install eslint@^8.56.0 -D`. This indicates that the eslint version does not match the expected version of some dependencies. We just need to install the matching version.
+The fix is to install a matching ESLint version: `pnpm install eslint@^8.56.0 -D`. The warning means the installed ESLint is newer than what its peer dependencies expect — pinning to a compatible version clears it up.
 
-Next, we install the ESLint plugin for TypeScript and the Prettier dependencies.
+Next, install the TypeScript ESLint plugin and the Prettier deps:
 
 ```bash
 pnpm i -D -w @typescript-eslint/eslint-plugin prettier eslint-config-prettier eslint-plugin-prettier
 ```
 
-Then, we create the corresponding configuration files. First, create `.prettierrc.json`.
+Now create the config files. Start with `.prettierrc.json`:
 
 ```json
 {
@@ -131,7 +134,7 @@ Then, we create the corresponding configuration files. First, create `.prettierr
 }
 ```
 
-Then create `tsconfig.json`.
+Then `tsconfig.json`:
 
 ```json
 {
@@ -158,7 +161,7 @@ Then create `tsconfig.json`.
 }
 ```
 
-Then modify `eslint.config.mjs`.
+Then update `eslint.config.mjs`:
 
 ```javascript
 import pluginJs from '@eslint/js';
@@ -198,20 +201,21 @@ export default [
 ];
 ```
 
-Now, our project has automatic error prompts and formatting on save. We can add a script in `package.json`.
+You'll now get inline lint errors and format-on-save out of the box. Add a lint script to `package.json`:
 
 ```json
 	"lint": "eslint --ext .ts,.js,.jsx,.tsx --fix --quiet ./packages"
 ```
 
-4) Create sub-projects
-We create two sub-projects and initialize them.
+**4) Create the sub-projects**
+
+Create two sub-packages:
 
 ```bash
 mkdir -p packages/common packages/app
 ```
 
-Initialize each sub-project.
+Initialize each one:
 
 ```bash
 cd packages/common
@@ -221,7 +225,7 @@ pnpm init
 cd ../..
 ```
 
-Modify the `package.json` of each sub-project. This represents the install name for the sub-package and also indicates that these packages all belong to the `mono-repo-pnpm` package.
+Update each sub-project's `package.json` — these names are how the packages are imported and signal that they belong to the `mono-repo-pnpm` workspace:
 
 ```json
 // packages/app
@@ -236,16 +240,18 @@ Modify the `package.json` of each sub-project. This represents the install name 
 }
 ```
 
-5) Add some shared code in the common package
-In `packages/common/index.js`, add:
+**5) Add some shared code in the common package**
+
+In `packages/common/index.js`:
 
 ```javascript
-console.log('executed common.js');
+console.log('common.js was loaded');
 exports.sayHello = (name) => `Hello, ${name}!`;
 ```
 
-6) Use the common package in the app package
-First, add a dependency on the common package in the app's `package.json`.
+**6) Use the common package from the app package**
+
+First, declare the dependency in `packages/app/package.json`:
 
 ```json
 {
@@ -255,72 +261,81 @@ First, add a dependency on the common package in the app's `package.json`.
 }
 ```
 
-Then use the common package in `packages/app/index.js`:
+Then import it from `packages/app/index.js`:
 
 ```javascript
 const { sayHello } = require('@mono-repo-pnpm/common');
 console.log(sayHello('Monorepo'));
 ```
 
-We can test that the globally configured code standards are also effective. If the code doesn't conform to the rules when saving, we'll see a prompt and it will automatically format on save.
+This is also a chance to confirm the shared lint/format setup is working — if your code violates the rules, you'll see a warning, and saving will reformat it automatically.
 
-7) In the terminal, run: `node ./packages/app`. We will see:
+**7) Run it**
+
+In the terminal: `node ./packages/app`. You should see:
+
 ![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/work/1719756062777-d1066c93-59f9-441a-89ce-0a4292d678eb.png)
-This is achieved through mono-repo's local dependency capability. Without using mono-repo, we might need to use `npm link` to solve this, which is very troublesome.
 
-8) Install a dependency, lodash, in the root directory. Then, in sub-directories, we can use `"lodash": "*",` to use the lodash from the root directory. This allows managing all packages from the root.
+That's mono-repo's local-dependency story in action. Without a mono-repo, you'd typically reach for `npm link` — and that gets messy quickly.
 
-9) We can add a script in each `package.json`, for example: `"dev": "node index.js"`. Then execute `pnpm -r dev` in the root directory. This way, we can run the dev scripts of all sub-projects with a single line of command.
+**8)** Install a dependency like `lodash` at the root, and any sub-project can pull it in via `"lodash": "*"`. This lets the root manage shared dependencies for the whole workspace.
 
-Through this basic mono-repo project, we have used the following capabilities of mono-repo:
+**9)** Add a script like `"dev": "node index.js"` to each sub-project's `package.json`, then run `pnpm -r dev` from the root. One command runs the `dev` script in every sub-project.
 
-1. Workspace management: Easily manage multiple packages via pnpm-workspace.yaml.
-2. Dependency sharing: Sub-projects can share dependencies, saving disk space.
-3. Local dependencies: Can use the `workspace:*` syntax to reference local packages.
-4. Unified version control: Can manage versions of all packages from the root.
-5. Parallel execution: Can run scripts of multiple packages in parallel.
+This basic setup already gives you the core capabilities of a mono-repo:
 
-### Professional Tool: Using Turborepo
+1. **Workspace management**: easily manage multiple packages via `pnpm-workspace.yaml`.
+2. **Shared dependencies**: sub-projects share dependencies, saving disk space.
+3. **Local linking**: reference local packages with the `workspace:*` syntax.
+4. **Unified version management**: manage every package from the root.
+5. **Parallel execution**: run scripts across multiple packages in parallel.
 
-> Operating system: macOS. If you're using Windows, some parts may differ.
+### Heavy-duty: Turborepo
 
-We install turbo globally by running `pnpm install turbo --global`. If you also get an error:
+> OS: macOS. Some steps may differ on Windows.
+
+Install Turbo globally with `pnpm install turbo --global`. If you hit this error:
+
 ![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/work/1717916747666-00652358-c37c-4816-b396-5c336ddf79ff.png)
-Don't worry, follow me step by step to fix this error. It's because the environment variables and global directory are not correctly configured.
 
-1) First, follow the prompt and run `pnpm setup`, then run the global install turbo command again. If you still see the above error, or a similar one like this:
+don't panic — let's walk through the fix. The cause is that pnpm's environment variables and global directory aren't set up yet.
+
+**1)** First, run `pnpm setup` as the prompt suggests, then try the global install again. If you still see the same error, or something like this:
+
 ![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/work/1717917291588-5e432a15-352a-4f0e-9a7f-b4b94ec9ff91.png)
 
-2) Run `nano ~/.bashrc` or `nano ~/.zshrc`, and add the following:
+**2)** Open `~/.bashrc` (or `~/.zshrc`) with `nano ~/.bashrc` / `nano ~/.zshrc` and add:
 
 ```bash
 export PNPM_HOME="$HOME/.pnpm"
 export PATH="$PNPM_HOME:$PATH"
 ```
 
-Save (**Ctrl + O combination**), the system will ask if you want to save the changes, press **Enter**. Then close (**Ctrl + X combination**) the file, and reload the configuration file:
+Save with **Ctrl + O** (press **Enter** when prompted to confirm), then exit with **Ctrl + X**. Reload your shell config:
 
 ```bash
-source ~/.bashrc  # or source ~/.zshrc
+source ~/.bashrc  # or: source ~/.zshrc
 ```
 
-Let's verify if the configuration was successful:
+Verify the setup:
 
 ```bash
-# Confirm environment variables are set correctly
+# Confirm the env vars are set
 echo $PNPM_HOME
 echo $PATH
-# Ensure the PNPM_HOME directory exists and contains global packages installed by pnpm:
+# Confirm PNPM_HOME exists and lists pnpm's globally installed packages
 ls $PNPM_HOME
 ```
 
-If neither of these reports an error, the configuration is successful. Re-execute the global install turbo command, and it should install successfully.
+If both run cleanly, you're good. Re-run the global Turbo install — it should succeed this time:
+
 ![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/work/1717917677812-1bca684a-23ce-489d-bd5a-070dc38b659b.png)
 
-3) After globally installing turbo, run `npx create-turbo@latest`.
+**3)** With Turbo installed globally, scaffold a project: `npx create-turbo@latest`.
+
 ![image.png](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/work/1719761825547-28374898-dc71-4e1c-8adc-c866c177229a.png)
 
-4) Understand the project directory. Turbo-repo solves the build performance issues of complex mono-repo projects.
+**4)** Get a feel for the project layout. Turborepo is built to handle the build-performance problems that hit larger mono-repos:
 
 ```bash
 my-turborepo/
@@ -335,7 +350,7 @@ my-turborepo/
 └── package.json
 ```
 
-5) Understand turbo.json. `turbo.json` is the core configuration file for Turbo. It defines dependencies between tasks.
+**5)** `turbo.json` is Turbo's central config file. It defines how tasks relate to one another:
 
 ```json
 {
@@ -357,31 +372,31 @@ my-turborepo/
 }
 ```
 
-1. `"$schema"`: Specifies the location of the JSON schema, used to validate the correctness of the configuration file.
-2. `"tasks"`: Defines various tasks in the project.
-3. `"build"` task:
-   - `"dependsOn": ["^build"]`: Indicates that this task depends on the `build` tasks of all workspaces. The `^` symbol means only considering the dependencies of the current package.
-   - `"inputs": ["$TURBO_DEFAULT$", ".env*"]`: Specifies input files for the task. `$TURBO_DEFAULT$` is Turbo's default input set, `.env*` means all `.env` files.
-   - `"outputs": [".next/**", "!.next/cache/**"]`: Specifies the task's output. Includes all files under `.next`, but excludes the `.next/cache` directory.
-4. `"lint"` task:
-   - `"dependsOn": ["^lint"]`: Indicates that this task depends on the `lint` tasks of all dependencies.
-5. `"dev"` task:
-   - `"cache": false`: Disables caching for this task.
-   - `"persistent": true`: Indicates this is a long-running task, such as a development server.
+1. `"$schema"`: points at the JSON schema so editors can validate the config.
+2. `"tasks"`: declares the project's tasks.
+3. `"build"`:
+   - `"dependsOn": ["^build"]`: this task depends on the `build` task in each of its package's dependencies. The `^` means "upstream dependencies only."
+   - `"inputs": ["$TURBO_DEFAULT$", ".env*"]`: declares the task's inputs. `$TURBO_DEFAULT$` is Turbo's default input set; `.env*` adds every `.env` file.
+   - `"outputs": [".next/**", "!.next/cache/**"]`: declares the task's outputs — everything under `.next` except `.next/cache`.
+4. `"lint"`:
+   - `"dependsOn": ["^lint"]`: depends on the `lint` task of every upstream dependency.
+5. `"dev"`:
+   - `"cache": false`: caching disabled.
+   - `"persistent": true`: marks this as a long-running task (e.g. a dev server).
 
-6) In the root directory, you can run `turbo run build`. This will build all applications and packages in parallel according to the `turbo.json` configuration. Build it twice, and you'll notice the second build is shorter than the first. That's because Turbo's incremental builds and caching mechanism greatly improve build speed.
+**6)** From the root, run `turbo run build`. Turbo will build every app and package in parallel based on `turbo.json`. Run it twice and you'll see the second run finish much faster — that's incremental builds and the build cache doing their job.
 
-Finally, let's look at the main capabilities of Turbo:
+To wrap up, the headline capabilities of Turbo:
 
-1. **Incremental builds**: Turbo only rebuilds the parts that have changed.
-2. **Remote caching**: Build caches can be shared among team members.
-3. **Parallel execution**: Turbo can run tasks in parallel, improving efficiency.
-4. **Task orchestration**: Defines dependencies between tasks via `turbo.json`.
-5. **Single configuration**: Manage the entire monorepo with one `turbo.json` file.
+1. **Incremental builds**: only rebuilds what actually changed.
+2. **Remote caching**: share the build cache across the team.
+3. **Parallel execution**: tasks run in parallel for better throughput.
+4. **Task orchestration**: dependencies between tasks live in `turbo.json`.
+5. **Single source of truth**: one `turbo.json` configures the whole monorepo.
 
 ## References
 
-1. vivo Tech: [Best Practices for Managing packages in a Monorepo with Lerna](https://segmentfault.com/a/1190000020047120)
-2. Turbo, the emerging monorepo management solution: [https://segmentfault.com/a/1190000042282389](https://segmentfault.com/a/1190000042282389)
-3. My pnpm implementation of mono-repo code: [https://github.com/chaseFunny/pnpm-monorepo](https://github.com/chaseFunny/pnpm-monorepo)
-4. My turbo example code: [https://github.com/chaseFunny/turbo-monorepo](https://github.com/chaseFunny/turbo-monorepo)
+1. vivo Tech: [Best practices for managing packages in a Lerna-based monorepo](https://segmentfault.com/a/1190000020047120)
+2. Turbo, the up-and-coming monorepo solution: [https://segmentfault.com/a/1190000042282389](https://segmentfault.com/a/1190000042282389)
+3. My pnpm mono-repo example: [https://github.com/chaseFunny/pnpm-monorepo](https://github.com/chaseFunny/pnpm-monorepo)
+4. My Turbo example: [https://github.com/chaseFunny/turbo-monorepo](https://github.com/chaseFunny/turbo-monorepo)

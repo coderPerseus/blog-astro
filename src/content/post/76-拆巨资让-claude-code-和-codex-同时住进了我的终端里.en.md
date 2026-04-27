@@ -3,10 +3,10 @@ title: "I Spent a Fortune to Put Claude Code and Codex in My Terminal"
 publishDate: "2025-09-06T16:03:39Z"
 updatedDate: "2025-10-25T04:09:28Z"
 tags: ["AI"]
-description: "Hi everyone, I'm luckySnail. I've been pairing with Claude Code for almost half a year now, and I've truly come to appreciate how powerful an AI agent can be inside the terminal. At the same time, it's reinforced my determination to keep trying the latest AI coding products. With the recent release of ChatGPT 5, a lot of people in the community are sharing that Codex is already on par with Claude Code. Seeing everyone getting their hands on it, I've been feeling pretty anxious."
+description: "Hi everyone, I'm luckySnail. I've been pairing with Claude Code for almost half a year, and it has shown me how powerful an AI agent can be inside the terminal. It has also made me more determined to keep trying the latest AI coding products. After ChatGPT 5 was released, many people in the community said Codex had already caught up with Claude Code. Seeing everyone try it made me anxious."
 ---
 
-Hi everyone, I'm luckySnail. I've been programming with Claude Code for nearly half a year, and I've deeply felt the power of AI Agents in the terminal, which has also strengthened my resolve to keep trying the latest AI coding products. Recently, ChatGPT‑5 was released, and many in the community shared that Codex is now on par with Claude Code. Seeing everyone already using it made me anxious, so I used this month's pocket money to subscribe to both ChatGPT and Claude Code. I bought a third‑party shared plan that includes ChatGPT Pro and Claude Code Max 20x—basically the two most expensive tiers of large model memberships.
+Hi everyone, I'm luckySnail. I've been programming with Claude Code for nearly half a year, and it has shown me how powerful AI agents can be inside the terminal. It has also made me more determined to keep trying the latest AI coding products. Recently, ChatGPT-5 was released, and many people in the community said Codex was now on par with Claude Code. Seeing everyone already using it made me anxious, so I used this month's pocket money to subscribe to both ChatGPT and Claude Code. I bought a third-party shared plan that includes ChatGPT Pro and Claude Code Max 20x, basically the two most expensive tiers of large-model memberships.
 
 ![](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/typora/1755945845142-38ca9bc6-fec2-4d58-8ad6-c18de551de6a.png)
 
@@ -23,17 +23,17 @@ I've already spent several thousand dollars worth of tokens on Claude Code! Belo
 If you think of Claude Code and Codex as two interns you've hired, then giving them clear instructions will definitely yield better results. For Claude Code:
 
 1. Guide it to use todos: tell it in the prompt to create a todo list and follow it.
-2. Guide it to think deeply: add `ultrathink` in the prompt.
+2. Guide it to think more carefully: add `ultrathink` to the prompt. In Claude Code, this keyword enables a higher thinking-budget mode.
 
 For Codex:
 
 1. Use broader prompts: Codex excels at system design and solving difficult problems. Don't tell it exactly how to implement—let it figure it out itself; sometimes you get better results that way.
 2. Guide it on how to work: for example, use web search tools to search; use git commands to review staged code; don't run `pnpm lint` for validation; etc.
 
-In addition, you can refer to the official guides:
+You can also consult the official guides from Anthropic and OpenAI:
 
-1. [[https://docs.anthropic.com/zh-CN/docs/claude-code/](https://docs.anthropic.com/zh-CN/docs/claude-code/common-workflows#%E4%BD%BF%E7%94%A8%E6%89%A9%E5%B1%95%E6%80%9D%E8%80%83)](https://docs.anthropic.com/zh-CN/docs/claude-code/common-workflows#%E4%BD%BF%E7%94%A8%E6%89%A9%E5%B1%95%E6%80%9D%E8%80%83)
-2. [https://developers.openai.com/codex/prompting](https://developers.openai.com/codex/prompting)
+1. [Anthropic Claude Code documentation](https://docs.anthropic.com/zh-CN/docs/claude-code/common-workflows#%E4%BD%BF%E7%94%A8%E6%89%A9%E5%B1%95%E6%80%9D%E8%80%83)
+2. [OpenAI Codex prompting guide](https://developers.openai.com/codex/prompting)
 
 ### A Master Tool for Reading and Finding Code
 

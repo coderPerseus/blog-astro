@@ -1,12 +1,12 @@
 ---
-title: "My First Agent Skills: auto-flow"
+title: "My First Agent Skills: Auto-Flow"
 publishDate: "2026-04-09T16:33:39Z"
 updatedDate: "2026-04-09T16:33:39Z"
 tags: ["AI","agent skills"]
-description: "Hi everyone, I'm luckySnail. I wonder if you, like me, find yourself doing the same repetitive browser tasks every day — like publishing content to some platform, listing products, doing research, and so on. As long as you're doing something repetitive in the browser every day, you need autoflow. Today I'm introducing autoflow. autoflow is a Skill — it lets you interact with Codex /"
+description: "Hi everyone, I'm luckySnail. I wonder if you, like me, find yourself doing the same repetitive browser tasks every day, such as publishing content, listing products, or doing research. If you repeat the same browser workflow every day, you need Auto-Flow. Auto-Flow is a Skill that lets you control Codex or Claude Code through conversation and record those browser actions as reusable workflows."
 ---
 
-Hi everyone, I'm luckySnail. I wonder if you, like me, go through the same repetitive browser operations every day—publishing content to platform X, listing products, doing research, whatever. If you use a browser to do the same things over and over, then you need **auto-flow**. Today I'm introducing **auto-flow**, a Skill that lets you perform browser operations by chatting with Codex / Claude Code, and records that operation flow as a workflow. Do it once, and you can reuse that workflow to repeat the task later, every time.
+Hi everyone, I'm luckySnail. I wonder if you, like me, go through the same repetitive browser operations every day: publishing content to platform X, listing products, doing research, and so on. If you use a browser to do the same things over and over, then you need **Auto-Flow**. Today I'm introducing **Auto-Flow**, a Skill that lets you perform browser operations by chatting with Codex or Claude Code, then records that operation flow as a workflow. Do it once, and you can reuse that workflow to repeat the task later.
 
 ## What can auto-flow do?
 
