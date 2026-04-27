@@ -67,15 +67,15 @@ const translations: Record<string, Record<Lang, string>> = {
 	"home.eyebrow": { zh: "你好，我是", en: "Hi, I'm" },
 	"home.bio_1": {
 		zh: "我是幸运的蜗牛，全栈开发（偏前端）。专注于 Web 技术、服务端技术和 AI Agent，目前在上海。",
-		en: "I'm Lucky Snail, a full-stack developer (favoring front-end). Specialized in Web technologies, server-side technologies and AI Agent, currently in Shanghai.",
+		en: "I’m Lucky Snail, a full-stack developer with a front-end focus, currently based in Shanghai. I focus on web technologies, server-side development, and AI agents.",
 	},
 	"home.bio_2": {
 		zh: "技术栈：React/Vue、JavaScript/TypeScript、Next.js、Node.js、Fastify、Nest.js、PostgreSQL、React Native、Electron、Taro、Python等，目前在开发自己的 AI Agent 。这里记录我的所见，所闻，所思",
-		en: "Technology stack: React/Vue, JavaScript/TypeScript, Next.js, Node.js, Fastify, Nest.js, PostgreSQL, React Native, Electron, Taro, Python, etc. Currently developing its own AI Agent. Here's a record of what I've seen, heard, and thought about",
+		en: "I work with React, Vue, JavaScript, TypeScript, Next.js, Node.js, Fastify, Nest.js, PostgreSQL, React Native, Electron, Taro, and Python. I’m currently building my own AI agent.Here, I share what I see, learn, and think.",
 	},
 	"home.bio_3": {
 		zh: "座右铭：提高认知，强化执行，在竞争中做到极致",
-		en: "Motto: Enhance awareness, strengthen execution, and be the best in the competition",
+		en: "Motto: Expand cognition, strengthen execution, and pursue excellence through competition.",
 	},
 	"home.projects": { zh: "项目", en: "Projects" },
 	"home.latest_posts": { zh: "最新文章", en: "Latest Posts" },
