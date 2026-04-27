@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
-import { type Lang, localizeReadingTime, t } from "@/utils/i18n";
+import { type Lang, localizeReadingTime, t, withLang } from "@/utils/i18n";
 
 interface Props {
 	content: CollectionEntry<"post"> | CollectionEntry<"postEn">;
@@ -87,9 +87,13 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 		!!data.tags?.length && (
 			<div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
 				{data.tags.map((tag) => (
-					<span class="text-muted" data-pagefind-filter={`tag:${tag}`}>
+					<a
+						class="text-muted hover:text-accent transition-colors"
+						data-pagefind-filter={`tag:${tag}`}
+						href={`${withLang("/posts", lang)}?tag=${encodeURIComponent(tag)}`}
+					>
 						#{tag}
-					</span>
+					</a>
 				))}
 			</div>
 		)

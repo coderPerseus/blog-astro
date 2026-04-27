@@ -2,8 +2,10 @@
 import { type CollectionEntry, render } from "astro:content";
 
 import Masthead from "@/components/blog/Masthead.astro";
+import RelatedPostsByTags from "@/components/blog/RelatedPostsByTags.astro";
 import TOC from "@/components/blog/TOC.astro";
-import { getAllPostsEn } from "@/data/post";
+import { getAllPostsByLang, getAllPostsEn } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
 import { type Lang, t } from "@/utils/i18n";
 
 import BaseLayout from "./Base.astro";
@@ -29,6 +31,18 @@ const summaryText = lang === "en" ? aiSummaryEn || aiSummary : aiSummary || aiSu
 const pagefindIgnore = Astro.url.pathname.startsWith("/posts/");
 const translatedPostIds = new Set((await getAllPostsEn()).map((entry) => entry.id));
 const alternateLangs: Lang[] = translatedPostIds.has(post.id) ? ["zh", "en"] : ["zh"];
+type PostLike = CollectionEntry<"post"> | CollectionEntry<"postEn">;
+const currentTags = tags ?? [];
+const currentTagSet = new Set(currentTags);
+const relatedPosts = ((await getAllPostsByLang(lang)) as PostLike[])
+	.filter((entry) => entry.id !== post.id && entry.data.tags.some((tag) => currentTagSet.has(tag)))
+	.sort((a, b) => {
+		const sharedTagDelta =
+			b.data.tags.filter((tag) => currentTagSet.has(tag)).length -
+			a.data.tags.filter((tag) => currentTagSet.has(tag)).length;
+		return sharedTagDelta || collectionDateSort(a, b);
+	})
+	.slice(0, 6);
 ---
 
 <BaseLayout
@@ -76,7 +90,14 @@ const alternateLangs: Lang[] = translatedPostIds.has(post.id) ? ["zh", "en"] : [
 			)
 		}
 		<div class="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start">
-			{!!headings.length && <TOC headings={headings} lang={lang} />}
+			{
+				(!!headings.length || relatedPosts.length > 0) && (
+					<aside class="space-y-4 lg:sticky lg:top-19.5 lg:order-2" aria-label={t("posts.sidebar", lang)}>
+						{!!headings.length && <TOC headings={headings} lang={lang} />}
+						<RelatedPostsByTags lang={lang} posts={relatedPosts} tags={currentTags} />
+					</aside>
+				)
+			}
 			<div
 				class="prose prose-sm prose-img:rounded-[3px] prose-img:border prose-img:border-muted/10 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-5 prose-headings:before:text-accent/70 prose-headings:hover:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none text-base lg:max-w-[43rem]"
 			>
