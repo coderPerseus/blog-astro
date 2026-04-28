@@ -85,17 +85,21 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 	<span> / </span>
 	{
 		!!data.tags?.length && (
-			<div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+			<>
 				{data.tags.map((tag) => (
-					<a
-						class="text-muted hover:text-accent transition-colors"
-						data-pagefind-filter={`tag:${tag}`}
-						href={`${withLang("/posts", lang)}?tag=${encodeURIComponent(tag)}`}
-					>
-						#{tag}
-					</a>
+					<span aria-hidden="true" data-pagefind-filter={`tag:${tag}`} />
 				))}
-			</div>
+				<div class="flex flex-wrap items-center gap-x-3 gap-y-1.5" data-pagefind-ignore>
+					{data.tags.map((tag) => (
+						<a
+							class="text-muted hover:text-accent transition-colors"
+							href={`${withLang("/posts", lang)}?tag=${encodeURIComponent(tag)}`}
+						>
+							#{tag}
+						</a>
+					))}
+				</div>
+			</>
 		)
 	}
 </div>

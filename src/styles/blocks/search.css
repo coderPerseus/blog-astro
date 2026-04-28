@@ -44,6 +44,13 @@
 
 #cactus__search .pagefind-ui__result {
 	border: 0;
+	padding-block: 0.75rem;
+}
+
+#cactus__search .pagefind-ui__result-excerpt,
+#cactus__search .pagefind-ui__result-nested,
+#cactus__search .pagefind-ui__result-tags {
+	display: none;
 }
 
 #cactus__search .pagefind-ui__result-link {

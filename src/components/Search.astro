@@ -71,6 +71,7 @@ const { lang } = Astro.props;
 		#loadMoreButton: HTMLButtonElement | null;
 		#loadMoreObserver: IntersectionObserver | null;
 		#mutationObserver: MutationObserver | null;
+		#normalizeResultsFrame: number;
 		#openBtn: HTMLButtonElement | null;
 		#searchContainer: HTMLDivElement | null;
 		#controller: AbortController;
@@ -85,6 +86,7 @@ const { lang } = Astro.props;
 			this.#loadMoreButton = null;
 			this.#loadMoreObserver = null;
 			this.#mutationObserver = null;
+			this.#normalizeResultsFrame = 0;
 			this.#controller = new AbortController();
 
 			// Set up events
@@ -118,8 +120,18 @@ const { lang } = Astro.props;
 					baseUrl: import.meta.env.BASE_URL,
 					bundlePath: import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/",
 					element: "#cactus__search",
+					excerptLength: 0,
+					pageSize: 1000,
+					processResult: (result: { excerpt?: string; meta?: Record<string, unknown> }) => ({
+						...result,
+						excerpt: "",
+						meta: {
+							title: result.meta?.title,
+							url: result.meta?.url,
+						},
+					}),
 					showImages: false,
-					showSubResults: true,
+					showSubResults: false,
 				});
 				this.watchSearchResults();
 			});
@@ -143,12 +155,16 @@ const { lang } = Astro.props;
 				passive: false,
 				signal: this.#controller.signal,
 			});
-			this.#mutationObserver = new MutationObserver(this.observeLoadMoreButton);
+			this.#mutationObserver = new MutationObserver(() => {
+				this.observeLoadMoreButton();
+				this.normalizeSearchResults();
+			});
 			this.#mutationObserver.observe(this.#searchContainer, {
 				childList: true,
 				subtree: true,
 			});
 			this.observeLoadMoreButton();
+			this.normalizeSearchResults();
 		};
 
 		observeLoadMoreButton = () => {
@@ -176,6 +192,50 @@ const { lang } = Astro.props;
 				},
 			);
 			this.#loadMoreObserver.observe(button);
+		};
+
+		normalizeSearchResults = () => {
+			if (this.#normalizeResultsFrame) return;
+			this.#normalizeResultsFrame = window.requestAnimationFrame(() => {
+				this.#normalizeResultsFrame = 0;
+				if (!this.#searchContainer) return;
+
+				const input = this.#searchContainer.querySelector<HTMLInputElement>(
+					".pagefind-ui__search-input",
+				);
+				const message = this.#searchContainer.querySelector<HTMLElement>(".pagefind-ui__message");
+				const results = Array.from(
+					this.#searchContainer.querySelectorAll<HTMLElement>(".pagefind-ui__result"),
+				);
+				const seenTitles = new Set<string>();
+				let visibleCount = 0;
+
+				for (const result of results) {
+					const link = result.querySelector<HTMLAnchorElement>(".pagefind-ui__result-link");
+					const title = link?.textContent?.replace(/\s+/g, " ").trim() ?? "";
+					const key = title.toLocaleLowerCase();
+					const duplicate = !key || seenTitles.has(key);
+
+					if (result.hidden !== duplicate) result.hidden = duplicate;
+					if (result.hasAttribute("data-search-duplicate") !== duplicate) {
+						result.toggleAttribute("data-search-duplicate", duplicate);
+					}
+
+					if (!duplicate) {
+						seenTitles.add(key);
+						visibleCount += 1;
+					}
+				}
+
+				if (!message || !input?.value.trim() || results.length === 0) return;
+
+				const term = input.value.trim();
+				const nextMessage =
+					visibleCount > 0
+						? `找到 ${visibleCount} 个 ${term} 的相关结果`
+						: `未找到 ${term} 的相关结果`;
+				if (message.textContent !== nextMessage) message.textContent = nextMessage;
+			});
 		};
 
 		onSearchWheel = (event: WheelEvent) => {

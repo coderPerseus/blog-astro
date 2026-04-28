@@ -101,6 +101,7 @@ const relatedPosts = ((await getAllPostsByLang(lang)) as PostLike[])
 					<aside
 						aria-label={t("posts.sidebar", lang)}
 						class="post-sidebar space-y-4 lg:sticky lg:top-19.5"
+						data-pagefind-ignore
 						data-has-related={relatedPosts.length > 0 ? "true" : "false"}
 						data-show-related="false"
 						id="post-sidebar"
