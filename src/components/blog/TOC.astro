@@ -14,31 +14,126 @@ const { headings, lang = "zh" } = Astro.props;
 const toc = generateToc(headings);
 ---
 
-<details
-	open
-	class="paper-panel max-w-full min-w-0 p-4 sm:p-5"
+<div
+	class="bg-surface/70 rounded-lg p-2.5 shadow-[0_1px_0_color-mix(in_oklch,var(--color-global-text)_8%,transparent)] sm:p-3"
 	id="post-toc"
 >
-	<summary class="hover:marker:text-accent text-accent-2 cursor-pointer text-base font-semibold">
-		{t("toc.title", lang)}
-		{
-			lang === "zh" && (
-				<span class="text-muted ms-2 text-xs font-normal">
-					Table of Contents
-				</span>
-			)
-		}
-	</summary>
-	<nav class="ms-1 min-w-0 lg:w-full">
-		<ol class="mt-4">
+	<nav aria-label={t("toc.title", lang)} class="min-w-0 lg:w-full">
+		<ol class="space-y-0.5">
 			{toc.map((heading) => <TOCHeading heading={heading} />)}
 		</ol>
 	</nav>
-</details>
+</div>
 
 <script>
-	const toc = document.getElementById("post-toc") as HTMLDetailsElement | null;
-	if (toc && window.matchMedia("(max-width: 1023px)").matches) {
-		toc.open = false;
+	const tocLinks = Array.from(
+		document.querySelectorAll<HTMLAnchorElement>("#post-toc a[href^='#']"),
+	);
+	const tocEntries = tocLinks
+		.map((link) => {
+			const rawSlug = link.getAttribute("href")?.slice(1) ?? "";
+			const slug = decodeURIComponent(rawSlug);
+			const heading = document.getElementById(slug);
+			return heading ? { heading, link, slug } : null;
+		})
+		.filter((entry) => entry !== null);
+
+	function setCurrent(link: HTMLAnchorElement, slug: string, updateHash = true) {
+		for (const item of tocLinks) {
+			const active = item === link;
+			item.dataset.active = active.toString();
+			if (active) {
+				item.setAttribute("aria-current", "location");
+			} else {
+				item.removeAttribute("aria-current");
+			}
+		}
+
+		if (!updateHash) return;
+
+		const currentHash = decodeURIComponent(window.location.hash.slice(1));
+		if (currentHash === slug) return;
+
+		const url = new URL(window.location.href);
+		url.hash = slug;
+		window.history.replaceState(window.history.state, "", url);
+	}
+
+	if (tocEntries.length > 0) {
+		let activeFrame = 0;
+		let clickedSlug = "";
+		let clickedSlugTimer = 0;
+
+		function getAnchorOffset() {
+			const headerHeight = document.getElementById("main-header")?.offsetHeight ?? 0;
+			return headerHeight + 20;
+		}
+
+		function getActiveEntry() {
+			const readingLine = getAnchorOffset() + 24;
+			let activeEntry = tocEntries[0];
+
+			for (const entry of tocEntries) {
+				if (entry.heading.getBoundingClientRect().top <= readingLine) {
+					activeEntry = entry;
+				} else {
+					break;
+				}
+			}
+
+			return activeEntry;
+		}
+
+		function updateActiveHeading(updateHash = true) {
+			activeFrame = 0;
+			if (clickedSlug) return;
+
+			const activeEntry = getActiveEntry();
+			if (activeEntry) setCurrent(activeEntry.link, activeEntry.slug, updateHash);
+		}
+
+		function scheduleActiveHeadingUpdate() {
+			if (activeFrame) return;
+			activeFrame = window.requestAnimationFrame(() => updateActiveHeading());
+		}
+
+		const hashSlug = decodeURIComponent(window.location.hash.slice(1));
+		const hashEntry = tocEntries.find((entry) => entry.slug === hashSlug);
+		if (hashEntry) {
+			setCurrent(hashEntry.link, hashEntry.slug, false);
+		} else {
+			updateActiveHeading(false);
+		}
+
+		for (const entry of tocEntries) {
+			entry.link.addEventListener("click", (event) => {
+				event.preventDefault();
+
+				clickedSlug = entry.slug;
+				window.clearTimeout(clickedSlugTimer);
+
+				const url = new URL(window.location.href);
+				url.hash = entry.slug;
+				window.history.pushState(window.history.state, "", url);
+				setCurrent(entry.link, entry.slug, false);
+				window.scrollTo({
+					behavior: "smooth",
+					top: entry.heading.getBoundingClientRect().top + window.scrollY - getAnchorOffset(),
+				});
+
+				clickedSlugTimer = window.setTimeout(() => {
+					clickedSlug = "";
+					updateActiveHeading(false);
+				}, 1400);
+			});
+		}
+
+		window.addEventListener("scroll", scheduleActiveHeadingUpdate, { passive: true });
+		window.addEventListener("resize", scheduleActiveHeadingUpdate);
+		window.addEventListener("hashchange", () => {
+			const nextHashSlug = decodeURIComponent(window.location.hash.slice(1));
+			const nextHashEntry = tocEntries.find((entry) => entry.slug === nextHashSlug);
+			if (nextHashEntry) setCurrent(nextHashEntry.link, nextHashEntry.slug, false);
+		});
 	}
 </script>

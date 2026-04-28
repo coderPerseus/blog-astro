@@ -90,19 +90,32 @@ const relatedPosts = ((await getAllPostsByLang(lang)) as PostLike[])
 			)
 		}
 		<div class="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start">
-			{
-				(!!headings.length || relatedPosts.length > 0) && (
-					<aside class="space-y-4 lg:sticky lg:top-19.5 lg:order-2" aria-label={t("posts.sidebar", lang)}>
-						{!!headings.length && <TOC headings={headings} lang={lang} />}
-						<RelatedPostsByTags lang={lang} posts={relatedPosts} tags={currentTags} />
-					</aside>
-				)
-			}
 			<div
 				class="prose prose-sm prose-img:rounded-[3px] prose-img:border prose-img:border-muted/10 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-5 prose-headings:before:text-accent/70 prose-headings:hover:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none text-base lg:max-w-[43rem]"
 			>
 				<slot />
+				<div aria-hidden="true" class="not-prose h-px" id="post-bottom-sentinel"></div>
 			</div>
+			{
+				(!!headings.length || relatedPosts.length > 0) && (
+					<aside
+						aria-label={t("posts.sidebar", lang)}
+						class="post-sidebar space-y-4 lg:sticky lg:top-19.5"
+						data-has-related={relatedPosts.length > 0 ? "true" : "false"}
+						data-show-related="false"
+						id="post-sidebar"
+					>
+						{!!headings.length && (
+							<div data-sidebar-toc>
+								<TOC headings={headings} lang={lang} />
+							</div>
+						)}
+						<div data-sidebar-related>
+							<RelatedPostsByTags lang={lang} posts={relatedPosts} tags={currentTags} />
+						</div>
+					</aside>
+				)
+			}
 		</div>
 	</article>
 	<button
@@ -126,9 +139,27 @@ const relatedPosts = ((await getAllPostsByLang(lang)) as PostLike[])
 	</button>
 </BaseLayout>
 
+<style>
+	.post-sidebar [data-sidebar-related] {
+		display: none;
+	}
+
+	.post-sidebar[data-show-related="true"] [data-sidebar-toc] {
+		display: none;
+	}
+
+	.post-sidebar[data-show-related="true"] [data-sidebar-related] {
+		display: block;
+	}
+</style>
+
 <script>
 	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
 	const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
+	const postSidebar = document.getElementById("post-sidebar") as HTMLElement | null;
+	const postBottomSentinel = document.getElementById(
+		"post-bottom-sentinel",
+	) as HTMLDivElement | null;
 
 	function callback(entries: IntersectionObserverEntry[]) {
 		entries.forEach((entry) => {
@@ -143,4 +174,26 @@ const relatedPosts = ((await getAllPostsByLang(lang)) as PostLike[])
 
 	const observer = new IntersectionObserver(callback);
 	observer.observe(targetHeader);
+
+	if (postSidebar && postBottomSentinel && postSidebar.dataset.hasRelated === "true") {
+		const sidebar = postSidebar;
+		const sentinel = postBottomSentinel;
+		let relatedFrame = 0;
+
+		function updateRelatedVisibility() {
+			relatedFrame = 0;
+			const sentinelTop = sentinel.getBoundingClientRect().top + window.scrollY;
+			const triggerLine = window.scrollY + window.innerHeight;
+			sidebar.dataset.showRelated = (triggerLine >= sentinelTop).toString();
+		}
+
+		function scheduleRelatedVisibilityUpdate() {
+			if (relatedFrame) return;
+			relatedFrame = window.requestAnimationFrame(updateRelatedVisibility);
+		}
+
+		updateRelatedVisibility();
+		window.addEventListener("scroll", scheduleRelatedVisibilityUpdate, { passive: true });
+		window.addEventListener("resize", scheduleRelatedVisibilityUpdate);
+	}
 </script>

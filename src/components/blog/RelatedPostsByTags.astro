@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import FormattedDate from "@/components/FormattedDate.astro";
 import { type Lang, t, withLang } from "@/utils/i18n";
 
 type PostLike = CollectionEntry<"post"> | CollectionEntry<"postEn">;
@@ -12,48 +11,40 @@ interface Props {
 }
 
 const { lang = "zh", posts, tags } = Astro.props;
-const tagSet = new Set(tags);
 ---
 
 {
 	posts.length > 0 && (
-		<section class="paper-panel max-w-full min-w-0 p-4 sm:p-5" aria-labelledby="related-posts-title">
-			<div class="mb-3 flex items-baseline justify-between gap-3">
-				<h2 class="eyebrow" id="related-posts-title">
+		<section
+			class="bg-surface/70 max-w-full min-w-0 rounded-lg p-3 shadow-[0_1px_0_color-mix(in_oklch,var(--color-global-text)_8%,transparent)] sm:p-4"
+			aria-labelledby="related-posts-title"
+		>
+			<div class="mb-3 flex items-baseline justify-between gap-3 px-1">
+				<h2 class="text-accent-2 text-sm font-semibold" id="related-posts-title">
 					{t("posts.related_by_tag", lang)}
 				</h2>
+				<a
+					class="text-muted hover:text-accent shrink-0 text-xs transition-colors"
+					href={`${withLang("/posts", lang)}?tag=${encodeURIComponent(tags[0] ?? "")}`}
+				>
+					{t("posts.view_more_same_tag", lang)}
+				</a>
 			</div>
-			<ul class="space-y-3" role="list">
-				{posts.map((post) => {
-					const matchedTags = post.data.tags.filter((tag) => tagSet.has(tag));
-
-					return (
-						<li>
-							<a
-								class="group block min-w-0"
-								href={withLang(`/posts/${post.id}`, lang)}
-								aria-label={post.data.title}
-							>
-								<span class="text-global-text group-hover:text-accent line-clamp-2 text-sm leading-snug font-medium transition-colors">
-									{post.data.title}
-								</span>
-								<span class="text-muted mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
-									<FormattedDate date={post.data.publishDate} lang={lang} />
-									{matchedTags.slice(0, 2).map((tag) => (
-										<span class="text-accent/85">#{tag}</span>
-									))}
-								</span>
-							</a>
-						</li>
-					);
-				})}
+			<ul class="space-y-2" role="list">
+				{posts.map((post) => (
+					<li>
+						<a
+							class="group bg-global-bg/55 hover:bg-global-bg block min-w-0 rounded-md px-3 py-2.5 transition-[background-color,transform] active:scale-[0.99]"
+							href={withLang(`/posts/${post.id}`, lang)}
+							aria-label={post.data.title}
+						>
+							<span class="text-global-text group-hover:text-accent line-clamp-2 text-sm leading-snug font-medium transition-colors">
+								{post.data.title}
+							</span>
+						</a>
+					</li>
+				))}
 			</ul>
-			<a
-				class="text-muted hover:text-accent mt-4 inline-flex text-xs transition-colors"
-				href={`${withLang("/posts", lang)}?tag=${encodeURIComponent(tags[0] ?? "")}`}
-			>
-				{t("posts.view_more_same_tag", lang)}
-			</a>
 		</section>
 	)
 }

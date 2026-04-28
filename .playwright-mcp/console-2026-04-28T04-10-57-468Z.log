@@ -1,0 +1,4 @@
+[    3757ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep) @ http://127.0.0.1:4321/@id/astro/runtime/client/dev-toolbar/entrypoint.js:0
+[   24525ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep) @ http://127.0.0.1:4321/@id/astro/runtime/client/dev-toolbar/entrypoint.js:0
+[   35357ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep) @ http://127.0.0.1:4321/@id/astro/runtime/client/dev-toolbar/entrypoint.js:0
+[   46753ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep) @ http://127.0.0.1:4321/@id/astro/runtime/client/dev-toolbar/entrypoint.js:0

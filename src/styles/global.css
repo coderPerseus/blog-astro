@@ -123,7 +123,13 @@
 	}
 
 	:target {
-		scroll-margin-block: 5ex;
+		scroll-margin-block-start: calc(3.5rem + 20px);
+	}
+
+	@media (min-width: 640px) {
+		:target {
+			scroll-margin-block-start: calc(4rem + 20px);
+		}
 	}
 
 	@view-transition {
