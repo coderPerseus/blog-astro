@@ -1,31 +1,11 @@
 import { Resvg } from "@resvg/resvg-js";
 import type { APIContext, InferGetStaticPropsType } from "astro";
-import satori, { type SatoriOptions } from "satori";
-import RobotoMonoBold from "@/assets/roboto-mono-700.ttf";
-import RobotoMono from "@/assets/roboto-mono-regular.ttf";
+import satori from "satori";
 import { getAllPosts } from "@/data/post";
+import { siteConfig } from "@/site.config";
 import { getFormattedDate } from "@/utils/date";
+import { buildOgFonts } from "./_fonts";
 import { ogMarkup } from "./_ogMarkup";
-
-const ogOptions: SatoriOptions = {
-	// debug: true,
-	fonts: [
-		{
-			data: Buffer.from(RobotoMono),
-			name: "Roboto Mono",
-			style: "normal",
-			weight: 400,
-		},
-		{
-			data: Buffer.from(RobotoMonoBold),
-			name: "Roboto Mono",
-			style: "normal",
-			weight: 700,
-		},
-	],
-	height: 630,
-	width: 1200,
-};
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
@@ -36,7 +16,12 @@ export async function GET(context: APIContext) {
 		month: "long",
 		weekday: "long",
 	});
-	const svg = await satori(ogMarkup(title, postDate), ogOptions);
+	const fonts = await buildOgFonts(title, postDate, siteConfig.title, siteConfig.author);
+	const svg = await satori(ogMarkup(title, postDate), {
+		fonts,
+		height: 630,
+		width: 1200,
+	});
 	const pngBuffer = new Resvg(svg).render().asPng();
 	const png = new Uint8Array(pngBuffer);
 	return new Response(png, {

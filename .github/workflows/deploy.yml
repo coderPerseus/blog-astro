@@ -3,6 +3,8 @@ name: deploy
 on:
   push:
     branches: [main]
+  issues:
+    types: [opened, edited, reopened, closed, labeled, unlabeled]
   schedule:
     - cron: "0 2 * * *" # Daily at 2am UTC
   workflow_dispatch:
