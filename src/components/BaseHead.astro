@@ -123,12 +123,12 @@ const structuredData = safeJsonLd({
 }
 
 {/* Twitter */}
-<meta content="summary_large_image" property="twitter:card" />
-<meta content={canonicalURL} property="twitter:url" />
-<meta content={pageTitle} property="twitter:title" />
-<meta content={metaDescription} property="twitter:description" />
-<meta content={socialImageURL} property="twitter:image" />
-<meta content={pageTitle} property="twitter:image:alt" />
+<meta content="summary_large_image" name="twitter:card" />
+<meta content={canonicalURL} name="twitter:url" />
+<meta content={pageTitle} name="twitter:title" />
+<meta content={metaDescription} name="twitter:description" />
+<meta content={socialImageURL} name="twitter:image" />
+<meta content={pageTitle} name="twitter:image:alt" />
 
 {/* Sitemap */}
 <link href={new URL("/sitemap-index.xml", siteConfig.url)} rel="sitemap" />

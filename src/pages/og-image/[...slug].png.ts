@@ -1,23 +1,26 @@
 import { Resvg } from "@resvg/resvg-js";
 import type { APIContext, InferGetStaticPropsType } from "astro";
 import satori from "satori";
-import { getAllPosts } from "@/data/post";
+import { getAllPosts, getAllPostsEn } from "@/data/post";
 import { siteConfig } from "@/site.config";
 import { getFormattedDate } from "@/utils/date";
+import { type Lang, t } from "@/utils/i18n";
 import { buildOgFonts } from "./_fonts";
 import { ogMarkup } from "./_ogMarkup";
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 export async function GET(context: APIContext) {
-	const { pubDate, title } = context.props as Props;
+	const { lang, pubDate, title } = context.props as Props;
 
-	const postDate = getFormattedDate(pubDate, {
-		month: "long",
-		weekday: "long",
-	});
-	const fonts = await buildOgFonts(title, postDate, siteConfig.title, siteConfig.author);
-	const svg = await satori(ogMarkup(title, postDate), {
+	const postDate = getFormattedDate(
+		pubDate,
+		{ month: "long", weekday: "long" },
+		lang,
+	);
+	const localizedSiteTitle = t("site.title", lang);
+	const fonts = await buildOgFonts(title, postDate, localizedSiteTitle, siteConfig.author);
+	const svg = await satori(ogMarkup(title, postDate, lang), {
 		fonts,
 		height: 630,
 		width: 1200,
@@ -33,16 +36,29 @@ export async function GET(context: APIContext) {
 }
 
 export async function getStaticPaths() {
-	const posts = await getAllPosts();
-	return posts
-		.values()
+	const [zhPosts, enPosts] = await Promise.all([getAllPosts(), getAllPostsEn()]);
+
+	const zhPaths = zhPosts
 		.filter(({ data }) => !data.ogImage)
 		.map((post) => ({
 			params: { slug: post.id },
 			props: {
+				lang: "zh" as Lang,
 				pubDate: post.data.updatedDate ?? post.data.publishDate,
 				title: post.data.title,
 			},
-		}))
-		.toArray();
+		}));
+
+	const enPaths = enPosts
+		.filter(({ data }) => !data.ogImage)
+		.map((post) => ({
+			params: { slug: `${post.id}.en` },
+			props: {
+				lang: "en" as Lang,
+				pubDate: post.data.updatedDate ?? post.data.publishDate,
+				title: post.data.title,
+			},
+		}));
+
+	return [...zhPaths, ...enPaths];
 }

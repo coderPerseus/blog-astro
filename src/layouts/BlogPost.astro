@@ -22,7 +22,7 @@ const data = post.data as CollectionEntry<"post">["data"] & {
 };
 const { ogImage, title, description, updatedDate, publishDate, tags, aiSummary, aiSummaryEn } =
 	data;
-const socialImage = ogImage ?? `/og-image/${post.id}.png`;
+const socialImage = ogImage ?? `/og-image/${post.id}${lang === "en" ? ".en" : ""}.png`;
 const articleDate = publishDate.toISOString();
 const articleModifiedDate = updatedDate?.toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);
