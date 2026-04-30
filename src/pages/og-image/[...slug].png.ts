@@ -5,6 +5,7 @@ import { getAllPosts, getAllPostsEn } from "@/data/post";
 import { siteConfig } from "@/site.config";
 import { getFormattedDate } from "@/utils/date";
 import { type Lang, t } from "@/utils/i18n";
+import { ogImageSlug } from "@/utils/og";
 import { buildOgFonts } from "./_fonts";
 import { ogMarkup } from "./_ogMarkup";
 
@@ -41,7 +42,7 @@ export async function getStaticPaths() {
 	const zhPaths = zhPosts
 		.filter(({ data }) => !data.ogImage)
 		.map((post) => ({
-			params: { slug: post.id },
+			params: { slug: ogImageSlug(post.id) },
 			props: {
 				lang: "zh" as Lang,
 				pubDate: post.data.updatedDate ?? post.data.publishDate,
@@ -52,7 +53,7 @@ export async function getStaticPaths() {
 	const enPaths = enPosts
 		.filter(({ data }) => !data.ogImage)
 		.map((post) => ({
-			params: { slug: `${post.id}.en` },
+			params: { slug: `${ogImageSlug(post.id)}.en` },
 			props: {
 				lang: "en" as Lang,
 				pubDate: post.data.updatedDate ?? post.data.publishDate,

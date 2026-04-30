@@ -7,6 +7,7 @@ import TOC from "@/components/blog/TOC.astro";
 import { getAllPostsByLang, getAllPostsEn } from "@/data/post";
 import { collectionDateSort } from "@/utils/date";
 import { type Lang, t } from "@/utils/i18n";
+import { ogImageSlug } from "@/utils/og";
 
 import BaseLayout from "./Base.astro";
 
@@ -22,7 +23,7 @@ const data = post.data as CollectionEntry<"post">["data"] & {
 };
 const { ogImage, title, description, updatedDate, publishDate, tags, aiSummary, aiSummaryEn } =
 	data;
-const socialImage = ogImage ?? `/og-image/${post.id}${lang === "en" ? ".en" : ""}.png`;
+const socialImage = ogImage ?? `/og-image/${ogImageSlug(post.id)}${lang === "en" ? ".en" : ""}.png`;
 const articleDate = publishDate.toISOString();
 const articleModifiedDate = updatedDate?.toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);
