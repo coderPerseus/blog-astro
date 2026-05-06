@@ -93,6 +93,8 @@ const relatedPosts = ((await getAllPostsByLang(lang)) as PostLike[])
 		<div class="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start">
 			<div
 				class="prose prose-sm prose-img:rounded-[3px] prose-img:border prose-img:border-muted/10 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-5 prose-headings:before:text-accent/70 prose-headings:hover:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none text-base lg:max-w-[43rem]"
+				data-post-content
+				data-view-image-label={t("posts.image_open", lang)}
 			>
 				<slot />
 				<div aria-hidden="true" class="not-prose h-px" id="post-bottom-sentinel"></div>
@@ -119,6 +121,36 @@ const relatedPosts = ((await getAllPostsByLang(lang)) as PostLike[])
 				)
 			}
 		</div>
+		<dialog
+			aria-labelledby="post-image-lightbox-title"
+			class="image-lightbox not-prose"
+			data-image-lightbox
+		>
+			<h2 class="sr-only" id="post-image-lightbox-title">{t("posts.image_viewer", lang)}</h2>
+			<div class="image-lightbox__frame" data-image-lightbox-frame>
+				<img alt="" data-image-lightbox-img />
+				<p class="image-lightbox__caption" data-image-lightbox-caption></p>
+			</div>
+			<button
+				aria-label={t("posts.image_close", lang)}
+				class="image-lightbox__close"
+				data-image-lightbox-close
+				type="button"
+			>
+				<svg
+					aria-hidden="true"
+					fill="none"
+					focusable="false"
+					stroke="currentColor"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="1.8"
+					viewBox="0 0 24 24"
+				>
+					<path d="M6 6l12 12M18 6L6 18"></path>
+				</svg>
+			</button>
+		</dialog>
 	</article>
 	<button
 		class="border-muted/20 bg-global-bg/80 hover:border-link fixed end-4 bottom-8 z-90 flex h-10 w-10 translate-y-28 cursor-pointer items-center justify-center rounded-full border text-3xl opacity-0 shadow-lg backdrop-blur transition-all transition-discrete duration-300 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12"
@@ -152,6 +184,162 @@ const relatedPosts = ((await getAllPostsByLang(lang)) as PostLike[])
 
 	.post-sidebar[data-show-related="true"] [data-sidebar-related] {
 		display: block;
+	}
+
+	:global([data-post-content] img[data-lightbox-image]) {
+		cursor: zoom-in;
+		touch-action: manipulation;
+		transition:
+			opacity 160ms ease,
+			transform 160ms ease,
+			box-shadow 160ms ease;
+	}
+
+	@media (hover: hover) {
+		:global([data-post-content] img[data-lightbox-image]:hover) {
+			box-shadow: 0 10px 28px color-mix(in srgb, var(--color-global-text) 12%, transparent);
+			transform: translateY(-1px);
+		}
+	}
+
+	:global([data-post-content] img[data-lightbox-image]:focus-visible) {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 4px;
+	}
+
+	:global(html[data-image-lightbox-open="true"]) {
+		overflow: hidden;
+	}
+
+	.image-lightbox {
+		background: transparent;
+		border: 0;
+		box-sizing: border-box;
+		color: #f7f7f5;
+		height: 100dvh;
+		margin: 0;
+		max-height: none;
+		max-width: none;
+		overflow: hidden;
+		padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
+			max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+		width: 100vw;
+	}
+
+	.image-lightbox[open] {
+		display: grid;
+		place-items: center;
+	}
+
+	.image-lightbox::backdrop {
+		background: rgba(10, 10, 12, 0.88);
+	}
+
+	.image-lightbox__frame {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		max-height: calc(100dvh - 3rem);
+		max-width: min(100%, 72rem);
+		overscroll-behavior: contain;
+	}
+
+	.image-lightbox__frame img {
+		background: rgba(255, 255, 255, 0.04);
+		border-radius: 6px;
+		box-shadow:
+			0 24px 80px rgba(0, 0, 0, 0.42),
+			0 0 0 1px rgba(255, 255, 255, 0.1);
+		display: block;
+		height: auto;
+		max-height: calc(100dvh - 7rem);
+		max-width: min(100%, 72rem);
+		object-fit: contain;
+		width: auto;
+	}
+
+	.image-lightbox__caption {
+		color: rgba(247, 247, 245, 0.76);
+		font-size: 0.82rem;
+		line-height: 1.5;
+		margin: 0;
+		max-width: min(100%, 48rem);
+		text-align: center;
+		text-wrap: pretty;
+	}
+
+	.image-lightbox__caption:empty {
+		display: none;
+	}
+
+	.image-lightbox__close {
+		align-items: center;
+		background: rgba(255, 255, 255, 0.1);
+		border: 1px solid rgba(255, 255, 255, 0.14);
+		border-radius: 999px;
+		color: #f7f7f5;
+		cursor: pointer;
+		display: flex;
+		height: 44px;
+		justify-content: center;
+		position: fixed;
+		right: max(16px, env(safe-area-inset-right));
+		top: max(16px, env(safe-area-inset-top));
+		transition:
+			background-color 160ms ease,
+			border-color 160ms ease,
+			transform 160ms ease;
+		width: 44px;
+	}
+
+	.image-lightbox__close svg {
+		height: 22px;
+		width: 22px;
+	}
+
+	@media (hover: hover) {
+		.image-lightbox__close:hover {
+			background: rgba(255, 255, 255, 0.18);
+			border-color: rgba(255, 255, 255, 0.28);
+		}
+	}
+
+	.image-lightbox__close:active {
+		transform: scale(0.96);
+	}
+
+	.image-lightbox__close:focus-visible {
+		outline: 2px solid #f7f7f5;
+		outline-offset: 3px;
+	}
+
+	@media (max-width: 640px) {
+		.image-lightbox {
+			padding-block: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-bottom));
+		}
+
+		.image-lightbox__frame {
+			gap: 0.6rem;
+			max-height: calc(100dvh - 2rem);
+		}
+
+		.image-lightbox__frame img {
+			max-height: calc(100dvh - 6.5rem);
+			max-width: 100%;
+		}
+
+		.image-lightbox__caption {
+			font-size: 0.76rem;
+			padding-inline: 0.75rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global([data-post-content] img[data-lightbox-image]),
+		.image-lightbox__close {
+			transition: none;
+		}
 	}
 </style>
 
@@ -198,4 +386,93 @@ const relatedPosts = ((await getAllPostsByLang(lang)) as PostLike[])
 		window.addEventListener("scroll", scheduleRelatedVisibilityUpdate, { passive: true });
 		window.addEventListener("resize", scheduleRelatedVisibilityUpdate);
 	}
+
+	const postContent = document.querySelector<HTMLElement>("[data-post-content]");
+	const imageLightbox = document.querySelector<HTMLDialogElement>("[data-image-lightbox]");
+	const imageLightboxFrame = document.querySelector<HTMLElement>("[data-image-lightbox-frame]");
+	const imageLightboxImg = document.querySelector<HTMLImageElement>("[data-image-lightbox-img]");
+	const imageLightboxCaption = document.querySelector<HTMLElement>("[data-image-lightbox-caption]");
+	const imageLightboxClose = document.querySelector<HTMLButtonElement>(
+		"[data-image-lightbox-close]",
+	);
+	const viewImageLabel = postContent?.dataset.viewImageLabel ?? "View larger image";
+
+	function closeImageLightbox() {
+		if (!imageLightbox?.open) return;
+		imageLightbox.close();
+	}
+
+	function openImageLightbox(image: HTMLImageElement) {
+		if (!imageLightbox || !imageLightboxImg || !imageLightboxCaption) return;
+
+		const imageSrc = image.currentSrc || image.src;
+		if (!imageSrc) return;
+
+		const imageAlt = image.getAttribute("alt")?.trim() ?? "";
+		imageLightboxImg.src = imageSrc;
+		imageLightboxImg.alt = imageAlt;
+		imageLightboxCaption.textContent = imageAlt;
+		document.documentElement.dataset.imageLightboxOpen = "true";
+		imageLightbox.showModal();
+		imageLightboxClose?.focus({ preventScroll: true });
+	}
+
+	function enhancePostImages() {
+		if (!postContent) return;
+
+		const images = Array.from(postContent.querySelectorAll<HTMLImageElement>("img"));
+		for (const image of images) {
+			if (image.closest("a, button, [role='button']")) continue;
+			image.dataset.lightboxImage = "true";
+			image.tabIndex = 0;
+			image.setAttribute("role", "button");
+			const imageAlt = image.getAttribute("alt")?.trim();
+			image.setAttribute(
+				"aria-label",
+				imageAlt ? `${viewImageLabel}: ${imageAlt}` : viewImageLabel,
+			);
+			image.setAttribute("title", viewImageLabel);
+			if (!image.hasAttribute("loading")) image.loading = "lazy";
+		}
+	}
+
+	postContent?.addEventListener("click", (event) => {
+		const image = (event.target as Element | null)?.closest<HTMLImageElement>(
+			"img[data-lightbox-image]",
+		);
+		if (!image) return;
+		event.preventDefault();
+		openImageLightbox(image);
+	});
+
+	postContent?.addEventListener("keydown", (event) => {
+		if (event.key !== "Enter" && event.key !== " ") return;
+		const image = (event.target as Element | null)?.closest<HTMLImageElement>(
+			"img[data-lightbox-image]",
+		);
+		if (!image) return;
+		event.preventDefault();
+		openImageLightbox(image);
+	});
+
+	imageLightbox?.addEventListener("close", () => {
+		document.documentElement.dataset.imageLightboxOpen = "false";
+		if (imageLightboxImg) imageLightboxImg.removeAttribute("src");
+	});
+
+	imageLightbox?.addEventListener("click", (event) => {
+		if (!imageLightboxFrame?.contains(event.target as Node)) closeImageLightbox();
+	});
+
+	imageLightboxClose?.addEventListener("click", closeImageLightbox);
+
+	imageLightbox?.addEventListener("cancel", () => {
+		document.documentElement.dataset.imageLightboxOpen = "false";
+	});
+
+	imageLightbox?.addEventListener("toggle", () => {
+		document.documentElement.dataset.imageLightboxOpen = imageLightbox.open.toString();
+	});
+
+	enhancePostImages();
 </script>

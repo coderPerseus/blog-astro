@@ -47,6 +47,9 @@ const translations: Record<string, Record<Lang, string>> = {
 	"posts.ai_summary_en": { zh: "AI Summary (English)", en: "AI Summary" },
 	"posts.translation": { zh: "英文翻译", en: "Translation" },
 	"posts.original": { zh: "原文", en: "Original" },
+	"posts.image_viewer": { zh: "图片预览", en: "Image preview" },
+	"posts.image_open": { zh: "查看大图", en: "View larger image" },
+	"posts.image_close": { zh: "关闭图片预览", en: "Close image preview" },
 	"search.open": { zh: "打开搜索", en: "Open Search" },
 	"search.close": { zh: "关闭", en: "Close" },
 	"search.dev_warning": {
