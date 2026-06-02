@@ -7,7 +7,7 @@ export const siteConfig: SiteConfig = {
 	author: "LuckySnail",
 	description: "前端开发者博客 | 探索 AI、React、TypeScript 与开源世界",
 	defaultOgImage: "/og-image/site.png",
-	logo: "/logo.png",
+	logo: "/logo-512.webp",
 	lang: "zh-CN",
 	ogLocale: "zh_CN",
 	socialLinks: [

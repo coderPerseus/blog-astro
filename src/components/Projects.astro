@@ -2,6 +2,8 @@
 type Project = {
 	url: string;
 	icon: string;
+	iconWidth?: number;
+	iconHeight?: number;
 	tone: "green" | "blue" | "violet" | "red" | "cyan" | "amber";
 	name: {
 		zh: string;
@@ -53,7 +55,9 @@ const projects: Project[] = [
 	},
 	{
 		url: "https://neovateai.dev/",
-		icon: "/projects/neovateCode.png",
+		icon: "/projects/neovateCode-76.webp",
+		iconWidth: 76,
+		iconHeight: 78,
 		tone: "violet",
 		name: {
 			zh: "Neovate Code",
@@ -82,7 +86,9 @@ const projects: Project[] = [
 	// },
 	{
 		url: "https://www.npmjs.com/package/bytemd-plugin-image-lazy",
-		icon: "/projects/npmIcon.webp",
+		icon: "/projects/npmIcon-76.webp",
+		iconWidth: 76,
+		iconHeight: 49,
 		tone: "red",
 		name: {
 			zh: "bytemd 图片懒加载插件",
@@ -164,10 +170,10 @@ function labelFor(tag: string) {
 								<img
 									alt=""
 									class="project-card__icon"
-									height="68"
+									height={p.iconHeight ?? 68}
 									loading="lazy"
 									src={withBase(p.icon)}
-									width="68"
+									width={p.iconWidth ?? 68}
 								/>
 							</div>
 							<h3 class="project-card__title">{p.name[lang]}</h3>

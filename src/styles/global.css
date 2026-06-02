@@ -56,7 +56,9 @@
 @theme {
 	--font-sans: var(--font-en);
 	--font-en: "DM Sans Variable", "DM Sans", sans-serif;
-	--font-zh: "LXGW WenKai Screen", "DM Sans Variable", "DM Sans", sans-serif;
+	--font-zh:
+		"LXGW WenKai Screen", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+		"Noto Sans CJK SC", "Noto Sans SC", "DM Sans Variable", sans-serif;
 	--color-global-bg: #ffffff;
 	--color-global-text: #18181b;
 	--color-muted: #71717a;
