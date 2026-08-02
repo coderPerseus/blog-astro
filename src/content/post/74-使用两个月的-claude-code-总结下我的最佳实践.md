@@ -1,7 +1,7 @@
 ---
 title: "使用两个月的 Claude Code ，总结下我的最佳实践"
 publishDate: "2025-07-20T08:59:20Z"
-updatedDate: "2025-07-20T08:59:20Z"
+updatedDate: "2026-07-16T01:22:38Z"
 tags: ["AI","教程"]
 description: "大家好，我是 luckySnail，已经使用 Claude Code 两个多月了！感谢公司的支持，让我用上了目前编程最强的工具，有了 Claude Code 后，我的开发效率真的翻倍了！Claude Code 是一款集成在终端的编程助手（CLI 工具），使用了 Anthropic 公司自家最强的 sonnet 4 和 "
 ---
