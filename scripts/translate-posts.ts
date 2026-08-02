@@ -136,6 +136,7 @@ async function callDeepSeek(messages: { role: string; content: string }[]): Prom
 		body: JSON.stringify({
 			model: MODEL,
 			messages,
+			thinking: { type: "disabled" },
 			temperature: 0.3,
 			stream: false,
 			max_tokens: 8192,
