@@ -1,7 +1,7 @@
 ---
 title: "DeepSeek接入Codex实测"
 publishDate: "2026-08-02T06:39:34Z"
-updatedDate: "2026-08-02T06:39:34Z"
+updatedDate: "2026-08-02T14:34:30Z"
 tags: ["AI"]
 description: "昨天 DeepSeek 发布了 deepseekv4flash ，大幅提升了 Agent 能力，我自己在 Codex （现在是ChatGPT，后文都叫做 ChatGPT）里面接入实测真的很不错，下面我分享一下我实测的体验和心得，希望对你有所帮助，下面是分享的速览：\n\n DeepSeek 在 0731 发了啥？\n 如何将"
 ---
@@ -104,7 +104,7 @@ description: "昨天 DeepSeek 发布了 deepseekv4flash ，大幅提升了 Agent
 
 如果你有任何浏览器相关的工作，我都推荐你安装 ChatGPT 浏览器插件，安装方法也很简单
 
-![image-20260801231018011](/Users/zozy/Library/Application Support/typora-user-images/image-20260801231018011.png)
+![image-20260801231018011](https://blog-1304565468.cos.ap-shanghai.myqcloud.com/typora/image-20260801231018011.png)
 
 安装成功后，你可以看到浏览器插件栏多了一个 ChatGPT 图标，点击右侧会多一个侧边栏，这里是一个Chatbox ，和本地 ChatGPT 是同步聊天状态的（同样也是需要本地App进行配合），你可以在顶部搜索你在 ChatGPT 的聊天记录，在这里的对话也会同步到本地的桌面端 App 
 
