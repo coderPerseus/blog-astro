@@ -26,6 +26,34 @@ const { lang = "zh" } = Astro.props;
 
 const projects: Project[] = [
 	{
+		url: "https://dshhub.org/",
+		icon: "/projects/dshhub.png",
+		tone: "blue",
+		name: {
+			zh: "DSH Hub",
+			en: "DSH Hub",
+		},
+		description: {
+			zh: "DeepSeek Harness 社区插件目录，支持发现、筛选、比较和安装模型、工具、技能、会话等 Agent 插件。",
+			en: "A community directory for discovering, comparing, and installing DeepSeek Harness plugins for models, tools, skills, sessions, and more.",
+		},
+		tags: ["开源"],
+	},
+	{
+		url: "https://islumi.com/",
+		icon: "/projects/lumi.png",
+		tone: "violet",
+		name: {
+			zh: "Lumi",
+			en: "Lumi",
+		},
+		description: {
+			zh: "面向 YouTube 与 Bilibili 的个性化音视频 AI 助手，提供双语字幕、AI 视频总结和视频问答，帮你快速抓住重点。",
+			en: "A personalized audio and video AI assistant for YouTube and Bilibili with bilingual subtitles, AI summaries, and video Q&A.",
+		},
+		tags: ["个人"],
+	},
+	{
 		url: "https://cocotranslate.com/",
 		icon: "/projects/cocotranslate.png",
 		tone: "green",
