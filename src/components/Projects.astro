@@ -4,7 +4,7 @@ type Project = {
 	icon: string;
 	iconWidth?: number;
 	iconHeight?: number;
-	tone: "green" | "blue" | "violet" | "red" | "cyan" | "amber";
+	tone: "green" | "blue" | "violet" | "red" | "cyan" | "amber" | "slate";
 	name: {
 		zh: string;
 		en: string;
@@ -28,7 +28,7 @@ const projects: Project[] = [
 	{
 		url: "https://pm.luckysnail.cn/",
 		icon: "/projects/popmind.png",
-		tone: "violet",
+		tone: "slate",
 		name: {
 			zh: "popMind",
 			en: "popMind",
@@ -333,6 +333,10 @@ function labelFor(tag: string) {
 
 	.project-card--amber {
 		--project-rgb: 245 158 11;
+	}
+
+	.project-card--slate {
+		--project-rgb: 100 116 139;
 	}
 
 	.project-card__glow {
