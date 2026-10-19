@@ -1,24 +1,34 @@
 ---
-import { render } from "astro:content";
-import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
-import { getAllPosts } from "@/data/post";
-import PostLayout from "@/layouts/BlogPost.astro";
+import type { GetStaticPaths } from "astro";
+import { getAllPosts, getPostSlug } from "@/data/post";
+import { withLang } from "@/utils/i18n";
 
 // if you're using an adaptor in SSR mode, getStaticPaths wont work -> https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
 export const getStaticPaths = (async () => {
 	const blogEntries = await getAllPosts();
-	return blogEntries.map((post) => ({
-		params: { slug: post.id },
-		props: { post },
-	}));
+	return blogEntries.flatMap((post) =>
+		[getPostSlug(post), post.id, ...post.data.legacySlugs]
+			.filter((slug, index, aliases) => aliases.indexOf(slug) === index)
+			.map((slug) => ({
+				params: { slug },
+				props: { redirectTo: getPostSlug(post) },
+			})),
+	);
 }) satisfies GetStaticPaths;
 
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-
-const { post } = Astro.props;
-const { Content } = await render(post);
+const { redirectTo } = Astro.props as { redirectTo: string };
+const redirectUrl = withLang(`/posts/${redirectTo}`, "zh");
 ---
 
-<PostLayout lang="zh" post={post}>
-	<Content />
-</PostLayout>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta content={`0;url=${redirectUrl}`} http-equiv="refresh" />
+		<meta content="noindex, follow" name="robots" />
+		<link href={redirectUrl} rel="canonical" />
+		<title>Redirecting…</title>
+	</head>
+	<body>
+		<a href={redirectUrl}>Continue to the article</a>
+	</body>
+</html>

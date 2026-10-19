@@ -55,6 +55,8 @@ interface GitHubIssue {
 
 interface ParsedFrontmatter {
 	title?: string;
+	slug?: string;
+	legacySlugs?: string[];
 	description?: string;
 	tags?: string[];
 	publishDate?: string;
@@ -72,10 +74,10 @@ function parseFrontmatter(body: string): ParsedFrontmatter {
 
 	// Check if body starts with YAML frontmatter
 	const fmMatch = body.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
-	if (!fmMatch) return result;
+	if (!fmMatch?.[1] || fmMatch[2] === undefined) return result;
 
-	const yamlBlock = fmMatch[1]!;
-	const content = fmMatch[2]!;
+	const yamlBlock = fmMatch[1];
+	const content = fmMatch[2];
 	result.originalBody = content;
 
 	// Simple YAML parser for flat key-value pairs
@@ -83,11 +85,25 @@ function parseFrontmatter(body: string): ParsedFrontmatter {
 		const kvMatch = line.match(/^(\w[\w-]*)\s*:\s*(.+)$/);
 		if (!kvMatch) continue;
 		const [, key, rawValue] = kvMatch;
-		const value = rawValue!.trim().replace(/^["']|["']$/g, "");
+		if (!rawValue) continue;
+		const value = rawValue.trim().replace(/^["']|["']$/g, "");
 
 		switch (key) {
 			case "title":
 				result.title = value;
+				break;
+			case "slug":
+				result.slug = value;
+				break;
+			case "legacySlugs":
+				try {
+					const parsed = JSON.parse(rawValue.trim());
+					if (Array.isArray(parsed)) {
+						result.legacySlugs = parsed.filter((item) => typeof item === "string");
+					}
+				} catch {
+					result.legacySlugs = [];
+				}
 				break;
 			case "description":
 				result.description = value;
@@ -135,7 +151,10 @@ function slugify(title: string): string {
 		.replace(/^-+|-+$/g, "");
 }
 
-function issueToMarkdown(issue: GitHubIssue): { filename: string; content: string } | null {
+function issueToMarkdown(
+	issue: GitHubIssue,
+	preserved?: { slug?: string; legacySlugs: string[]; entryId: string },
+): { filename: string; content: string } | null {
 	if (issue.state !== "open") return null;
 
 	// Check exclude labels
@@ -175,6 +194,12 @@ function issueToMarkdown(issue: GitHubIssue): { filename: string; content: strin
 		tags: JSON.stringify(tags),
 		description: JSON.stringify(description),
 	};
+	const canonicalSlug = fm.slug || preserved?.slug;
+	const legacySlugs = new Set([...(preserved?.legacySlugs ?? []), ...(fm.legacySlugs ?? [])]);
+	if (preserved?.entryId) legacySlugs.add(preserved.entryId);
+	if (preserved?.slug && fm.slug && preserved.slug !== fm.slug) legacySlugs.add(preserved.slug);
+	if (canonicalSlug) frontmatter.slug = JSON.stringify(canonicalSlug);
+	if (legacySlugs.size > 0) frontmatter.legacySlugs = JSON.stringify([...legacySlugs]);
 
 	if (fm.pinned) frontmatter.pinned = "true";
 	if (fm.draft) frontmatter.draft = "true";
@@ -196,6 +221,24 @@ ${fm.originalBody || ""}
 	const filename = `${number}-${slug}.md`;
 
 	return { filename, content: md };
+}
+
+function readLocalRouteMetadata(filepath: string): {
+	slug?: string;
+	legacySlugs: string[];
+	entryId: string;
+} {
+	const entryId = path.basename(filepath, ".md");
+	try {
+		const fm = parseFrontmatter(fs.readFileSync(filepath, "utf-8"));
+		return {
+			...(fm.slug ? { slug: fm.slug } : {}),
+			legacySlugs: fm.legacySlugs ?? [],
+			entryId,
+		};
+	} catch {
+		return { legacySlugs: [], entryId };
+	}
 }
 
 async function fetchAllIssues(): Promise<GitHubIssue[]> {
@@ -240,10 +283,10 @@ function readLocalUpdatedDate(filepath: string): Date | null {
 	try {
 		const content = fs.readFileSync(filepath, "utf-8");
 		const fmMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-		if (!fmMatch) return null;
-		const updMatch = fmMatch[1]!.match(/^updatedDate\s*:\s*"?([^"\n]+?)"?\s*$/m);
-		if (!updMatch) return null;
-		const d = new Date(updMatch[1]!);
+		if (!fmMatch?.[1]) return null;
+		const updMatch = fmMatch[1].match(/^updatedDate\s*:\s*"?([^"\n]+?)"?\s*$/m);
+		if (!updMatch?.[1]) return null;
+		const d = new Date(updMatch[1]);
 		return Number.isNaN(d.getTime()) ? null : d;
 	} catch {
 		return null;
@@ -274,13 +317,16 @@ async function main() {
 	let skipped = 0;
 
 	for (const issue of issues) {
-		const result = issueToMarkdown(issue);
+		const existingFile = numberToFile.get(issue.number);
+		const preserved = existingFile
+			? readLocalRouteMetadata(path.join(OUTPUT_DIR, existingFile))
+			: undefined;
+		const result = issueToMarkdown(issue, preserved);
 		if (!result) {
 			skipped++;
 			continue;
 		}
 
-		const existingFile = numberToFile.get(issue.number);
 		if (!existingFile) {
 			fs.writeFileSync(path.join(OUTPUT_DIR, result.filename), result.content, "utf-8");
 			added++;

@@ -11,6 +11,11 @@ const titleSchema = z.string().max(200);
 
 const baseSchema = z.object({
 	title: titleSchema,
+	slug: z
+		.string()
+		.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+		.optional(),
+	legacySlugs: z.array(z.string()).default([]),
 });
 
 const post = defineCollection({

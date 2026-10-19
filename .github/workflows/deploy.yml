@@ -6,6 +6,12 @@ on:
   repository_dispatch:
     types: [blog-issues-updated]
   workflow_dispatch:
+    inputs:
+      backfill_slugs:
+        description: Generate canonical AI slugs for posts that do not have one
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -60,6 +66,14 @@ jobs:
           DEEPSEEK_BASE_URL: https://api.deepseek.com
           DEEPSEEK_MODEL: deepseek-v4-flash
         run: npx tsx scripts/translate-posts.ts
+
+      - name: Backfill canonical AI slugs
+        if: github.event_name == 'workflow_dispatch' && inputs.backfill_slugs
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          DEEPSEEK_BASE_URL: https://api.deepseek.com
+          DEEPSEEK_MODEL: deepseek-v4-flash
+        run: npx tsx scripts/backfill-post-slugs.ts --apply
 
       - name: Commit synced content back to main
         run: |

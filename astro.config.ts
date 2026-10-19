@@ -19,7 +19,7 @@ import { expressiveCodeOptions, siteConfig } from "./src/site.config";
 const site = process.env.SITE || siteConfig.url;
 const base = process.env.BASE_PATH || "/";
 const normalizedBase = normalizeBasePath(base);
-const englishPostIds = getEnglishPostIds();
+const postRoutes = getPostRoutes();
 
 // https://astro.build/config
 export default defineConfig({
@@ -36,7 +36,7 @@ export default defineConfig({
 		expressiveCode(expressiveCodeOptions),
 		icon(),
 		sitemap({
-			filter: (page) => !isLegacyDuplicatePage(page),
+			filter: (page) => !isLegacyDuplicatePage(page, postRoutes),
 			i18n: {
 				defaultLocale: "zh",
 				locales: {
@@ -51,7 +51,7 @@ export default defineConfig({
 				const isPost = pathname.includes("/posts/");
 				const postSlug = getLocalizedPostSlug(pathname);
 				const links =
-					postSlug && !englishPostIds.has(postSlug)
+					postSlug && !postRoutes.english.has(postSlug)
 						? item.links?.filter((link) => link.lang !== "en")
 						: item.links;
 				const { links: _links, ...rest } = item;
@@ -136,9 +136,11 @@ function getSitePath(page: string) {
 	return pathname;
 }
 
-function isLegacyDuplicatePage(page: string) {
+function isLegacyDuplicatePage(page: string, routes: ReturnType<typeof getPostRoutes>) {
 	const pathname = getSitePath(page);
-	return pathname === "/" || pathname === "/posts" || pathname.startsWith("/posts/");
+	if (pathname === "/" || pathname === "/posts" || pathname.startsWith("/posts/")) return true;
+	const postSlug = getLocalizedPostSlug(pathname);
+	return Boolean(postSlug && routes.legacy.has(postSlug) && !routes.canonical.has(postSlug));
 }
 
 function getLocalizedPostSlug(pathname: string) {
@@ -151,9 +153,11 @@ function getLocalizedPostSlug(pathname: string) {
 	}
 }
 
-function getEnglishPostIds() {
+function getPostRoutes() {
 	const postDir = new URL("./src/content/post/", import.meta.url);
-	const ids = new Set<string>();
+	const canonical = new Set<string>();
+	const english = new Set<string>();
+	const legacy = new Set<string>();
 
 	function walk(dir: URL) {
 		for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -162,11 +166,36 @@ function getEnglishPostIds() {
 				walk(entryUrl);
 				continue;
 			}
-			if (!/\.en\.mdx?$/.test(entry.name)) continue;
-			ids.add(entry.name.replace(/\.en\.(md|mdx)$/, ""));
+			if (!/\.mdx?$/.test(entry.name)) continue;
+			const content = fs.readFileSync(entryUrl, "utf-8");
+			const isEnglish = /\.en\.mdx?$/.test(entry.name);
+			const id = entry.name.replace(/\.en\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "");
+			const slug = readFrontmatterString(content, "slug") ?? id;
+			canonical.add(slug);
+			if (isEnglish) english.add(slug);
+			if (!isEnglish && slug !== id) legacy.add(id);
+			for (const alias of readFrontmatterArray(content, "legacySlugs")) {
+				if (alias !== slug) legacy.add(alias);
+			}
 		}
 	}
 
 	if (fs.existsSync(postDir)) walk(postDir);
-	return ids;
+	return { canonical, english, legacy };
+}
+
+function readFrontmatterString(content: string, key: string) {
+	const match = content.match(new RegExp(`^${key}\\s*:\\s*["']?([^"'\\n]+)["']?\\s*$`, "m"));
+	return match?.[1]?.trim();
+}
+
+function readFrontmatterArray(content: string, key: string): string[] {
+	const match = content.match(new RegExp(`^${key}\\s*:\\s*(\\[[^\\n]*\\])\\s*$`, "m"));
+	if (!match?.[1]) return [];
+	try {
+		const value = JSON.parse(match[1]);
+		return Array.isArray(value) ? value.filter((item) => typeof item === "string") : [];
+	} catch {
+		return [];
+	}
 }

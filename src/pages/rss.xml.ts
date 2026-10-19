@@ -1,6 +1,6 @@
 import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
-import { getAllPosts } from "@/data/post";
+import { getAllPosts, getPostSlug } from "@/data/post";
 import { siteConfig } from "@/site.config";
 import { collectionDateSort } from "@/utils/date";
 
@@ -26,7 +26,7 @@ export const GET = async ({ site: astroSite }: APIContext) => {
 			description: post.data.description,
 			content: post.rendered?.html,
 			pubDate: post.data.publishDate,
-			link: `${basePath}/zh/posts/${post.id}/`.replace(/\/+/g, "/"),
+			link: `${basePath}/zh/posts/${getPostSlug(post)}/`.replace(/\/+/g, "/"),
 			categories: post.data.tags,
 		})),
 	});
