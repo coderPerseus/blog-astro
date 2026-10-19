@@ -191,6 +191,13 @@ jobs:
             -e "ssh -i ~/.ssh/baota_deploy_key -p $SSH_PORT -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=20" \
             dist/ "$BAOTA_USER@$BAOTA_HOST:$BAOTA_PATH/"
 
+          echo "Validating and reloading Nginx for canonical post redirects"
+          if ! ssh "${SSH_OPTIONS[@]}" "$SSH_TARGET" \
+            "test -s $REMOTE_PATH/.nginx-post-redirects.conf && /www/server/nginx/sbin/nginx -t && /www/server/nginx/sbin/nginx -s reload"; then
+            echo "::error::Deployment completed, but Nginx redirect validation or reload failed."
+            exit 1
+          fi
+
       - name: Skip BaoTa deployment
         if: env.BAOTA_DEPLOY_ENABLED != 'true'
         run: echo "BaoTa deployment skipped because BAOTA_* secrets are not fully configured."
