@@ -1,5 +1,7 @@
 ---
 title: "YouWare, your next creative medium could also be a web page"
+slug: "youware-web-pages-as-creative-medium"
+legacySlugs: ["67-youware-你的下一个创作载体也可以是网页"]
 publishDate: "2025-05-29T15:16:35Z"
 updatedDate: "2025-05-29T15:28:53Z"
 tags: ["AI","创作"]

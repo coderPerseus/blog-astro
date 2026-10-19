@@ -1,5 +1,7 @@
 ---
 title: "Google Official Prompt Engineering White Paper: Free Chinese & English Versions"
+slug: "google-prompt-engineering-whitepaper-free-download"
+legacySlugs: ["62-google-官方提示工程白皮书中英文版本免费领"]
 publishDate: "2025-04-14T15:33:16Z"
 updatedDate: "2025-04-14T15:33:16Z"
 tags: ["AI","AI 提示词"]

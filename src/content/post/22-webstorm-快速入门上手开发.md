@@ -1,5 +1,7 @@
 ---
 title: "webStorm 快速入门上手开发"
+slug: "getting-started-with-webstorm-development"
+legacySlugs: ["22-webstorm-快速入门上手开发"]
 publishDate: "2024-10-27T02:36:52Z"
 updatedDate: "2024-10-27T07:20:52Z"
 tags: ["编辑器"]

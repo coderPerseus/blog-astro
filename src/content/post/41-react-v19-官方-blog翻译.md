@@ -1,5 +1,7 @@
 ---
 title: " React V19 官方 blog（翻译）"
+slug: "react-v19-official-blog"
+legacySlugs: ["41-react-v19-官方-blog翻译"]
 publishDate: "2025-01-11T08:42:12Z"
 updatedDate: "2025-01-21T04:40:12Z"
 tags: ["翻译","React"]

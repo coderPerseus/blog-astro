@@ -1,5 +1,7 @@
 ---
 title: "bytemd 中如何实现图片懒加载"
+slug: "bytemd-image-lazy-loading"
+legacySlugs: ["35-bytemd-中如何实现图片懒加载"]
 publishDate: "2024-12-21T11:47:04Z"
 updatedDate: "2024-12-22T05:00:11Z"
 tags: ["AI","React","前端开发"]

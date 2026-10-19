@@ -1,5 +1,7 @@
 ---
 title: "Building a Simple Node.js Service with ByteDance's TRAE"
+slug: "bytedance-trae-simple-node-service"
+legacySlugs: ["44-使用字节的-trae-开发一个简单的-node-服务"]
 publishDate: "2025-01-21T04:12:35Z"
 updatedDate: "2025-01-21T04:45:15Z"
 tags: ["AI","编辑器"]

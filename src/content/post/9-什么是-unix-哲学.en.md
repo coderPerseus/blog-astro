@@ -1,5 +1,7 @@
 ---
 title: "What is the Unix philosophy?"
+slug: "what-is-the-unix-philosophy"
+legacySlugs: ["9-什么是-unix-哲学"]
 publishDate: "2024-08-10T11:47:24Z"
 updatedDate: "2024-08-10T11:48:02Z"
 tags: ["Unix 哲学","名词解释"]

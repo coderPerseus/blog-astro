@@ -1,5 +1,7 @@
 ---
 title: "基于云cos 服务+ github actions 实现网站自动更新"
+slug: "automated-website-updates-cloud-cos-github-actions"
+legacySlugs: ["55-基于云cos-服务-github-actions-实现网站自动更新"]
 publishDate: "2025-03-29T11:20:00Z"
 updatedDate: "2025-03-30T06:58:33Z"
 tags: ["CI/CD","网站部署"]

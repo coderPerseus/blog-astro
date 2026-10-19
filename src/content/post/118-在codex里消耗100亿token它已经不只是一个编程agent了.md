@@ -1,5 +1,7 @@
 ---
 title: "在Codex里消耗100亿Token，它已经不只是一个编程Agent了"
+slug: "codex-10-billion-tokens-beyond-coding-agent"
+legacySlugs: ["118-在codex里消耗100亿token它已经不只是一个编程agent了"]
 publishDate: "2026-06-17T09:05:03Z"
 updatedDate: "2026-06-17T09:08:22Z"
 tags: ["AI"]

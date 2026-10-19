@@ -1,5 +1,7 @@
 ---
 title: "《繁花》中让人惊艳的台词"
+slug: "stunning-lines-from-blossoms-tv-drama"
+legacySlugs: ["fan-hua"]
 publishDate: "2024-03-18T00:00:00.000Z"
 tags: ["繁花","台词"]
 description: "电视剧《繁花》中让人惊艳的台词"

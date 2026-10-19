@@ -1,5 +1,7 @@
 ---
 title: "Full-page Theme Switch Animation with the View Transitions API"
+slug: "view-transitions-api-full-page-theme-switch"
+legacySlugs: ["15-使用-view-transitions-api-实现全页面主题切换动画"]
 publishDate: "2024-08-25T18:43:32Z"
 updatedDate: "2024-08-25T18:44:38Z"
 tags: ["动画","翻译","React"]

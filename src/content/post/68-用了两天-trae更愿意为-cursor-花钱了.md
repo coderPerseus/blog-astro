@@ -1,5 +1,7 @@
 ---
 title: "用了两天 Trae，更愿意为 Cursor 花钱了！"
+slug: "two-days-trae-still-prefer-paying-cursor"
+legacySlugs: ["68-用了两天-trae更愿意为-cursor-花钱了"]
 publishDate: "2025-05-30T17:02:53Z"
 updatedDate: "2025-05-30T17:03:25Z"
 tags: ["AI"]

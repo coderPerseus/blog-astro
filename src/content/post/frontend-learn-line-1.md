@@ -1,5 +1,7 @@
 ---
 title: "一个普通三本如何自学成为前端开发者"
+slug: "self-taught-frontend-developer-from-third-tier-university"
+legacySlugs: ["frontend-learn-line-1"]
 publishDate: "2024-03-30T00:00:00.000Z"
 tags: ["三本大学生","学习","闲聊"]
 description: "一个很普通，周围环境不好的三本大学生，如何自学成为一个前端打工人"

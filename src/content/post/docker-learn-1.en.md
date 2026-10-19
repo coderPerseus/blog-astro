@@ -1,5 +1,7 @@
 ---
 title: "Frontend Programmer's Notes on Learning Docker (-)"
+slug: "frontend-developer-docker-learning-notes-part-1"
+legacySlugs: ["docker-learn-1"]
 publishDate: "2024-05-12T00:00:00.000Z"
 tags: ["docker","笔记"]
 description: "Introduces the basics and practical applications of Docker from a frontend developer's perspective. The article explains Docker's concepts, advantages, and key components, and walks through the entire process of installing, configuring, building images, running containers, and publishing to Docker Hub using a Next.js project as an example. The author also provides explanations of commonly used Docker commands, offering a practical guide for frontend developers to quickly get started with Docker. The content is comprehensive and easy to understand, making it suitable for frontend developers who want to learn Docker."

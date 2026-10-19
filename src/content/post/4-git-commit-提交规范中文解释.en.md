@@ -1,5 +1,7 @@
 ---
 title: "Git Commit Conventions Explained in Chinese"
+slug: "git-commit-conventions-explained"
+legacySlugs: ["4-git-commit-提交规范中文解释"]
 publishDate: "2024-08-03T11:56:59Z"
 updatedDate: "2024-08-03T11:57:36Z"
 tags: ["git","笔记"]

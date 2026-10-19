@@ -1,5 +1,7 @@
 ---
 title: "如何使用Next.js和GitHub Issues构建个人博客:从零到上线的完整指南"
+slug: "build-personal-blog-nextjs-github-issues"
+legacySlugs: ["7-如何使用nextjs和github-issues构建个人博客从零到上线的完整指南"]
 publishDate: "2024-08-08T01:33:41Z"
 updatedDate: "2024-12-20T09:10:50Z"
 tags: ["blog","教程"]

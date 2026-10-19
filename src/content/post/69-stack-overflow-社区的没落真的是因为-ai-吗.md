@@ -1,5 +1,7 @@
 ---
 title: "Stack Overflow 社区的没落真的是因为 AI 吗？"
+slug: "stack-overflow-decline-caused-by-ai"
+legacySlugs: ["69-stack-overflow-社区的没落真的是因为-ai-吗"]
 publishDate: "2025-05-31T16:29:38Z"
 updatedDate: "2025-05-31T16:37:51Z"
 tags: ["AI"]

@@ -1,5 +1,7 @@
 ---
 title: "简单三步解决 Codex 切换 provider 会话消失问题"
+slug: "fix-codex-provider-switch-losing-session"
+legacySlugs: ["120-简单三步解决-codex-切换-provider-会话消失问题"]
 publishDate: "2026-08-06T16:15:09Z"
 updatedDate: "2026-08-06T16:15:09Z"
 tags: ["AI"]

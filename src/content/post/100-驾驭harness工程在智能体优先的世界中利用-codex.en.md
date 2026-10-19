@@ -1,5 +1,7 @@
 ---
 title: "Harness Engineering: Leveraging Codex in an Agent-First World"
+slug: "harness-engineering-codex-agent-first-world"
+legacySlugs: ["100-驾驭harness工程在智能体优先的世界中利用-codex"]
 publishDate: "2026-02-13T17:44:17Z"
 updatedDate: "2026-02-13T17:44:17Z"
 tags: ["AI","Agent"]

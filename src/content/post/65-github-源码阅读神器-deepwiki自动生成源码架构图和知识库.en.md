@@ -1,5 +1,7 @@
 ---
 title: "GitHub source code reading tool deepwiki: automatically generates architecture diagrams and knowledge bases"
+slug: "deepwiki-source-code-architecture-diagrams-knowledge-base"
+legacySlugs: ["65-github-源码阅读神器-deepwiki自动生成源码架构图和知识库"]
 publishDate: "2025-04-26T09:42:07Z"
 updatedDate: "2025-04-26T09:42:07Z"
 tags: ["AI","经验","效率提升","源码阅读"]

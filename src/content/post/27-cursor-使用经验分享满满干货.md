@@ -1,5 +1,7 @@
 ---
 title: "cursor 使用经验分享，满满干货"
+slug: "cursor-usage-experience-practical-insights"
+legacySlugs: ["27-cursor-使用经验分享满满干货"]
 publishDate: "2024-11-23T08:30:43Z"
 updatedDate: "2024-11-23T08:31:14Z"
 tags: ["AI","经验","效率提升"]

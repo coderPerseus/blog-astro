@@ -1,5 +1,7 @@
 ---
 title: "Mid-2023 Wrap-Up"
+slug: "mid-2023-personal-wrap-up"
+legacySlugs: ["mid-year-summary-2023"]
 publishDate: "2023-06-17T00:00:00.000Z"
 tags: ["年中总结","规划","2023","杂谈","luckySnail"]
 description: "An average front-end developer who graduated a year and a half ago, analyzing his current situation and planning his future goals."

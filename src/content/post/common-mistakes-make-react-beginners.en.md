@@ -1,5 +1,7 @@
 ---
 title: "Ten Common Mistakes React Beginners Make"
+slug: "common-mistakes-react-beginners-make"
+legacySlugs: ["common-mistakes-make-react-beginners"]
 publishDate: "2023-06-27T00:00:00.000Z"
 tags: ["React","bug"]
 description: "Introduces common problems encountered by newcomers to React when writing code, and provides solutions."

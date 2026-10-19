@@ -1,5 +1,7 @@
 ---
 title: "Goodbye Cursor, I have a new coding buddy!"
+slug: "goodbye-cursor-new-coding-buddy"
+legacySlugs: ["80-再见-cursor我有了新的编程搭子"]
 publishDate: "2025-10-02T13:33:12Z"
 updatedDate: "2025-10-02T13:33:12Z"
 tags: ["AI"]

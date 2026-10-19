@@ -1,5 +1,7 @@
 ---
 title: "multi-repo 和 mono-repo 代码管理方式了解（附实践源码）"
+slug: "multi-repo-vs-mono-repo-code-management"
+legacySlugs: ["code-manager-way"]
 publishDate: "2024-07-03T00:00:00.000Z"
 tags: ["multi-repo","mono-repo","代码仓库管理"]
 description: "这篇文章深入探讨了代码仓库管理的两种主要方式:multi-repo和 mono-repo。文章详细介绍了它们的概念、优缺点和适用场景。重点讲解了 mono-repo 的实践,包括使用 pnpm 和 Turborepo 两种工具来搭建 mono-repo 项目。文章通过实际操作步骤,演示了如何设置工作空间、管理依赖、配置构建任务等。对于想要了解和实践 mono-repo 的开发者来说,这是一篇全面且实用的指南,提供了从基础到进阶的 mono-repo 知识和技巧。"

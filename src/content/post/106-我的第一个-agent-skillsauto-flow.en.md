@@ -1,5 +1,7 @@
 ---
 title: "My First Agent Skills: Auto-Flow"
+slug: "first-agent-skills-auto-flow"
+legacySlugs: ["106-我的第一个-agent-skillsauto-flow"]
 publishDate: "2026-04-09T16:33:39Z"
 updatedDate: "2026-04-09T16:33:39Z"
 tags: ["AI","agent skills"]

@@ -1,5 +1,7 @@
 ---
 title: "The Minimalist Agent Framework Pi That the Viral OpenClaw Relies On"
+slug: "openclaw-minimalist-agent-framework-pi"
+legacySlugs: ["103-爆火的-openclaw-依赖的极简-agent-框架-pi"]
 publishDate: "2026-02-22T13:12:07Z"
 updatedDate: "2026-02-22T13:12:07Z"
 tags: ["AI","Agent"]

@@ -1,5 +1,7 @@
 ---
 title: "Great Programmers and Their Personal Blogs"
+slug: "great-programmers-and-their-personal-blogs"
+legacySlugs: ["14-那些优秀的程序员和他们的个人-blog"]
 publishDate: "2024-08-25T17:04:14Z"
 updatedDate: "2024-08-25T17:11:15Z"
 tags: ["blog","coder"]

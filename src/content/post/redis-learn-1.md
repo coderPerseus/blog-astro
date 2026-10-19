@@ -1,5 +1,7 @@
 ---
 title: "前端程序员学习 Redis"
+slug: "frontend-developer-learning-redis"
+legacySlugs: ["redis-learn-1"]
 publishDate: "2024-05-26T00:00:00.000Z"
 tags: ["redis","笔记"]
 description: "一篇 Redis 入门教程,适合前端开发者阅读。文章介绍了 Redis 的基本概念、优点和常见使用场景,并通过 Docker 快速安装和使用 Redis。文章详细讲解了 Redis 的基本操作,包括字符串和列表类型的常用命令。此外,还介绍了 Redis GUI 工具的使用,以及如何在 Node.js 中使用 Redis。最后,文章解释了 Redis 中\"原子方式\"的概念及其重要性。对想要快速入门 Redis 的前端开发者来说,这是一篇实用的指南"

@@ -1,5 +1,7 @@
 ---
 title: "My best practices after two months with Claude Code"
+slug: "claude-code-two-months-best-practices"
+legacySlugs: ["74-使用两个月的-claude-code-总结下我的最佳实践"]
 publishDate: "2025-07-20T08:59:20Z"
 updatedDate: "2026-07-16T01:22:38Z"
 tags: ["AI","教程"]

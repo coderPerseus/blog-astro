@@ -1,5 +1,7 @@
 ---
 title: "微信小程序如何引入图标"
+slug: "add-icons-in-wechat-mini-programs"
+legacySlugs: ["use-iconfont-in-wechat-miniprogram"]
 publishDate: "2022-03-06T00:00:00.000Z"
 tags: ["微信小程序","iconfont"]
 description: "如何在 iconfont 找到想要的图标，然后再在小程序中引入使用"

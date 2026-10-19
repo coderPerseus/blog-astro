@@ -1,5 +1,7 @@
 ---
 title: "Codex Gets Slower with Use: Root Cause Found and Fixed"
+slug: "codex-gets-slower-root-cause-fixed"
+legacySlugs: ["114-codex-越用越慢背后的原因已找到并治好"]
 publishDate: "2026-05-21T11:00:58Z"
 updatedDate: "2026-05-21T11:06:23Z"
 tags: ["AI"]

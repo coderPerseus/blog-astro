@@ -1,5 +1,7 @@
 ---
 title: "LLM RAG （大语言模型检索增强生成技术）的前世今生"
+slug: "llm-rag-retrieval-augmented-generation-explained"
+legacySlugs: ["21-llm-rag-大语言模型检索增强生成技术的前世今生"]
 publishDate: "2024-10-08T14:53:54Z"
 updatedDate: "2024-10-08T14:58:10Z"
 tags: ["AI","LLM","RAG"]

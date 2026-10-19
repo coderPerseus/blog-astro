@@ -1,5 +1,7 @@
 ---
 title: "阿里云 centos 服务器，使用宝塔 + webHook 自动同步代码，构建部署"
+slug: "alibaba-cloud-centos-baota-webhook-auto-deploy"
+legacySlugs: ["12-阿里云-centos-服务器使用宝塔-webhook-自动同步代码构建部署"]
 publishDate: "2024-08-18T08:27:30Z"
 updatedDate: "2024-08-18T08:27:31Z"
 tags: ["部署","CI/CD"]

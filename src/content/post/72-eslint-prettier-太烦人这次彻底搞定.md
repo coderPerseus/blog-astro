@@ -1,5 +1,7 @@
 ---
 title: "ESLint  + Prettier 太烦人？这次彻底搞定"
+slug: "fix-eslint-prettier-conflicts-for-good"
+legacySlugs: ["72-eslint-prettier-太烦人这次彻底搞定"]
 publishDate: "2025-06-15T14:01:14Z"
 updatedDate: "2025-06-15T14:01:14Z"
 tags: ["前端工程化"]

@@ -1,5 +1,7 @@
 ---
 title: "Building a Full-Stack Chatbox Project from Scratch with Cursor"
+slug: "build-full-stack-chatbox-cursor-from-scratch"
+legacySlugs: ["66-使用-cursor-从-0-到-1-开发一个全栈-chatbox-项目"]
 publishDate: "2025-05-23T01:44:45Z"
 updatedDate: "2025-05-23T01:44:45Z"
 tags: ["AI","全栈开发"]

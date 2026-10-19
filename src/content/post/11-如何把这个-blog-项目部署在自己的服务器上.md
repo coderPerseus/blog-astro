@@ -1,5 +1,7 @@
 ---
 title: "如何把这个 blog 项目，部署在自己的服务器上"
+slug: "deploy-blog-project-on-own-server"
+legacySlugs: ["11-如何把这个-blog-项目部署在自己的服务器上"]
 publishDate: "2024-08-17T12:35:01Z"
 updatedDate: "2024-08-17T12:35:01Z"
 tags: ["blog","部署","nginx"]

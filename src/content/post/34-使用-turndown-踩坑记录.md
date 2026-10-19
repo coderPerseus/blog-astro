@@ -1,5 +1,7 @@
 ---
 title: "使用 turndown 踩坑记录"
+slug: "turndown-pitfalls-and-lessons"
+legacySlugs: ["34-使用-turndown-踩坑记录"]
 publishDate: "2024-12-15T15:56:59Z"
 updatedDate: "2024-12-15T15:56:59Z"
 tags: ["踩坑记录","前端开发"]

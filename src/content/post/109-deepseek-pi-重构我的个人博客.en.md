@@ -1,5 +1,7 @@
 ---
 title: "Rebuilding My Personal Blog with DeepSeek and Pi"
+slug: "rebuilding-personal-blog-deepseek-pi"
+legacySlugs: ["109-deepseek-pi-重构我的个人博客"]
 publishDate: "2026-04-30T05:21:51Z"
 updatedDate: "2026-04-30T05:21:51Z"
 tags: ["AI"]

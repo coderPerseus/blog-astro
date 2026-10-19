@@ -1,5 +1,7 @@
 ---
 title: "2023 年中终结"
+slug: "mid-2023-personal-wrap-up"
+legacySlugs: ["mid-year-summary-2023"]
 publishDate: "2023-06-17T00:00:00.000Z"
 tags: ["年中总结","规划","2023","杂谈","luckySnail"]
 description: "一个普通毕业一年半的前端程序员，分析自己的现状，规划自己未来目标，"

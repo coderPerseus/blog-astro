@@ -1,5 +1,7 @@
 ---
 title: "构建 AI Agent 最佳切入点 - vercel"
+slug: "best-entry-point-building-ai-agents-vercel"
+legacySlugs: ["87-构建-ai-agent-最佳切入点-vercel"]
 publishDate: "2025-11-19T13:16:49Z"
 updatedDate: "2025-11-19T13:16:49Z"
 tags: ["AI","Agent"]

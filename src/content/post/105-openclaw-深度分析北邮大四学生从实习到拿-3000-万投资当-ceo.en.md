@@ -1,5 +1,7 @@
 ---
 title: "openclaw In-depth Analysis: From Intern to CEO — How a BUPT Senior Secured 30 Million in Investment"
+slug: "openclaw-bupt-student-intern-to-ceo-30-million"
+legacySlugs: ["105-openclaw-深度分析北邮大四学生从实习到拿-3000-万投资当-ceo"]
 publishDate: "2026-03-10T12:06:21Z"
 updatedDate: "2026-03-10T12:06:21Z"
 tags: ["AI","商业","storyteller"]

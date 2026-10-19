@@ -1,5 +1,7 @@
 ---
 title: "One article to clarify the concepts of React Element, React Component, JSX, Fiber, and the Diff algorithm, and their interrelationships."
+slug: "react-element-component-jsx-fiber-diff-algorithm"
+legacySlugs: ["compare-react-some-concept"]
 publishDate: "2024-05-05T00:00:00.000Z"
 tags: ["React","源码学习","笔记"]
 description: "This article dives into several core concepts in React: React Element, React Component, JSX, Fiber, the Diff algorithm, and React.createElement. Through source code analysis and tool demonstrations, it explains in detail the meanings of these concepts and the relationships between them. It clarifies how JSX is transformed into React Elements, how React Components generate and manage Elements, and how the Fiber architecture and Diff algorithm optimize React's rendering process."

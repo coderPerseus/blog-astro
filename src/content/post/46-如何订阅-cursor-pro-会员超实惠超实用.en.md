@@ -1,5 +1,7 @@
 ---
 title: "How to Subscribe to Cursor Pro: Affordable and Super Practical!"
+slug: "subscribe-cursor-pro-affordable-practical"
+legacySlugs: ["46-如何订阅-cursor-pro-会员超实惠超实用"]
 publishDate: "2025-03-03T13:22:43Z"
 updatedDate: "2026-07-09T05:09:56Z"
 tags: ["AI","经验"]

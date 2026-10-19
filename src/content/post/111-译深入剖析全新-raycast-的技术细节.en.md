@@ -1,5 +1,7 @@
 ---
 title: "Deep Dive into the Technical Details of the New Raycast"
+slug: "deep-dive-new-raycast-technical-details"
+legacySlugs: ["111-译深入剖析全新-raycast-的技术细节"]
 publishDate: "2026-05-15T04:10:22Z"
 updatedDate: "2026-05-15T04:10:22Z"
 tags: ["产品","好文翻译"]

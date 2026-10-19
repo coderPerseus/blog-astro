@@ -1,5 +1,7 @@
 ---
 title: "不要再为 cursor 变笨买单，立即切换到 Trae"
+slug: "stop-paying-cursor-switch-to-trae"
+legacySlugs: ["58-不要再为-cursor-变笨买单立即切换到-trae"]
 publishDate: "2025-04-01T00:38:20Z"
 updatedDate: "2025-04-01T00:38:20Z"
 tags: ["AI"]

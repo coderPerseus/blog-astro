@@ -1,5 +1,7 @@
 ---
 title: "Reflections on My First Time as a Project Lead"
+slug: "first-time-project-lead-reflections"
+legacySlugs: ["first-project-manager-record"]
 publishDate: "2024-04-19T00:00:00.000Z"
 tags: ["项目管理","反思","总结","工作"]
 description: "He shares his experience and takeaways from transitioning from frontend development to project lead. He learned how to conduct data analysis, apply agile development, follow principles, think independently, and reflect on his own behavior. Despite the challenges, he is grateful for the opportunity and hopes to continue learning and improving."

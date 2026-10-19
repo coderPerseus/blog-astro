@@ -1,5 +1,7 @@
 ---
 title: "After Consuming 100 Billion Tokens in Codex, It's No Longer Just a Coding Agent"
+slug: "codex-10-billion-tokens-beyond-coding-agent"
+legacySlugs: ["118-在codex里消耗100亿token它已经不只是一个编程agent了"]
 publishDate: "2026-06-17T09:05:03Z"
 updatedDate: "2026-06-17T09:08:22Z"
 tags: ["AI"]

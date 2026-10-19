@@ -1,5 +1,7 @@
 ---
 title: "How a Third-Tier University Graduate Self-Taught to Become a Frontend Developer"
+slug: "self-taught-frontend-developer-from-third-tier-university"
+legacySlugs: ["frontend-learn-line-1"]
 publishDate: "2024-03-30T00:00:00.000Z"
 tags: ["三本大学生","学习","闲聊"]
 description: "How a very ordinary third-tier college student from a bad environment can self-study to become a front-end developer"

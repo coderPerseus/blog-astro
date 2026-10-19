@@ -1,5 +1,7 @@
 ---
 title: "Vercel Douses Cold Water on Agent Skills"
+slug: "vercel-cold-water-on-agent-skills"
+legacySlugs: ["97-vercel-给-agent-skills-泼了一盆冷水"]
 publishDate: "2026-01-30T16:49:11Z"
 updatedDate: "2026-01-30T16:49:11Z"
 tags: ["AI","Agent","agent skills"]

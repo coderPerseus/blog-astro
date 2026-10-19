@@ -1,5 +1,7 @@
 ---
 title: "After 3 days of heavy use with GPT-6 Astra, here are 9 practical tips and token-saving tricks to share with you."
+slug: "gpt-6-astra-usage-tips-and-token-saving-tricks"
+legacySlugs: ["123-高强度使用-gpt-6-astra-3-天-9-条使用经验-省-token-小技巧分享给你"]
 publishDate: "2026-09-08T05:25:52Z"
 updatedDate: "2026-09-08T05:25:52Z"
 tags: ["AI","经验"]

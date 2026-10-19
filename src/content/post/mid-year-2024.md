@@ -1,5 +1,7 @@
 ---
 title: "2024 年中总结"
+slug: "mid-2024-personal-summary"
+legacySlugs: ["mid-year-2024"]
 publishDate: "2024-06-08T00:00:00.000Z"
 tags: ["2024","年中总结","未来规划","luckySnail"]
 description: "分享 2024 年的目标，现在的实现进度。反思这半年的工作，以及对 2024 年下边年的 flag。"

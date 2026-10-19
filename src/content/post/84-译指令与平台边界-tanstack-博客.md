@@ -1,5 +1,7 @@
 ---
 title: "译：指令与平台边界 | TanStack 博客"
+slug: "commands-and-platform-boundaries-tanstack"
+legacySlugs: ["84-译指令与平台边界-tanstack-博客"]
 publishDate: "2025-10-27T15:40:16Z"
 updatedDate: "2025-10-27T15:40:16Z"
 tags: ["好文翻译"]

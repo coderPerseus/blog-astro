@@ -1,5 +1,7 @@
 ---
 title: "使用Turbopack、Biome、Next.js、Express、Tailwind CSS和ShadCN构建全栈Monorepo项目"
+slug: "full-stack-monorepo-turbopack-biome-nextjs-express-shadcn"
+legacySlugs: ["52-使用turbopackbiomenextjsexpresstailwind-css和shadcn构建全栈monorepo项目"]
 publishDate: "2025-03-19T00:53:32Z"
 updatedDate: "2025-03-19T00:53:32Z"
 tags: ["全栈开发","monorepo"]

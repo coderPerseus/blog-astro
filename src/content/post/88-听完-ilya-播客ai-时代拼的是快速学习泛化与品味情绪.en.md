@@ -1,5 +1,7 @@
 ---
 title: "After listening to Ilya's podcast, in the AI era, it's all about rapid learning (generalization) and taste (emotion)."
+slug: "ilya-podcast-ai-era-learning-generalization-taste"
+legacySlugs: ["88-听完-ilya-播客ai-时代拼的是快速学习泛化与品味情绪"]
 publishDate: "2025-11-26T17:50:52Z"
 updatedDate: "2025-11-26T17:50:52Z"
 tags: ["AI","播客"]

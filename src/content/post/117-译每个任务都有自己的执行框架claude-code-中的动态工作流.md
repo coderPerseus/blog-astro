@@ -1,5 +1,7 @@
 ---
 title: "译：每个任务都有自己的执行框架：Claude Code 中的动态工作流"
+slug: "dynamic-workflows-in-claude-code"
+legacySlugs: ["117-译每个任务都有自己的执行框架claude-code-中的动态工作流"]
 publishDate: "2026-06-03T16:29:07Z"
 updatedDate: "2026-06-04T03:27:02Z"
 tags: ["AI"]

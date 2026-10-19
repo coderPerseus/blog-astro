@@ -1,5 +1,7 @@
 ---
 title: "Future Frontend Trends from Evan You's Talk on a Unified Vite-Centric Frontend Framework"
+slug: "evan-you-vite-unified-frontend-framework-trends"
+legacySlugs: ["50-通过尤雨溪围绕vite的前端统一框架分享看未来前端发展趋势"]
 publishDate: "2025-03-16T10:22:18Z"
 updatedDate: "2025-03-16T10:22:18Z"
 tags: ["JavaScript","前端基建"]

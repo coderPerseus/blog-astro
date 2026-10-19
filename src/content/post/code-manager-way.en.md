@@ -1,5 +1,7 @@
 ---
 title: "Multi-repo vs. Mono-repo: A Practical Guide (with Source Code)"
+slug: "multi-repo-vs-mono-repo-code-management"
+legacySlugs: ["code-manager-way"]
 publishDate: "2024-07-03T00:00:00.000Z"
 tags: ["multi-repo","mono-repo","代码仓库管理"]
 description: "A deep dive into the two dominant approaches to repository management — multi-repo and mono-repo — covering the concepts, trade-offs, and where each one fits. The bulk of the article is hands-on: setting up a mono-repo with pnpm workspaces and then with Turborepo, walking through workspace setup, dependency management, and build orchestration. If you're trying to decide between the two, or want a working starting point for mono-repo, this guide takes you from the basics through to the advanced bits."

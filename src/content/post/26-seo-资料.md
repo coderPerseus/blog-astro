@@ -1,5 +1,7 @@
 ---
 title: "SEO 资料"
+slug: "seo-resources"
+legacySlugs: ["26-seo-资料"]
 publishDate: "2024-11-10T15:49:30Z"
 updatedDate: "2024-11-10T15:49:30Z"
 tags: []

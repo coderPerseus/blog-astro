@@ -1,5 +1,7 @@
 ---
 title: "Top 10 Most Popular JavaScript Animation Libraries of 2025"
+slug: "top-10-javascript-animation-libraries-2025"
+legacySlugs: ["60-最受欢迎的十个-javascript-动画库-2025"]
 publishDate: "2025-04-06T05:36:11Z"
 updatedDate: "2025-04-06T05:36:11Z"
 tags: ["动画库"]

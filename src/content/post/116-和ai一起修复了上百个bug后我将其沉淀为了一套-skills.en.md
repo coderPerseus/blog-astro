@@ -1,5 +1,7 @@
 ---
 title: "After fixing hundreds of bugs with AI, I distilled them into a set of Skills"
+slug: "fixing-hundreds-of-bugs-ai-into-skills"
+legacySlugs: ["116-和ai一起修复了上百个bug后我将其沉淀为了一套-skills"]
 publishDate: "2026-06-01T11:50:19Z"
 updatedDate: "2026-06-01T11:50:19Z"
 tags: ["AI","经验"]

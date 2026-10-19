@@ -1,5 +1,7 @@
 ---
 title: "Hands-on with DeepSeek-V4.1-Flash-1017: still a long way from wish-driven programming"
+slug: "deepseek-v4-1-flash-1017-hands-on-review"
+legacySlugs: ["126-实测-deepseek-v41-flash-1017和许愿式编程距离还很远"]
 publishDate: "2026-10-18T17:10:33Z"
 updatedDate: "2026-10-18T17:10:33Z"
 tags: ["AI"]

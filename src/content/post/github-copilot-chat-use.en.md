@@ -1,5 +1,7 @@
 ---
 title: "GitHub Copilot Chat Experience"
+slug: "github-copilot-chat-experience"
+legacySlugs: ["github-copilot-chat-use"]
 publishDate: "2023-05-27T00:00:00.000Z"
 tags: ["github copilot","AI","提效"]
 description: "How to purchase and use GitHub Copilot Chat"

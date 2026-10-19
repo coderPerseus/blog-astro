@@ -1,5 +1,7 @@
 ---
 title: "借助 Cursor 做了第一个全栈项目，帮你将内容转为美观的图片"
+slug: "cursor-first-fullstack-project-content-to-images"
+legacySlugs: ["48-借助-cursor-做了第一个全栈项目帮你将内容转为美观的图片"]
 publishDate: "2025-03-13T00:31:12Z"
 updatedDate: "2025-03-13T00:31:37Z"
 tags: ["AI","经验","全栈开发"]

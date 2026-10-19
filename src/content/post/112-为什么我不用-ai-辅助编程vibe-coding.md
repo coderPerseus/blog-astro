@@ -1,5 +1,7 @@
 ---
 title: "为什么我不用 AI 辅助编程（Vibe Coding）"
+slug: "why-i-dont-use-vibe-coding"
+legacySlugs: ["112-为什么我不用-ai-辅助编程vibe-coding"]
 publishDate: "2026-05-18T10:01:32Z"
 updatedDate: "2026-05-18T10:01:32Z"
 tags: ["AI"]

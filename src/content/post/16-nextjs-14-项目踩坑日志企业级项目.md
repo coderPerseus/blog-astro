@@ -1,5 +1,7 @@
 ---
 title: "Next.js 14 项目踩坑日志（企业级项目）"
+slug: "nextjs-14-enterprise-project-pitfalls"
+legacySlugs: ["16-nextjs-14-项目踩坑日志企业级项目"]
 publishDate: "2024-08-31T10:42:00Z"
 updatedDate: "2025-06-08T15:40:57Z"
 tags: ["Next.js","踩坑记录"]

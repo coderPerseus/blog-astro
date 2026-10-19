@@ -1,5 +1,7 @@
 ---
 title: "I built a plugin that takes the Bilibili and YouTube learning experience to the next level."
+slug: "plugin-improves-bilibili-youtube-learning-experience"
+legacySlugs: ["122-做了一个插件把-b-站和-youtube-的学习体验拉满了"]
 publishDate: "2026-08-22T15:22:55Z"
 updatedDate: "2026-08-22T15:22:55Z"
 tags: ["AI","效率提升","产品","小工具"]

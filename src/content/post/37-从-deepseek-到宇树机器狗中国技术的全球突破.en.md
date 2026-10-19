@@ -1,5 +1,7 @@
 ---
 title: "From DeepSeek to Unitree’s Robot Dog: China’s Global Tech Breakthroughs"
+slug: "deepseek-unitree-robot-dog-china-tech-breakthroughs"
+legacySlugs: ["37-从-deepseek-到宇树机器狗中国技术的全球突破"]
 publishDate: "2024-12-29T08:01:32Z"
 updatedDate: "2024-12-29T08:15:32Z"
 tags: ["AI","科技大牛"]

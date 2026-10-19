@@ -1,5 +1,7 @@
 ---
 title: "React 新手常犯的十个错误"
+slug: "common-mistakes-react-beginners-make"
+legacySlugs: ["common-mistakes-make-react-beginners"]
 publishDate: "2023-06-27T00:00:00.000Z"
 tags: ["React","bug"]
 description: "介绍了刚入门 React 的新人，在编写代码的时候遇到一些常见问题，并给出了解决方案。"

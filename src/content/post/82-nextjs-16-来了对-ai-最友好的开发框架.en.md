@@ -1,5 +1,7 @@
 ---
 title: "Next.js 16 is here! The most AI-friendly development framework"
+slug: "nextjs-16-ai-friendly-development-framework"
+legacySlugs: ["82-nextjs-16-来了对-ai-最友好的开发框架"]
 publishDate: "2025-10-23T17:31:03Z"
 updatedDate: "2025-10-23T17:31:03Z"
 tags: ["AI","Next.js"]

@@ -1,5 +1,7 @@
 ---
 title: "Frontend Developer Learning Redis"
+slug: "frontend-developer-learning-redis"
+legacySlugs: ["redis-learn-1"]
 publishDate: "2024-05-26T00:00:00.000Z"
 tags: ["redis","笔记"]
 description: "A Redis beginner's guide tailored for frontend developers. It covers the basic concepts, advantages, and common use cases of Redis, along with quick installation and usage via Docker. The article walks through fundamental operations, including commonly used commands for strings and lists. It also introduces GUI tools for Redis and how to use Redis in Node.js. Finally, it explains what \"atomic operations\" mean in Redis and why they matter. A practical guide for frontend developers looking to get started with Redis quickly."

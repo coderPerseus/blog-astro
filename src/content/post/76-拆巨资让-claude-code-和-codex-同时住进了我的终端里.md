@@ -1,5 +1,7 @@
 ---
 title: "拆巨资让 Claude Code 和 Codex 同时住进了我的终端里"
+slug: "claude-code-and-codex-in-my-terminal"
+legacySlugs: ["76-拆巨资让-claude-code-和-codex-同时住进了我的终端里"]
 publishDate: "2025-09-06T16:03:39Z"
 updatedDate: "2025-10-25T04:09:28Z"
 tags: ["AI"]

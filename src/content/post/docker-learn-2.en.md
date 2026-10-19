@@ -1,5 +1,7 @@
 ---
 title: "Frontend Developer's Notes on Learning Docker (Part 2)"
+slug: "frontend-developer-docker-learning-notes-part-2"
+legacySlugs: ["docker-learn-2"]
 publishDate: "2024-05-19T00:00:00.000Z"
 tags: ["docker","笔记"]
 description: "This article explains how to use Docker Compose to deploy a project that includes Next.js and Redis. It first walks through the steps to start the project locally, then covers how to containerize the service with Docker. Next, it introduces the concept and usage of Docker Compose, showing how to manage multiple containers by writing a docker-compose.yml file. Finally, the article discusses the concept of volumes and how to use them for data persistence. Through hands-on steps, the article provides a clear, beginner-friendly introduction to using Docker in frontend projects, making it a great read for frontend developers who want to learn Docker."

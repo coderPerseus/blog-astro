@@ -1,5 +1,7 @@
 ---
 title: "一篇文章讲清楚 React Element、React Component、JSX、Fiber 以及Diff算法的概念及其相互关系"
+slug: "react-element-component-jsx-fiber-diff-algorithm"
+legacySlugs: ["compare-react-some-concept"]
 publishDate: "2024-05-05T00:00:00.000Z"
 tags: ["React","源码学习","笔记"]
 description: "这篇文章深入探讨了 React 中的几个核心概念:React Element、React Component、JSX、Fiber、Diff 算法和 React.createElement。文章通过源码分析和工具演示，详细解释了这些概念的含义及其之间的关系。它阐明了 JSX 如何转换为 React Element，React Component 如何生成和管理 Element，以及 Fiber 架构和 Diff 算法如何优化 React 的渲染过程。"

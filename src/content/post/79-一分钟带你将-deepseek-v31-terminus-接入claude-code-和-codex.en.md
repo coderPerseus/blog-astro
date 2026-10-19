@@ -1,5 +1,7 @@
 ---
 title: "Integrate DeepSeek-V3.1-Terminus into Claude Code and Codex in One Minute"
+slug: "deepseek-v3-1-terminus-claude-code-codex-integration"
+legacySlugs: ["79-一分钟带你将-deepseek-v31-terminus-接入claude-code-和-codex"]
 publishDate: "2025-09-24T07:10:54Z"
 updatedDate: "2026-01-28T08:53:09Z"
 tags: ["AI"]

@@ -1,5 +1,7 @@
 ---
 title: "React最简版本低代码实现"
+slug: "simplest-low-code-implementation-in-react"
+legacySlugs: ["react-drag-drop-demo"]
 publishDate: "2024-06-22T00:00:00.000Z"
 tags: ["低代码","React"]
 description: "如何使用 React 通过拖拉拽实现一个页面，通过这篇文章，来了解实现思路"

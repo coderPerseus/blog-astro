@@ -1,5 +1,7 @@
 ---
 title: "前端程序员学习 Docker 的笔记 （-）"
+slug: "frontend-developer-docker-learning-notes-part-1"
+legacySlugs: ["docker-learn-1"]
 publishDate: "2024-05-12T00:00:00.000Z"
 tags: ["docker","笔记"]
 description: "从前端开发者的角度介绍 Docker 的基础知识和实践应用。文章解释 Docker 的概念、优势及主要组件,并通过部署 Next.js 项目的实例,详细演示 Docker 的安装、配置、镜像构建、容器运行以及发布到 Docker Hub 的全过程。作者还提供了常用 Docker 命令的说明,为前端开发者快速上手 Docker 提供了实用指南。文章内容全面且易懂,适合想要学习 Docker 的前端开发人员阅读"

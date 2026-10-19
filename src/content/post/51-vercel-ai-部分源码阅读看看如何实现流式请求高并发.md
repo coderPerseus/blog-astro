@@ -1,5 +1,7 @@
 ---
 title: "vercel-ai 部分源码阅读，看看如何实现流式请求高并发"
+slug: "vercel-ai-source-streaming-high-concurrency"
+legacySlugs: ["51-vercel-ai-部分源码阅读看看如何实现流式请求高并发"]
 publishDate: "2025-03-16T15:24:38Z"
 updatedDate: "2025-03-16T16:14:56Z"
 tags: ["AI","源码阅读"]

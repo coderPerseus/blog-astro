@@ -1,5 +1,7 @@
 ---
 title: "What is the difference between hash mode and history mode in routing?"
+slug: "routing-hash-mode-vs-history-mode"
+legacySlugs: ["24-路由的-hash-模式-和-history-模式的区别是什么"]
 publishDate: "2024-11-05T03:44:11Z"
 updatedDate: "2024-11-05T03:44:12Z"
 tags: ["AI"]

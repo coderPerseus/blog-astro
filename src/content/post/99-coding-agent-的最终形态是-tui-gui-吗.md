@@ -1,5 +1,7 @@
 ---
 title: "Coding Agent 的最终形态是 TUI + GUI 吗？"
+slug: "coding-agent-final-form-tui-gui"
+legacySlugs: ["99-coding-agent-的最终形态是-tui-gui-吗"]
 publishDate: "2026-02-03T16:48:37Z"
 updatedDate: "2026-02-03T16:48:47Z"
 tags: ["AI","Agent","agent skills"]

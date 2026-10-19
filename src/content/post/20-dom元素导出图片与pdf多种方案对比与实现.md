@@ -1,5 +1,7 @@
 ---
 title: "DOM元素导出图片与PDF：多种方案对比与实现"
+slug: "export-dom-elements-to-images-and-pdf"
+legacySlugs: ["20-dom元素导出图片与pdf多种方案对比与实现"]
 publishDate: "2024-09-27T08:27:42Z"
 updatedDate: "2024-09-27T09:57:57Z"
 tags: ["pdf 生成","png 导出"]

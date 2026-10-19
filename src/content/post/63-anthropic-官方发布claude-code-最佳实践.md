@@ -1,5 +1,7 @@
 ---
 title: "Anthropic 官方发布Claude Code 最佳实践"
+slug: "anthropic-claude-code-best-practices"
+legacySlugs: ["63-anthropic-官方发布claude-code-最佳实践"]
 publishDate: "2025-04-20T01:59:01Z"
 updatedDate: "2025-04-20T01:59:01Z"
 tags: ["AI","AI 提示词"]

@@ -1,5 +1,7 @@
 ---
 title: "The Stunning Lines from Blossoms"
+slug: "stunning-lines-from-blossoms-tv-drama"
+legacySlugs: ["fan-hua"]
 publishDate: "2024-03-18T00:00:00.000Z"
 tags: ["繁花","台词"]
 description: "The stunning lines from the TV drama Blossoms"

@@ -1,5 +1,7 @@
 ---
 title: "Frontend Learning Roadmap (Self-Study)"
+slug: "frontend-learning-roadmap-self-study"
+legacySlugs: ["frontend-learn-line-2"]
 publishDate: "2024-04-05T00:00:00.000Z"
 tags: ["三本大学生","前端学习路线","资源"]
 description: "An average student from a third-tier university shares the path to becoming a frontend developer through self-study. Targeting students in less-than-ideal environments with limited resources, the article offers practical learning advice and methods. It covers learning planning, skill development, project practice, and more, aiming to help third-tier university students overcome challenges and achieve their career goals. For those wanting to break into the frontend industry, this is an inspiring and guiding piece that provides clear direction for their learning journey."

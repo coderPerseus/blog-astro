@@ -1,5 +1,7 @@
 ---
 title: "How to add icons in WeChat Mini Programs"
+slug: "add-icons-in-wechat-mini-programs"
+legacySlugs: ["use-iconfont-in-wechat-miniprogram"]
 publishDate: "2022-03-06T00:00:00.000Z"
 tags: ["微信小程序","iconfont"]
 description: "How to find the icon you want on iconfont and then import it into a mini program for use."

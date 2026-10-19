@@ -1,5 +1,7 @@
 ---
 title: "你的 AI 并不“笨”，它只是需要一个更好的 Harness"
+slug: "ai-needs-better-harness-not-dumb"
+legacySlugs: ["107-你的-ai-并不笨它只是需要一个更好的-harness"]
 publishDate: "2026-04-16T11:30:50Z"
 updatedDate: "2026-04-16T11:30:50Z"
 tags: ["AI","harness engineering"]

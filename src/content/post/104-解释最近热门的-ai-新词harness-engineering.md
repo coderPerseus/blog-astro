@@ -1,5 +1,7 @@
 ---
 title: "解释最近热门的 AI 新词：Harness Engineering"
+slug: "harness-engineering-ai-buzzword-explained"
+legacySlugs: ["104-解释最近热门的-ai-新词harness-engineering"]
 publishDate: "2026-02-26T06:05:33Z"
 updatedDate: "2026-02-26T06:05:33Z"
 tags: ["AI","Agent"]

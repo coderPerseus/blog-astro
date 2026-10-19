@@ -1,5 +1,7 @@
 ---
 title: "前端程序员学习 Docker 的笔记 （二）"
+slug: "frontend-developer-docker-learning-notes-part-2"
+legacySlugs: ["docker-learn-2"]
 publishDate: "2024-05-19T00:00:00.000Z"
 tags: ["docker","笔记"]
 description: "如何使用 Docker Compose 来部署一个包含 Next.js 和 Redis 的项目。文章首先演示了本地启动项目的步骤,然后讲解了如何使用 Docker 容器化部署服务。接着介绍了 Docker Compose 的概念和使用方法,通过编写 docker-compose.yml 文件来管理多个容器。最后,文章还讨论了数据卷的概念和使用,以实现数据持久化。整篇文章通过实际操作步骤,深入浅出地讲解了 Docker 在前端项目中的应用,适合想要学习 Docker 的前端开发者阅读"

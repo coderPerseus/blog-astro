@@ -1,5 +1,7 @@
 ---
 title: "Evan You officially announced antfu's involvement in Vite Devtools — exciting!"
+slug: "evan-you-antfu-vite-devtools-announcement"
+legacySlugs: ["59-尤雨溪官宣-antfu-参与-vite-devtools-期待"]
 publishDate: "2025-04-03T16:43:30Z"
 updatedDate: "2025-04-03T16:43:30Z"
 tags: ["Vue","Vite"]

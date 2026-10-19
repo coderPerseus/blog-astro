@@ -1,5 +1,7 @@
 ---
 title: "📒《Smalltalk Best Practice Patterns》阅读笔记"
+slug: "smalltalk-best-practice-patterns-reading-notes"
+legacySlugs: ["90-smalltalk-best-practice-patterns阅读笔记"]
 publishDate: "2025-12-07T16:33:08Z"
 updatedDate: "2025-12-07T16:52:11Z"
 tags: ["读书笔记"]

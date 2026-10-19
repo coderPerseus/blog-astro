@@ -1,5 +1,7 @@
 ---
 title: "The Simplest Low-Code Implementation in React"
+slug: "simplest-low-code-implementation-in-react"
+legacySlugs: ["react-drag-drop-demo"]
 publishDate: "2024-06-22T00:00:00.000Z"
 tags: ["低代码","React"]
 description: "How to build a page with drag and drop in React — this article walks you through the implementation approach."

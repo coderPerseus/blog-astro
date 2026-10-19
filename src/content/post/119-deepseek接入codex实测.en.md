@@ -1,5 +1,7 @@
 ---
 title: "DeepSeek Integration with Codex: A Hands-On Test"
+slug: "deepseek-codex-integration-hands-on-test"
+legacySlugs: ["119-deepseek接入codex实测"]
 publishDate: "2026-08-02T06:39:34Z"
 updatedDate: "2026-08-02T14:34:30Z"
 tags: ["AI"]

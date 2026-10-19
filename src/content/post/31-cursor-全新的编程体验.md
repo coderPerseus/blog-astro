@@ -1,5 +1,7 @@
 ---
 title: "cursor ：全新的编程体验"
+slug: "cursor-new-programming-experience"
+legacySlugs: ["31-cursor-全新的编程体验"]
 publishDate: "2024-12-04T14:36:25Z"
 updatedDate: "2024-12-04T14:37:59Z"
 tags: ["AI","效率提升"]

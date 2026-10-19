@@ -1,5 +1,7 @@
 ---
 title: "Hands-on test: Zhipu GLM 5.1 vs Kimi K2.6-code-preview"
+slug: "zhipu-glm-5-1-vs-kimi-k2-6-code-preview"
+legacySlugs: ["108-实测智谱-glm-51-对比-kimi-k26-code-preview"]
 publishDate: "2026-04-21T01:01:36Z"
 updatedDate: "2026-04-21T01:01:45Z"
 tags: ["AI","LLM"]

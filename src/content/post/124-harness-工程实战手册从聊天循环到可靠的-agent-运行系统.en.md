@@ -1,5 +1,7 @@
 ---
 title: "The Harness Engineering Handbook: From Chat Loops to Reliable Agent Runtime Systems"
+slug: "harness-engineering-chat-loops-to-reliable-agent-runtime"
+legacySlugs: ["124-harness-工程实战手册从聊天循环到可靠的-agent-运行系统"]
 publishDate: "2026-09-10T01:44:31Z"
 updatedDate: "2026-09-10T01:44:31Z"
 tags: []

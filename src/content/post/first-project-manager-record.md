@@ -1,5 +1,7 @@
 ---
 title: "记录第一次当项目负责人感受"
+slug: "first-time-project-lead-reflections"
+legacySlugs: ["first-project-manager-record"]
 publishDate: "2024-04-19T00:00:00.000Z"
 tags: ["项目管理","反思","总结","工作"]
 description: "分享从前端开发转变为项目负责人的经历和收获。他学习到了如何进行数据分析、敏捷开发、遵守原则、独立思考和反思自己的行为。尽管面临挑战，他仍然感谢这个机会，并希望自己能够继续学习和进步。"

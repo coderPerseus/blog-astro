@@ -1,5 +1,7 @@
 ---
 title: "爆火的 OpenClaw 依赖的极简 Agent 框架 Pi"
+slug: "openclaw-minimalist-agent-framework-pi"
+legacySlugs: ["103-爆火的-openclaw-依赖的极简-agent-框架-pi"]
 publishDate: "2026-02-22T13:12:07Z"
 updatedDate: "2026-02-22T13:12:07Z"
 tags: ["AI","Agent"]

@@ -1,5 +1,7 @@
 ---
 title: "openclaw 深度分析：北邮大四学生从实习到拿 3000 万投资当 CEO"
+slug: "openclaw-bupt-student-intern-to-ceo-30-million"
+legacySlugs: ["105-openclaw-深度分析北邮大四学生从实习到拿-3000-万投资当-ceo"]
 publishDate: "2026-03-10T12:06:21Z"
 updatedDate: "2026-03-10T12:06:21Z"
 tags: ["AI","商业","storyteller"]

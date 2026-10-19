@@ -1,5 +1,7 @@
 ---
 title: "Use this prompt to make Cursor better at executing complex tasks"
+slug: "prompt-make-cursor-execute-complex-tasks"
+legacySlugs: ["61-使用这个提示词让-cursor-更好的执行复杂工作"]
 publishDate: "2025-04-12T05:31:33Z"
 updatedDate: "2025-06-14T01:34:10Z"
 tags: ["AI","prompt","cursor","AI 提示词"]

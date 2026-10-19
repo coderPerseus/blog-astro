@@ -1,5 +1,7 @@
 ---
 title: "The Acquisition of Bun.js Signals a Shift in Programming Paradigms"
+slug: "bunjs-acquisition-programming-paradigm-shift"
+legacySlugs: ["89-从-bunjs-被收购看到了编程范式的转移"]
 publishDate: "2025-12-04T15:13:02Z"
 updatedDate: "2025-12-04T15:16:43Z"
 tags: ["AI","前端基建"]
