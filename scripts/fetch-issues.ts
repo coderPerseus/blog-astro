@@ -50,6 +50,7 @@ interface GitHubIssue {
 	updated_at: string;
 	state: "open" | "closed";
 	html_url: string;
+	pull_request?: unknown;
 }
 
 interface ParsedFrontmatter {
@@ -150,25 +151,21 @@ function issueToMarkdown(issue: GitHubIssue): { filename: string; content: strin
 	const updatedDate = fm.updatedDate || issue.updated_at;
 
 	// Extract tags from labels (filter out infrastructure labels)
-	const labelTags = issue.labels
-		.filter((l) => !EXCLUDE_LABELS.has(l.name))
-		.map((l) => l.name);
+	const labelTags = issue.labels.filter((l) => !EXCLUDE_LABELS.has(l.name)).map((l) => l.name);
 
-	const tags =
-		fm.tags && fm.tags.length > 0
-			? [...new Set([...fm.tags, ...labelTags])]
-			: labelTags;
+	const tags = fm.tags && fm.tags.length > 0 ? [...new Set([...fm.tags, ...labelTags])] : labelTags;
 
 	// Description from frontmatter or extract from body
 	const description =
 		fm.description ||
-		(fm.originalBody
+		fm.originalBody
 			?.replace(/^#\s+.+/m, "")
 			.replace(/!\[.*?\]\(.*?\)/g, "")
 			.replace(/\[([^\]]*)\]\([^)]+\)/g, "$1")
 			.replace(/[#*`>~\-|]/g, "")
 			.trim()
-			.slice(0, 160) || title);
+			.slice(0, 160) ||
+		title;
 
 	// Build frontmatter
 	const frontmatter: Record<string, unknown> = {
@@ -227,7 +224,12 @@ async function fetchAllIssues(): Promise<GitHubIssue[]> {
 
 		if (issues.length === 0) break;
 
-		allIssues.push(...issues);
+		const contentIssues = issues.filter((issue) => !issue.pull_request);
+		const skippedPullRequests = issues.length - contentIssues.length;
+		if (skippedPullRequests > 0) {
+			console.log(`  Skipped ${skippedPullRequests} pull requests`);
+		}
+		allIssues.push(...contentIssues);
 		page++;
 	}
 
