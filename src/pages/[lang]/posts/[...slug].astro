@@ -1,28 +1,72 @@
 ---
 import { type CollectionEntry, render } from "astro:content";
-import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
-import { getAllPosts, getAllPostsEn } from "@/data/post";
+import type { GetStaticPaths } from "astro";
+import { getAllPosts, getAllPostsEn, getPostSlug } from "@/data/post";
 import PostLayout from "@/layouts/BlogPost.astro";
+import { withLang } from "@/utils/i18n";
 
 export const getStaticPaths = (async () => {
 	const [zhPosts, enPosts] = await Promise.all([getAllPosts(), getAllPostsEn()]);
 	const zhPaths = zhPosts.map((post) => ({
-		params: { lang: "zh", slug: post.id },
+		params: { lang: "zh", slug: getPostSlug(post) },
 		props: { lang: "zh" as const, post },
 	}));
 	const enPaths = enPosts.map((post) => ({
-		params: { lang: "en", slug: post.id },
+		params: { lang: "en", slug: getPostSlug(post) },
 		props: { lang: "en" as const, post },
 	}));
-	return [...zhPaths, ...enPaths];
+	const zhRedirects = zhPosts.flatMap((post) =>
+		[post.id, ...post.data.legacySlugs]
+			.filter(
+				(slug, index, aliases) => slug !== getPostSlug(post) && aliases.indexOf(slug) === index,
+			)
+			.map((slug) => ({
+				params: { lang: "zh", slug },
+				props: { lang: "zh" as const, redirectTo: getPostSlug(post) },
+			})),
+	);
+	const enRedirects = enPosts.flatMap((post) =>
+		[post.id, ...post.data.legacySlugs]
+			.filter(
+				(slug, index, aliases) => slug !== getPostSlug(post) && aliases.indexOf(slug) === index,
+			)
+			.map((slug) => ({
+				params: { lang: "en", slug },
+				props: { lang: "en" as const, redirectTo: getPostSlug(post) },
+			})),
+	);
+	return [...zhPaths, ...enPaths, ...zhRedirects, ...enRedirects];
 }) satisfies GetStaticPaths;
 
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+type Post = CollectionEntry<"post"> | CollectionEntry<"postEn">;
+type Props = { lang: "zh" | "en"; post?: Post; redirectTo?: string };
 
-const { lang, post } = Astro.props as Props;
-const { Content } = await render(post as CollectionEntry<"post"> | CollectionEntry<"postEn">);
+const { lang, post, redirectTo } = Astro.props as Props;
+const redirectUrl = redirectTo ? withLang(`/posts/${redirectTo}`, lang) : undefined;
+const rendered = post ? await render(post) : undefined;
+const Content = rendered?.Content;
 ---
 
-<PostLayout lang={lang} post={post}>
-	<Content />
-</PostLayout>
+{
+	redirectUrl ? (
+		<html lang={lang}>
+			<head>
+				<meta charset="utf-8" />
+				<meta content={`0;url=${redirectUrl}`} http-equiv="refresh" />
+				<meta content="noindex, follow" name="robots" />
+				<link href={redirectUrl} rel="canonical" />
+				<title>Redirecting…</title>
+			</head>
+			<body>
+				<a href={redirectUrl}>Continue to the article</a>
+			</body>
+		</html>
+	) : (
+		post &&
+		Content && (
+			<PostLayout lang={lang} post={post}>
+				<Content />
+			</PostLayout>
+		)
+	)
+}

@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
-import { getAllPostsByLang, getUniqueTagsWithCount } from "@/data/post";
+import { getAllPostsByLang, getPostHref, getUniqueTagsWithCount } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
 import { type Lang, t, withBase, withLang } from "@/utils/i18n";
@@ -114,7 +114,7 @@ const INITIAL_BATCH = 20;
 											<div class="min-w-0">
 												<a
 													class="hover:text-accent hover:decoration-accent inline text-base break-words underline decoration-transparent underline-offset-4 transition-colors"
-													href={withLang(`/posts/${post.id}`, lang)}
+													href={getPostHref(post, lang)}
 												>
 													{post.data.draft && <span class="text-red-500">(Draft) </span>}
 													{post.data.title}

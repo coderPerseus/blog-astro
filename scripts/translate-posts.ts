@@ -19,6 +19,11 @@
 
 import * as fs from "node:fs";
 import * as path from "node:path";
+import {
+	fallbackSlugFromEnglishTitle,
+	getPostIdentifier,
+	makeUniquePostSlug,
+} from "./lib/post-slug";
 
 // ---------- env loader (no extra dep) ----------
 function loadDotenv(envPath: string) {
@@ -74,20 +79,20 @@ type Fm = Record<string, string>;
 function splitFrontmatter(filepath: string): { fmRaw: string; body: string } | null {
 	const content = fs.readFileSync(filepath, "utf-8");
 	const m = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
-	if (!m) return null;
-	return { fmRaw: m[1]!, body: m[2]! };
+	if (!m?.[1] || m[2] === undefined) return null;
+	return { fmRaw: m[1], body: m[2] };
 }
 
 function parseFrontmatter(raw: string): Fm {
 	const out: Fm = {};
 	for (const line of raw.split("\n")) {
 		const m = line.match(/^([A-Za-z_][\w-]*)\s*:\s*(.+)$/);
-		if (!m) continue;
-		let v = m[2]!.trim();
+		if (!m?.[1] || !m[2]) continue;
+		let v = m[2].trim();
 		if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
 			v = v.slice(1, -1);
 		}
-		out[m[1]!] = v;
+		out[m[1]] = v;
 	}
 	return out;
 }
@@ -172,6 +177,43 @@ async function translate(text: string, kind: "title" | "description" | "body"): 
 	return out.trim();
 }
 
+async function generateCanonicalSlug(title: string, titleEn: string): Promise<string> {
+	const out = await callDeepSeek([
+		{
+			role: "system",
+			content:
+				"You create concise, durable URL slugs for a personal technology blog. Output only the slug.",
+		},
+		{
+			role: "user",
+			content: `Create one canonical slug for this post.
+
+Chinese title: ${title}
+English title: ${titleEn}
+
+Rules:
+- 3 to 8 meaningful English words, maximum 72 characters
+- lowercase ASCII letters, numbers, and hyphens only
+- preserve important product names, technical terms, and versions
+- no issue number, year, author, language marker, or filler words`,
+		},
+	]);
+	return out.trim();
+}
+
+function mergeLegacySlugs(raw: string | undefined, entryId: string): string {
+	let aliases: string[] = [];
+	if (raw) {
+		try {
+			const parsed = JSON.parse(raw);
+			if (Array.isArray(parsed)) aliases = parsed.filter((value) => typeof value === "string");
+		} catch {
+			aliases = [];
+		}
+	}
+	return JSON.stringify([...new Set([...aliases, entryId])]);
+}
+
 // ---------- chunked body translation for long posts ----------
 const CHUNK_THRESHOLD = 6000; // Chinese chars; above this we try to split.
 const CHUNK_MAX_SIZE = 5000; // Hard ceiling per chunk; recursively split bigger ones.
@@ -243,7 +285,8 @@ async function translateBodyChunked(body: string): Promise<string> {
 	console.log(`  chunking into ${chunks.length} sections`);
 	const translatedChunks: string[] = [];
 	for (let i = 0; i < chunks.length; i++) {
-		const chunk = chunks[i]!;
+		const chunk = chunks[i];
+		if (!chunk) continue;
 		console.log(`    section ${i + 1}/${chunks.length} (${chunk.length} chars)`);
 		const userPrompt = `Translate this markdown section (part ${i + 1} of ${chunks.length}) of a Chinese tech blog post. Maintain consistent terminology with the surrounding sections. Follow every rule from the system message.\n\n${chunk}`;
 		const out = await callDeepSeek([
@@ -257,7 +300,10 @@ async function translateBodyChunked(body: string): Promise<string> {
 }
 
 // ---------- per-post pipeline ----------
-async function translateOne(filepath: string): Promise<"translated" | "skipped" | "failed"> {
+async function translateOne(
+	filepath: string,
+	reservedSlugs: Set<string>,
+): Promise<"translated" | "skipped" | "failed"> {
 	const enPath = filepath.replace(/\.md$/, ".en.md");
 	if (fs.existsSync(enPath) && !force) return "skipped";
 
@@ -279,6 +325,23 @@ async function translateOne(filepath: string): Promise<"translated" | "skipped" 
 
 	console.log("  translating title…");
 	const titleEn = await translate(title, "title");
+	const entryId = path.basename(filepath, ".md");
+	let canonicalSlug = fm.slug;
+	if (!canonicalSlug) {
+		console.log("  generating canonical slug…");
+		let candidate = fallbackSlugFromEnglishTitle(titleEn);
+		try {
+			candidate = await generateCanonicalSlug(title, titleEn);
+		} catch (error) {
+			console.warn(`  slug AI failed; using deterministic fallback: ${String(error)}`);
+		}
+		canonicalSlug = makeUniquePostSlug(
+			candidate,
+			reservedSlugs,
+			titleEn,
+			getPostIdentifier(entryId),
+		);
+	}
 
 	let descriptionEn = "";
 	if (fm.description) {
@@ -290,15 +353,21 @@ async function translateOne(filepath: string): Promise<"translated" | "skipped" 
 	const bodyEn = await translateBodyChunked(split.body);
 
 	const enFm: Fm = { ...fm };
+	fm.slug = canonicalSlug;
+	fm.legacySlugs = mergeLegacySlugs(fm.legacySlugs, entryId);
+	enFm.slug = canonicalSlug;
+	enFm.legacySlugs = fm.legacySlugs;
 	enFm.title = titleEn;
 	if (descriptionEn) enFm.description = descriptionEn;
 	delete enFm.aiSummary;
 	delete enFm.aiSummaryEn;
 	delete enFm.translationEn;
 
-	const out = `${buildFrontmatter(enFm)}\n${bodyEn.trim()}\n`;
-	fs.writeFileSync(enPath, out, "utf-8");
-	console.log(`  wrote ${path.basename(enPath)} (${out.length} chars)`);
+	const zhOut = `${buildFrontmatter(fm)}\n${split.body.trim()}\n`;
+	const enOut = `${buildFrontmatter(enFm)}\n${bodyEn.trim()}\n`;
+	fs.writeFileSync(filepath, zhOut, "utf-8");
+	fs.writeFileSync(enPath, enOut, "utf-8");
+	console.log(`  wrote ${path.basename(enPath)} (${enOut.length} chars)`);
 	return "translated";
 }
 
@@ -316,6 +385,13 @@ async function main() {
 	}
 
 	const todo = limit > 0 ? files.slice(0, limit) : files;
+	const reservedSlugs = new Set(
+		files
+			.map((file) => splitFrontmatter(path.join(POSTS_DIR, file)))
+			.filter((split): split is { fmRaw: string; body: string } => Boolean(split))
+			.map((split) => parseFrontmatter(split.fmRaw).slug)
+			.filter((slug): slug is string => Boolean(slug)),
+	);
 
 	console.log(`model    : ${MODEL}`);
 	console.log(`base_url : ${BASE_URL}`);
@@ -336,7 +412,7 @@ async function main() {
 		}
 		console.log(`[do  ] ${file}`);
 		try {
-			const result = await translateOne(filepath);
+			const result = await translateOne(filepath, reservedSlugs);
 			if (result === "translated") translated++;
 			else if (result === "skipped") skipped++;
 			else failed++;

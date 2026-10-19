@@ -1,5 +1,15 @@
 import { type CollectionEntry, getCollection } from "astro:content";
-import type { Lang } from "@/utils/i18n";
+import { type Lang, withLang } from "@/utils/i18n";
+
+type PostEntry = CollectionEntry<"post"> | CollectionEntry<"postEn">;
+
+export function getPostSlug(post: PostEntry): string {
+	return post.data.slug ?? post.id;
+}
+
+export function getPostHref(post: PostEntry, lang: Lang): string {
+	return withLang(`/posts/${getPostSlug(post)}`, lang);
+}
 
 /** filter out draft posts based on the environment */
 export async function getAllPosts(): Promise<CollectionEntry<"post">[]> {
@@ -21,7 +31,9 @@ export async function getAllPostsByLang(lang: Lang) {
 }
 
 /** Get tag metadata by tag name */
-export function getTagMeta(tag: string): { data: { title: string; description: string } } | undefined {
+export function getTagMeta(
+	tag: string,
+): { data: { title: string; description: string } } | undefined {
 	return {
 		data: {
 			title: `#${tag}`,
