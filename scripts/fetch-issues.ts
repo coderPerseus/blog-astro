@@ -295,6 +295,20 @@ function readLocalUpdatedDate(filepath: string): Date | null {
 	}
 }
 
+// Existing posts predate source fingerprints. Compare generated publishing fields
+// and body before invalidating their translations just because updated_at changed.
+function hasSamePublishedContent(existing: string, generated: string): boolean {
+	const split = (content: string) => content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+	const left = split(existing);
+	const right = split(generated);
+	if (!left || !right || left[2]?.trim() !== right[2]?.trim()) return false;
+	for (const key of ["title", "publishDate", "tags", "description", "draft", "pinned"]) {
+		const pattern = new RegExp(`^${key}: (.+)$`, "m");
+		if (left[1]?.match(pattern)?.[1] !== right[1]?.match(pattern)?.[1]) return false;
+	}
+	return true;
+}
+
 async function main() {
 	console.log("Fetching issues from GitHub...");
 	const issues = await fetchAllIssues();
@@ -344,7 +358,9 @@ async function main() {
 		const sourceHash = issueSourceHash(issue);
 		if (
 			storedHash === sourceHash ||
-			(!storedHash && localUpdated && remoteUpdated <= localUpdated)
+			(!storedHash &&
+				((localUpdated && remoteUpdated <= localUpdated) ||
+					hasSamePublishedContent(localContent, result.content)))
 		) {
 			// Seed existing posts without invalidating translations. Subsequent footer-only
 			// edits change updated_at, but not this source fingerprint.
