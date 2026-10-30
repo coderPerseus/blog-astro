@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "0a900d31c294bdc7318a11eddcd0c4362ac095247e370e16f3e9e5bd7f4e33fd"
 title: "使用 View Transitions API 实现全页面主题切换动画"
 slug: "view-transitions-api-full-page-theme-switch"
 legacySlugs: ["15-使用-view-transitions-api-实现全页面主题切换动画"]

@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "b1ff2860186a7a0310431720a7d7545ca6ba0d237995dd7a3095dd4704ffc2de"
 title: "📒《Smalltalk Best Practice Patterns》阅读笔记"
 slug: "smalltalk-best-practice-patterns-reading-notes"
 legacySlugs: ["90-smalltalk-best-practice-patterns阅读笔记"]

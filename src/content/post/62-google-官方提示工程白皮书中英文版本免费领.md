@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "e73572744b39851412e7b4ff7df8cb5d41a1d4a75f2640cb7d6bec4d645743e6"
 title: "Google 官方提示工程白皮书，中英文版本免费领"
 slug: "google-prompt-engineering-whitepaper-free-download"
 legacySlugs: ["62-google-官方提示工程白皮书中英文版本免费领"]

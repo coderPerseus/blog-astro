@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "90f08273d812d90d8acc6d787225d957505109dee9148fc5f41939087dae7976"
 title: "Coding Agent 的最终形态是 TUI + GUI 吗？"
 slug: "coding-agent-final-form-tui-gui"
 legacySlugs: ["99-coding-agent-的最终形态是-tui-gui-吗"]

@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "5bdae7f69fd98ad04313eab7333b94550b1820215cc48b07b7fa6497620e60fe"
 title: "爆火的 OpenClaw 依赖的极简 Agent 框架 Pi"
 slug: "openclaw-minimalist-agent-framework-pi"
 legacySlugs: ["103-爆火的-openclaw-依赖的极简-agent-框架-pi"]

@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "10f7baea3dcb06d10a83d6cc2dc312ecf4bea5b70b5471f502c2fe1ad7324b0b"
 title: "最受欢迎的十个 JavaScript 动画库 -2025"
 slug: "top-10-javascript-animation-libraries-2025"
 legacySlugs: ["60-最受欢迎的十个-javascript-动画库-2025"]

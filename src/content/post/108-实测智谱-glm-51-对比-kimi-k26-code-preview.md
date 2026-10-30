@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "7f8ffcd17bf425d3cc359b29f606ae4e2f770e1a9b2191bd7cad755fd9e4cf2f"
 title: "实测智谱 GLM 5.1 对比 Kimi K2.6-code-preview"
 slug: "zhipu-glm-5-1-vs-kimi-k2-6-code-preview"
 legacySlugs: ["108-实测智谱-glm-51-对比-kimi-k26-code-preview"]

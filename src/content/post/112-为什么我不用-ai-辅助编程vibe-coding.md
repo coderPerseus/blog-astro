@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "345994006c7eb2823c2d342dc80fc2e8149d3c053f6ad27f3e81928bf7ee6b55"
 title: "为什么我不用 AI 辅助编程（Vibe Coding）"
 slug: "why-i-dont-use-vibe-coding"
 legacySlugs: ["112-为什么我不用-ai-辅助编程vibe-coding"]

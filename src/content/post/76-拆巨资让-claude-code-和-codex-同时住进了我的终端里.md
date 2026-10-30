@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "94c922e7340993c88569aa86cdcb4abfa892deebab4283fc8e2c22dbb718fdb6"
 title: "拆巨资让 Claude Code 和 Codex 同时住进了我的终端里"
 slug: "claude-code-and-codex-in-my-terminal"
 legacySlugs: ["76-拆巨资让-claude-code-和-codex-同时住进了我的终端里"]

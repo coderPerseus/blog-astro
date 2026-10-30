@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "c9af06dcd69ffbc1d12206acb30098ee53ac88a4b8217dd19a1e82ccd2164599"
 title: "借助 Cursor 做了第一个全栈项目，帮你将内容转为美观的图片"
 slug: "cursor-first-fullstack-project-content-to-images"
 legacySlugs: ["48-借助-cursor-做了第一个全栈项目帮你将内容转为美观的图片"]

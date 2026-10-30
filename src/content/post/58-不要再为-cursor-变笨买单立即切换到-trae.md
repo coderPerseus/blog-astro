@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "b5d0f5f347a05d6cf827e197804bc41f99329559fde7286dae9db966f6afa46e"
 title: "不要再为 cursor 变笨买单，立即切换到 Trae"
 slug: "stop-paying-cursor-switch-to-trae"
 legacySlugs: ["58-不要再为-cursor-变笨买单立即切换到-trae"]

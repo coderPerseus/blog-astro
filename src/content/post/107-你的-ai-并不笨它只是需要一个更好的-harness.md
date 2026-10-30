@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "baa9142438545f40ebe9cb6031e38a3359676d43b015ad4b715994558cbb04ee"
 title: "你的 AI 并不“笨”，它只是需要一个更好的 Harness"
 slug: "ai-needs-better-harness-not-dumb"
 legacySlugs: ["107-你的-ai-并不笨它只是需要一个更好的-harness"]

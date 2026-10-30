@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "caaba4a028f63a155517956b765423e5e68c37cb9351cbf2bae1c9b6516edc8b"
 title: "阿里云 centos 服务器，使用宝塔 + webHook 自动同步代码，构建部署"
 slug: "alibaba-cloud-centos-baota-webhook-auto-deploy"
 legacySlugs: ["12-阿里云-centos-服务器使用宝塔-webhook-自动同步代码构建部署"]

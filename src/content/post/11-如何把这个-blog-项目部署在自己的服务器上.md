@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "d9c1e40f3faa733e61e027da46bb4398ca741063deadae9e9a36d8c7149daf76"
 title: "如何把这个 blog 项目，部署在自己的服务器上"
 slug: "deploy-blog-project-on-own-server"
 legacySlugs: ["11-如何把这个-blog-项目部署在自己的服务器上"]

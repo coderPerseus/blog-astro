@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "a3bf82db163c3e3318160e5321af9d7a24e18f96d4f1396f23543dddf939d589"
 title: "如何订阅 cursor Pro 会员，超实惠，超实用！"
 slug: "subscribe-cursor-pro-affordable-practical"
 legacySlugs: ["46-如何订阅-cursor-pro-会员超实惠超实用"]

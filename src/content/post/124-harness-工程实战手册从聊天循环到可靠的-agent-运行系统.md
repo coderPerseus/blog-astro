@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "822f5b52238aa1425ad321faa963a11ee84af62dff05833c7d11087c38cc2699"
 title: "Harness 工程实战手册：从聊天循环到可靠的 Agent 运行系统"
 slug: "harness-engineering-chat-loops-to-reliable-agent-runtime"
 legacySlugs: ["124-harness-工程实战手册从聊天循环到可靠的-agent-运行系统"]

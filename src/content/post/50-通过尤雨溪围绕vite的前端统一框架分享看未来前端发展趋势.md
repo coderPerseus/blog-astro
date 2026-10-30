@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "c24ae2bb48a766e0cf2682a973a45773e8d0e9c7451d6967d77cbcfa0424479d"
 title: "通过尤雨溪“围绕Vite的前端统一框架”分享，看未来前端发展趋势"
 slug: "evan-you-vite-unified-frontend-framework-trends"
 legacySlugs: ["50-通过尤雨溪围绕vite的前端统一框架分享看未来前端发展趋势"]

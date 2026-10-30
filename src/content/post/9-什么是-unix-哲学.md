@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "061b1dea3067e4610aa22fd88ebcf55563dff74459360a85a1218f49505bd67a"
 title: "什么是 Unix 哲学 ？"
 slug: "what-is-the-unix-philosophy"
 legacySlugs: ["9-什么是-unix-哲学"]

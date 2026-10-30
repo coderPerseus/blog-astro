@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "fb0b42612c9d04dea7b621826d183ad2f1a19d024f4549d52607e04c283b255a"
 title: "Vercel 给 Agent Skills 泼了一盆冷水"
 slug: "vercel-cold-water-on-agent-skills"
 legacySlugs: ["97-vercel-给-agent-skills-泼了一盆冷水"]

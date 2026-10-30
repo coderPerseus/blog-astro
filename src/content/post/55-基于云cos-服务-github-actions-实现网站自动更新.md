@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "025cbdceb1b28af45a4ea8079887059de394cb39690a073c032bd5da117528ea"
 title: "基于云cos 服务+ github actions 实现网站自动更新"
 slug: "automated-website-updates-cloud-cos-github-actions"
 legacySlugs: ["55-基于云cos-服务-github-actions-实现网站自动更新"]

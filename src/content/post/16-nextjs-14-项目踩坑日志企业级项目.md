@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "aaa2f3fc4e496ba13a62faf70546fa976093340c3f6b5ed89a7720fb3383f409"
 title: "Next.js 14 项目踩坑日志（企业级项目）"
 slug: "nextjs-14-enterprise-project-pitfalls"
 legacySlugs: ["16-nextjs-14-项目踩坑日志企业级项目"]

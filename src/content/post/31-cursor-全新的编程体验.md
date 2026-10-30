@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "1baa10b3132047ebbd40c61cf588bc8de5467e4ee9ccfb1ee014a0b4333488b4"
 title: "cursor ：全新的编程体验"
 slug: "cursor-new-programming-experience"
 legacySlugs: ["31-cursor-全新的编程体验"]

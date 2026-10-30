@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "f7a9bd99c0cb0a48851dcc4fea7898191220afdfee0351874c80cbdf1f1f1d04"
 title: "使用Turbopack、Biome、Next.js、Express、Tailwind CSS和ShadCN构建全栈Monorepo项目"
 slug: "full-stack-monorepo-turbopack-biome-nextjs-express-shadcn"
 legacySlugs: ["52-使用turbopackbiomenextjsexpresstailwind-css和shadcn构建全栈monorepo项目"]

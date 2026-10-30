@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "2af253455f62ff81624803d72b41157eb048e3e381359ca3bf6e27d1a6ba102e"
 title: "YouWare, 你的下一个创作载体也可以是网页"
 slug: "youware-web-pages-as-creative-medium"
 legacySlugs: ["67-youware-你的下一个创作载体也可以是网页"]

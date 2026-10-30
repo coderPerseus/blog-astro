@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "b0bc2c9e2d2da824c2c15cbc8742ee8678865b7ae0bf516e0562be226b49d8b0"
 title: "译：每个任务都有自己的执行框架：Claude Code 中的动态工作流"
 slug: "dynamic-workflows-in-claude-code"
 legacySlugs: ["117-译每个任务都有自己的执行框架claude-code-中的动态工作流"]

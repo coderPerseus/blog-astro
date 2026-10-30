@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "812844c873dd06da0af94e6e5b0ecaf3dc93b702f8213371c0c4508e0d54f383"
 title: "和AI一起修复了上百个bug后，我将其沉淀为了一套 Skills"
 slug: "fixing-hundreds-of-bugs-ai-into-skills"
 legacySlugs: ["116-和ai一起修复了上百个bug后我将其沉淀为了一套-skills"]

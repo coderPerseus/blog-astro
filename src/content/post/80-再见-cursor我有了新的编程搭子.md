@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "173f191b5d1b944937c9cce55dad312449f21925cf4f250985f14072ae69f356"
 title: "再见 Cursor，我有了新的编程搭子！"
 slug: "goodbye-cursor-new-coding-buddy"
 legacySlugs: ["80-再见-cursor我有了新的编程搭子"]

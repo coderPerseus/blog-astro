@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "ab0e73b13487f9899906cc12691b5607e2b7679f0bd90ed3a28d870aa70c82b7"
 title: "在Codex里消耗100亿Token，它已经不只是一个编程Agent了"
 slug: "codex-10-billion-tokens-beyond-coding-agent"
 legacySlugs: ["118-在codex里消耗100亿token它已经不只是一个编程agent了"]

@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "3af2082b0b213e35b54271e5975d53e43f2582caf8f688a5d0418c698cde8092"
 title: "我的第一个 Agent Skills：auto-flow"
 slug: "first-agent-skills-auto-flow"
 legacySlugs: ["106-我的第一个-agent-skillsauto-flow"]

@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "453f0dd9808de3d0f5c5ff2a2aab7484697eb244213b2e51042d542b89fde127"
 title: "驾驭（Harness）工程，在“智能体优先”的世界中利用 Codex"
 slug: "harness-engineering-codex-agent-first-world"
 legacySlugs: ["100-驾驭harness工程在智能体优先的世界中利用-codex"]

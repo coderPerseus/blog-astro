@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "9e1d0abfc9e32f75648f4378d3e2a8c61e1cdf09966f146524b39296ade87214"
 title: "一分钟带你将 DeepSeek-V3.1-Terminus 接入Claude Code 和 Codex"
 slug: "deepseek-v3-1-terminus-claude-code-codex-integration"
 legacySlugs: ["79-一分钟带你将-deepseek-v31-terminus-接入claude-code-和-codex"]

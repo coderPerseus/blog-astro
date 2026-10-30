@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "46b5c394888aba4efdb262c1ea615bddd1bd7e61447c18a385ebdf8f5612f759"
 title: "github 源码阅读神器 deepwiki，自动生成源码架构图和知识库"
 slug: "deepwiki-source-code-architecture-diagrams-knowledge-base"
 legacySlugs: ["65-github-源码阅读神器-deepwiki自动生成源码架构图和知识库"]

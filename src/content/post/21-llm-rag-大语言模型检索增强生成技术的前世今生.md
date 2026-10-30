@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "86243a2d69e34a8392ce33d539f039918f0f12255d5c06bea1517fbcfa8286cf"
 title: "LLM RAG （大语言模型检索增强生成技术）的前世今生"
 slug: "llm-rag-retrieval-augmented-generation-explained"
 legacySlugs: ["21-llm-rag-大语言模型检索增强生成技术的前世今生"]

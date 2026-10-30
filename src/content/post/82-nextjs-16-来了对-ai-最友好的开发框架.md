@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "ef631e85ad0976974cf7d57f631c25babcb7a55ce591eb3ff1ad9f6333242e3f"
 title: "Next.js 16 来了！对 AI 最友好的开发框架"
 slug: "nextjs-16-ai-friendly-development-framework"
 legacySlugs: ["82-nextjs-16-来了对-ai-最友好的开发框架"]

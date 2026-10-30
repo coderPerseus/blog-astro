@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "ec5268107ac3de6c9b975549c879ada63b6a4f4e1eb2f21a6c098c7ca648aa36"
 title: "做了一个插件，把 B 站和 YouTube 的学习体验拉满了"
 slug: "plugin-improves-bilibili-youtube-learning-experience"
 legacySlugs: ["122-做了一个插件把-b-站和-youtube-的学习体验拉满了"]

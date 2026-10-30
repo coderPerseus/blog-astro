@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "139c64bb5af8301ab279d22330544001bfea78b2bc3d89aea559636253ad0b87"
 title: "那些优秀的程序员和他们的个人 blog"
 slug: "great-programmers-and-their-personal-blogs"
 legacySlugs: ["14-那些优秀的程序员和他们的个人-blog"]

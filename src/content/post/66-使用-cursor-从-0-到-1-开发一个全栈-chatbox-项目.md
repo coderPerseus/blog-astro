@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "e6c8b5516f1c81ec9d4b114dd7d7afd95e9cf1c51be918ce733a5845b4874f33"
 title: "使用 Cursor 从 0 到 1 开发一个全栈 chatbox 项目"
 slug: "build-full-stack-chatbox-cursor-from-scratch"
 legacySlugs: ["66-使用-cursor-从-0-到-1-开发一个全栈-chatbox-项目"]

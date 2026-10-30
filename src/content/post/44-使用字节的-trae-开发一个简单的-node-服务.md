@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "7b1d3d8691ff4721d45eeff9dc064ccdd9c32ebebc1967a6c6e6ce53e56cd935"
 title: "使用字节的 TRAE 开发一个简单的 node 服务"
 slug: "bytedance-trae-simple-node-service"
 legacySlugs: ["44-使用字节的-trae-开发一个简单的-node-服务"]

@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "35ba7926be17c2c4bc04ea403727edf4eda7bf95be62479ef78793619565238d"
 title: "尤雨溪官宣 antfu 参与 Vite  Devtools ，期待！"
 slug: "evan-you-antfu-vite-devtools-announcement"
 legacySlugs: ["59-尤雨溪官宣-antfu-参与-vite-devtools-期待"]

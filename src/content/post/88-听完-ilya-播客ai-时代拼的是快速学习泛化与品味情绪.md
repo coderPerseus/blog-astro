@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "532676f14326e95661dc80c57cd8e6f59abe97fa8d06e7af4a63b6a758997631"
 title: "听完 Ilya 播客，AI 时代，拼的是快速学习（泛化）与品味（情绪）"
 slug: "ilya-podcast-ai-era-learning-generalization-taste"
 legacySlugs: ["88-听完-ilya-播客ai-时代拼的是快速学习泛化与品味情绪"]

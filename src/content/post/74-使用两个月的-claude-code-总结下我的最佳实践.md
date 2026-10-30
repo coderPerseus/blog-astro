@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "7b5b78422641f82ca7373af8bb31513c7294f1938f1bf9e982f69a16f4752f0c"
 title: "使用两个月的 Claude Code ，总结下我的最佳实践"
 slug: "claude-code-two-months-best-practices"
 legacySlugs: ["74-使用两个月的-claude-code-总结下我的最佳实践"]

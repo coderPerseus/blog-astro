@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "eb3178cacc01631dee272f34dee32907c84537374dbce6592453a27c1a904a23"
 title: "DOM元素导出图片与PDF：多种方案对比与实现"
 slug: "export-dom-elements-to-images-and-pdf"
 legacySlugs: ["20-dom元素导出图片与pdf多种方案对比与实现"]

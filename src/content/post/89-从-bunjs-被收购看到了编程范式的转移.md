@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "540523c5832d2750e8775b5abcaf33339434955cab2a3e9d883c378e6fb27dc8"
 title: "从 Bun.js 被收购，看到了编程范式的转移"
 slug: "bunjs-acquisition-programming-paradigm-shift"
 legacySlugs: ["89-从-bunjs-被收购看到了编程范式的转移"]

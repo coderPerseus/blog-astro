@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "c3b5c50f6fa368d392d837e6f5c99c454912144de13ade92a1a240fb2f74ffe2"
 title: "路由的 hash 模式 和 history 模式的区别是什么？"
 slug: "routing-hash-mode-vs-history-mode"
 legacySlugs: ["24-路由的-hash-模式-和-history-模式的区别是什么"]

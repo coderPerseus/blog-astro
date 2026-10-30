@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "6aaea34747733af7c5d475e096682a3022b8cabec328d0734cf4a258ff65ce61"
 title: "实测 DeepSeek-V4.1-Flash-1017：和许愿式编程距离还很远"
 slug: "deepseek-v4-1-flash-1017-hands-on-review"
 legacySlugs: ["126-实测-deepseek-v41-flash-1017和许愿式编程距离还很远"]

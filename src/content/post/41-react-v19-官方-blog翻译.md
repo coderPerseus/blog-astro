@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "897bd2f59c6c55b09c4af5e1281e2a2ecc9c54029fa5bd00b2fad4f05b960d95"
 title: " React V19 官方 blog（翻译）"
 slug: "react-v19-official-blog"
 legacySlugs: ["41-react-v19-官方-blog翻译"]

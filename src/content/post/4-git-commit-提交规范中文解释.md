@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "cfd943b474103c91f5edb96f2cc380ce69d2e2695c6ce0554a3067e01c73bf12"
 title: "git commit 提交规范中文解释"
 slug: "git-commit-conventions-explained"
 legacySlugs: ["4-git-commit-提交规范中文解释"]

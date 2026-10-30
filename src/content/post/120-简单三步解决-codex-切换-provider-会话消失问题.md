@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "c2f85d595501bd76196ffd1a20f905fe0f08bc69a8bce3266136f6ad1de1c506"
 title: "简单三步解决 Codex 切换 provider 会话消失问题"
 slug: "fix-codex-provider-switch-losing-session"
 legacySlugs: ["120-简单三步解决-codex-切换-provider-会话消失问题"]

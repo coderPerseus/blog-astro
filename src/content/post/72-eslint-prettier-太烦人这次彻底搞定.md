@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "970099b250057223bc1496832954142134843f89bf66c19e798f8a263c915836"
 title: "ESLint  + Prettier 太烦人？这次彻底搞定"
 slug: "fix-eslint-prettier-conflicts-for-good"
 legacySlugs: ["72-eslint-prettier-太烦人这次彻底搞定"]

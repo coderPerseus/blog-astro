@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "a4f65b0ae97b913328b10cef62aea8bf61f0021386494daad0306de4efd9899d"
 title: "Stack Overflow 社区的没落真的是因为 AI 吗？"
 slug: "stack-overflow-decline-caused-by-ai"
 legacySlugs: ["69-stack-overflow-社区的没落真的是因为-ai-吗"]

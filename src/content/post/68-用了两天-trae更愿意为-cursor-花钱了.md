@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "d5f28c2a8ee729dfae8b6a19bc767b3d6f0331eec3145eb9adb6cb5aac523db7"
 title: "用了两天 Trae，更愿意为 Cursor 花钱了！"
 slug: "two-days-trae-still-prefer-paying-cursor"
 legacySlugs: ["68-用了两天-trae更愿意为-cursor-花钱了"]

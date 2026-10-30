@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "c7e3b06044076885a5cea47fa14ee7b6e09d991d5df688b6ca9880481ce446c9"
 title: "使用这个提示词，让 Cursor 更好的执行复杂工作"
 slug: "prompt-make-cursor-execute-complex-tasks"
 legacySlugs: ["61-使用这个提示词让-cursor-更好的执行复杂工作"]

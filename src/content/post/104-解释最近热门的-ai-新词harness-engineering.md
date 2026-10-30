@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "8553da6112e1aab616aa72b0da604b49b748f80d1e166c8d50b17c9f33eec311"
 title: "解释最近热门的 AI 新词：Harness Engineering"
 slug: "harness-engineering-ai-buzzword-explained"
 legacySlugs: ["104-解释最近热门的-ai-新词harness-engineering"]

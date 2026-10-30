@@ -1,4 +1,5 @@
 ---
+issueSourceHash: "89c10aaa666f4258111676dbf2bd528ef7f21af90a47c3335745e859a686622f"
 title: "高强度使用 GPT-6 Astra 3 天， 9 条使用经验 & 省 token 小技巧分享给你"
 slug: "gpt-6-astra-usage-tips-and-token-saving-tricks"
 legacySlugs: ["123-高强度使用-gpt-6-astra-3-天-9-条使用经验-省-token-小技巧分享给你"]
