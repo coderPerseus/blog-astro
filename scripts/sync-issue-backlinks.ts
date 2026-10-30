@@ -26,7 +26,12 @@ for (const file of fs.readdirSync(postsDir)) {
 	const slug = fm.match(/^slug:\s*["']?([a-z0-9]+(?:-[a-z0-9]+)*)["']?\s*$/m)?.[1];
 	const hash = fm.match(/^issueSourceHash: "([a-f0-9]+)"$/m)?.[1];
 	// Only link content included in this build, with a known source revision.
-	if (!slug || !hash || !fs.existsSync(path.join(distDir, "zh/posts", slug, "index.html")))
+	if (
+		!slug ||
+		!hash ||
+		(!fs.existsSync(path.join(distDir, "zh/posts", `${slug}.html`)) &&
+			!fs.existsSync(path.join(distDir, "zh/posts", slug, "index.html")))
+	)
 		continue;
 	const endpoint = `https://api.github.com/repos/coderPerseus/blog/issues/${number}`;
 	const response = await fetch(endpoint, { headers });
