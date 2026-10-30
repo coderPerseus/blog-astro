@@ -19,6 +19,7 @@
 
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { issueSourceHash, stripBlogBacklink } from "./lib/issue-backlink";
 
 const GITHUB_REPO = "coderPerseus/blog";
 const GITHUB_API = `https://api.github.com/repos/${GITHUB_REPO}/issues`;
@@ -163,7 +164,7 @@ function issueToMarkdown(
 	// Check infrastructure titles
 	if (INFRASTRUCTURE_TITLES.includes(issue.title)) return null;
 
-	const fm = parseFrontmatter(issue.body || "");
+	const fm = parseFrontmatter(stripBlogBacklink(issue.body || ""));
 
 	const title = fm.title || issue.title;
 	const publishDate = fm.publishDate || issue.created_at;
@@ -189,6 +190,7 @@ function issueToMarkdown(
 	// Build frontmatter
 	const frontmatter: Record<string, unknown> = {
 		title: JSON.stringify(title),
+		issueSourceHash: JSON.stringify(issueSourceHash(issue)),
 		publishDate: JSON.stringify(publishDate),
 		updatedDate: JSON.stringify(updatedDate),
 		tags: JSON.stringify(tags),
@@ -337,7 +339,21 @@ async function main() {
 		const localUpdated = readLocalUpdatedDate(existingPath);
 		const remoteUpdated = new Date(issue.updated_at);
 
-		if (localUpdated && remoteUpdated <= localUpdated) {
+		const localContent = fs.readFileSync(existingPath, "utf-8");
+		const storedHash = localContent.match(/^issueSourceHash: "([a-f0-9]+)"$/m)?.[1];
+		const sourceHash = issueSourceHash(issue);
+		if (
+			storedHash === sourceHash ||
+			(!storedHash && localUpdated && remoteUpdated <= localUpdated)
+		) {
+			// Seed existing posts without invalidating translations. Subsequent footer-only
+			// edits change updated_at, but not this source fingerprint.
+			if (!storedHash) {
+				fs.writeFileSync(
+					existingPath,
+					localContent.replace(/^---\r?\n/, `---\nissueSourceHash: "${sourceHash}"\n`),
+				);
+			}
 			unchanged++;
 			continue;
 		}

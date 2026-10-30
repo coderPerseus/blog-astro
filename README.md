@@ -109,6 +109,23 @@ GH_TOKEN=xxx npx tsx scripts/fetch-issues.ts
 - 已存在文章按 issue number 前缀匹配。
 - 远端 issue 更新后会重写本地中文文章，并删除对应英文译文，方便重新翻译。
 
+### 自动回写博客链接
+
+宝塔部署成功后，工作流使用文章最终的 `slug`，在对应 GitHub Issue 文末追加：
+
+```markdown
+文章同步在我的博客：[https://luckysnail.cn/zh/posts/文章-slug](https://luckysnail.cn/zh/posts/文章-slug)
+
+欢迎在[评论区](https://github.com/coderPerseus/blog/issues/对应编号)讨论交流。
+```
+
+- 博客文章页也会显示链接到原始 Issue 的讨论入口，中英文页面共用同一评论区。
+- 首次运行会补齐已发布文章的链接；后续重复运行不会重复追加。
+- 只处理本次构建包含的非草稿文章；源 Issue 已变化时留给下次发布处理。
+- 链接区块不会进入博客正文或英文翻译；仅回写链接不会重新翻译文章。
+- 仓库 Secret `GH_TOKEN` 需要对 `coderPerseus/blog` 的 Issues 有写权限，当前仓库的 `GITHUB_TOKEN` 无法替代跨仓库授权。
+- `npx tsx scripts/sync-issue-backlinks.ts` 默认预览；添加 `--apply` 才写入 GitHub。
+
 ### 生成英文译文
 
 `scripts/translate-posts.ts` 使用 DeepSeek 的 OpenAI 兼容接口，把缺失的中文文章翻译成 `.en.md`。
