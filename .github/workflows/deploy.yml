@@ -198,6 +198,12 @@ jobs:
             exit 1
           fi
 
+      - name: Add blog links to published GitHub Issues
+        if: env.BAOTA_DEPLOY_ENABLED == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx tsx scripts/sync-issue-backlinks.ts --apply
+
       - name: Skip BaoTa deployment
         if: env.BAOTA_DEPLOY_ENABLED != 'true'
         run: echo "BaoTa deployment skipped because BAOTA_* secrets are not fully configured."

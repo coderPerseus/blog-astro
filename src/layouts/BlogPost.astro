@@ -29,6 +29,10 @@ const articleModifiedDate = updatedDate?.toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;
 const summaryText = lang === "en" ? aiSummaryEn || aiSummary : aiSummary || aiSummaryEn;
+const issueNumber = post.id.match(/^(\d+)-/)?.[1];
+const discussionUrl = issueNumber
+	? `https://github.com/coderPerseus/blog/issues/${issueNumber}`
+	: undefined;
 const pagefindIgnore = Astro.url.pathname.startsWith("/posts/");
 const translatedPostIds = new Set((await getAllPostsEn()).map((entry) => entry.id));
 const alternateLangs: Lang[] = translatedPostIds.has(post.id) ? ["zh", "en"] : ["zh"];
@@ -97,6 +101,13 @@ const relatedPosts = ((await getAllPostsByLang(lang)) as PostLike[])
 				data-view-image-label={t("posts.image_open", lang)}
 			>
 				<slot />
+				{discussionUrl && (
+					<footer class="mt-10 border-t border-muted/20 pt-5" data-pagefind-ignore>
+						<p>
+							{lang === "en" ? <>Join the discussion in the <a href={discussionUrl}>comments</a>.</> : <>欢迎在<a href={discussionUrl}>评论区</a>讨论交流。</>}
+						</p>
+					</footer>
+				)}
 				<div aria-hidden="true" class="not-prose h-px" id="post-bottom-sentinel"></div>
 			</div>
 			{
