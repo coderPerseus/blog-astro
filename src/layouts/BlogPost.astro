@@ -29,7 +29,9 @@ const articleModifiedDate = updatedDate?.toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;
 const summaryText = lang === "en" ? aiSummaryEn || aiSummary : aiSummary || aiSummaryEn;
-const issueNumber = post.id.match(/^(\d+)-/)?.[1];
+const issueNumber = [post.id, ...post.data.legacySlugs]
+	.map((id) => id.match(/^(\d+)-/)?.[1])
+	.find(Boolean);
 const discussionUrl = issueNumber
 	? `https://github.com/coderPerseus/blog/issues/${issueNumber}`
 	: undefined;
