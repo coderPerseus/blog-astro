@@ -42,8 +42,20 @@ await import("./scripts/fetch-issues.ts");
 		sync();
 		const post = path.join(root, "src/content/post/1-test.md");
 		const translation = post.replace(/\.md$/, ".en.md");
-		const original = fs.readFileSync(post, "utf8");
+		let original = fs.readFileSync(post, "utf8");
 		fs.writeFileSync(translation, "cached translation");
+		// Legacy posts have no source fingerprint and may have a newer issue timestamp.
+		fs.writeFileSync(post, original.replace(/^issueSourceHash: .*\n/m, ""));
+		issue.updated_at = "2026-01-15T00:00:00Z";
+		sync();
+		const seeded = fs.readFileSync(post, "utf8");
+		assert.equal(
+			seeded.replace(/^issueSourceHash: .*\n/m, ""),
+			original.replace(/^issueSourceHash: .*\n/m, ""),
+		);
+		assert.match(seeded, /^issueSourceHash: "[a-f0-9]+"$/m);
+		original = seeded;
+		assert.equal(fs.readFileSync(translation, "utf8"), "cached translation");
 		issue.body = withBlogBacklink(issue.body, "published-slug", 1);
 		issue.updated_at = "2026-02-01T00:00:00Z";
 		sync();
