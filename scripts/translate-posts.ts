@@ -13,8 +13,8 @@
  *
  * Env (loaded from .env if present):
  *   DEEPSEEK_API_KEY   required
- *   DEEPSEEK_BASE_URL  default https://api.deepseek.com
- *   DEEPSEEK_MODEL     default deepseek-v4-flash
+ *   DEEPSEEK_BASE_URL  default https://mediocre-new-api.midway.run/v1
+ *   DEEPSEEK_MODEL     default deepseek-flash
  */
 
 import * as fs from "node:fs";
@@ -50,8 +50,10 @@ loadDotenv(path.resolve(import.meta.dirname, "../.env"));
 
 const POSTS_DIR = path.resolve(import.meta.dirname, "../src/content/post");
 const API_KEY = process.env.DEEPSEEK_API_KEY;
-const BASE_URL = (process.env.DEEPSEEK_BASE_URL || "https://api.deepseek.com").replace(/\/+$/, "");
-const MODEL = process.env.DEEPSEEK_MODEL || "deepseek-v4-flash";
+const BASE_URL = (
+	process.env.DEEPSEEK_BASE_URL || "https://mediocre-new-api.midway.run/v1"
+).replace(/\/+$/, "");
+const MODEL = process.env.DEEPSEEK_MODEL || "deepseek-flash";
 
 if (!API_KEY) {
 	console.error("Error: DEEPSEEK_API_KEY is missing. Set it in .env or env.");

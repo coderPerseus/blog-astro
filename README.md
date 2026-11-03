@@ -128,7 +128,7 @@ GH_TOKEN=xxx npx tsx scripts/fetch-issues.ts
 
 ### 生成英文译文
 
-`scripts/translate-posts.ts` 使用 DeepSeek 的 OpenAI 兼容接口，把缺失的中文文章翻译成 `.en.md`。
+`scripts/translate-posts.ts` 通过 `https://mediocre-new-api.midway.run/v1` 的 OpenAI 兼容接口，使用 `deepseek-flash` 模型把缺失的中文文章翻译成 `.en.md`。历史 slug 生成也使用相同配置；可通过 `DEEPSEEK_BASE_URL` 和 `DEEPSEEK_MODEL` 环境变量覆盖默认值。
 
 ```bash
 DEEPSEEK_API_KEY=xxx npx tsx scripts/translate-posts.ts
@@ -193,7 +193,7 @@ pnpm preview
 需要在 GitHub 仓库中配置：
 
 - `GH_TOKEN`
-- `DEEPSEEK_API_KEY`
+- `DEEPSEEK_API_KEY`：上述兼容服务的 API Key，仅保存在 Actions Secret 或本机环境变量中。
 
 如果要同步部署到宝塔服务器，还需要配置：
 
