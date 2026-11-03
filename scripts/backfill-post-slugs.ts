@@ -23,8 +23,10 @@ const allowFallback = process.argv.includes("--allow-fallback");
 loadDotenv(path.resolve(import.meta.dirname, "../.env"));
 
 const API_KEY = process.env.DEEPSEEK_API_KEY;
-const BASE_URL = (process.env.DEEPSEEK_BASE_URL || "https://api.deepseek.com").replace(/\/+$/, "");
-const MODEL = process.env.DEEPSEEK_MODEL || "deepseek-v4-flash";
+const BASE_URL = (
+	process.env.DEEPSEEK_BASE_URL || "https://mediocre-new-api.midway.run/v1"
+).replace(/\/+$/, "");
+const MODEL = process.env.DEEPSEEK_MODEL || "deepseek-flash";
 
 if (!API_KEY) {
 	throw new Error("DEEPSEEK_API_KEY is required to generate historical slugs");
