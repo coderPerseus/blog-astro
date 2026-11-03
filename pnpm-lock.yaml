@@ -120,6 +120,9 @@ importers:
       autoprefixer:
         specifier: ^10.5.2
         version: 10.5.2(postcss@8.5.16)
+      hast-util-from-html:
+        specifier: ^2.0.3
+        version: 2.0.3
       pagefind:
         specifier: ^1.5.2
         version: 1.5.2
@@ -135,6 +138,9 @@ importers:
       reading-time:
         specifier: ^1.5.0
         version: 1.5.0
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
       typescript:
         specifier: ^5.9.3
         version: 5.9.3

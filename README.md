@@ -183,12 +183,14 @@ pnpm preview
 部署工作流位于 `.github/workflows/deploy.yml`。主流程是：
 
 1. 安装依赖。
-2. 从 GitHub Issues 增量同步文章。
-3. 使用 DeepSeek 翻译新增或更新文章。
+2. 从 GitHub Issues 增量同步文章，并检查图片路径。
+3. 使用 DeepSeek 翻译新增或更新文章，再检查译文图片路径。
 4. 将同步后的内容提交回 `main`。
 5. 构建 Astro 站点。
 6. 部署到 GitHub Pages。
 7. 如果配置了宝塔服务器的 SSH 信息，同时构建并同步到宝塔站点目录。
+
+图片检查也可在本地运行 `pnpm check:images`。它扫描 `src/content` 下的 Markdown/MDX，检查行内图片、引用式图片和静态 HTML `<img src="...">`：相对路径基于文章目录，`/` 路径对应 `public`，`@/` 路径对应 `src`。远程 URL、data URL 和代码示例不检查。缺失图片会列出文章文件、行号、原始路径及解析后的文件位置，并以非零退出码阻止后续发布；GitHub Actions 中还会生成对应文件的错误标注。
 
 需要在 GitHub 仓库中配置：
 

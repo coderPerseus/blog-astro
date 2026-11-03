@@ -8,6 +8,8 @@
 		"dev": "astro dev",
 		"start": "astro dev",
 		"build": "astro build",
+		"check:images": "node scripts/check-post-images.mjs",
+		"test:images": "node --test scripts/check-post-images.test.mjs",
 		"postbuild": "pagefind --site dist && node scripts/generate-nginx-post-redirects.mjs",
 		"preview": "astro preview",
 		"check": "astro check && biome check",
@@ -53,11 +55,13 @@
 		"@types/hast": "^3.0.4",
 		"@types/mdast": "^4.0.4",
 		"autoprefixer": "^10.5.2",
+		"hast-util-from-html": "^2.0.3",
 		"pagefind": "^1.5.2",
 		"prettier": "^3.9.4",
 		"prettier-plugin-astro": "0.14.1",
 		"prettier-plugin-tailwindcss": "^0.8.0",
 		"reading-time": "^1.5.0",
+		"remark-parse": "^11.0.0",
 		"typescript": "^5.9.3"
 	},
 	"pnpm": {
